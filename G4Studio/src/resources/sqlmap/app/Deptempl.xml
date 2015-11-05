@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="Deptempl">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryDeptemplItemForManage" parameterClass="map"
+		resultClass="dto">
+		select A.EMPID, B.CODE, B.NAME, A.DEPTID, A.DEPTNAME, A.JOBNAME
+		from DEPTEMPL A,
+		EMPLOYEE B
+		where A.EMPID=B.EMPID and DQZT='2'
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				A.DEPTID like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="empid">
+				A.EMPID = $empid$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<update id="updateDeptemplItem" parameterClass="dto">
+		update DEPTEMPL
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="empid">
+				EMPID = #empid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptname">
+				deptname = #deptname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zbzwid">
+				ZBZWID = #zbzwid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jobname">
+				JOBNAME = #jobname#
+			</isNotEmpty>
+		</dynamic>
+		WHERE EMPID = #empid#
+	</update>
+
+	<delete id="deleteDeptemplItem" parameterClass="map">
+		delete from
+		DEPTEMPL where EMPID=#empid#
+	</delete>
+
+	<select id="queryDeptItem" parameterClass="map" resultClass="dto">
+		SELECT deptid, deptname
+		FROM eadept
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="deptname">
+				deptname = #deptname#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="parentid">
+				PARENTID = '$parentid$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="level">
+				char_length(deptid) = $level$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

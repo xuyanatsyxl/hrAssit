@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftGroup">
+
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShifGroupForManage" parameterClass="map"
+		resultClass="dto">
+		select GROUP_ID, GROUP_NAME, DEPTID, (select deptname from eadept
+		where DEPTID=a.DEPTID) DEPTNAME, ENABLED, REMARK
+		from Adc_Shift_Group a
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="deptid">
+				DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enabled">
+				ENABLED = '$enabled$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShifGroupForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from Adc_Shift_Group a
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="deptid">
+				DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enabled">
+				ENABLED = '$enabled$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftGroupItem" parameterClass="dto">
+		insert into
+		Adc_Shift_Group(GROUP_ID, GROUP_NAME, DEPTID, ENABLED, REMARK)
+		values(#group_id#, #group_name#, #deptid#, #enabled#, #remark#)
+	</insert>
+
+	<update id="updateAdcShiftGroupItem" parameterClass="dto">
+		update Adc_Shift_Group
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="group_id">
+				GROUP_ID = #group_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="group_name">
+				GROUP_NAME = #group_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				deptid = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="enabled">
+				enabled = #enabled#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				REMARK = #remark#
+			</isNotEmpty>
+		</dynamic>
+		where GROUP_ID = #group_id#
+	</update>
+
+	<delete id="deleteAdcShiftGroupItem" parameterClass="map">
+		delete from
+		Adc_Shift_Group where GROUP_ID = #group_id#
+	</delete>
+
+	<!-- AdcShiftGroup_EMPL -->
+	<select id="queryAdcShiftGroupEmplForManage" parameterClass="map"
+		resultClass="dto">
+		select OID, GROUP_ID, a.EMPID, b.CODE, b.NAME
+		from Adc_Shift_Group_Empl
+		a, Employee b
+		where a.EMPID=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="group_id">
+				GROUP_ID = '$group_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				(b.CODE = '$queryParam$' or b.NAME like '%$queryParam$%')
+			</isNotEmpty>			
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftGroupEmplForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from Adc_Shift_Group_Empl a, Employee b
+		where
+		a.EMPID=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="group_id">
+				GROUP_ID =
+				'$group_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				(b.CODE = '$queryParam$' or b.NAME like '%$queryParam$%')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftGroupEmplItem" parameterClass="dto">
+		insert
+		into Adc_Shift_Group_Empl(GROUP_ID, EMPID) values (#group_id#,
+		#empid#)
+	</insert>
+
+	<delete id="deleteAdcShiftGroupEmplItem" parameterClass="map">
+		delete
+		from Adc_Shift_Group_Empl where OID=#oid#
+	</delete>
+
+	<delete id="deleteAdcShiftGroupEmplByGroupId" parameterClass="map">
+		delete from Adc_Shift_Group_Empl where group_id = #group_id#
+	</delete>
+
+	<select id="checkAdcShiftGroupInUsesd" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count from Adc_Shift_Apply where
+		GROUP_ID = #group_id#
+	</select>
+
+	<!-- 查询未分组人员 -->
+	<select id="queryUnIntoGroupEmplItemForManage" parameterClass="map"
+		resultClass="dto">
+		select a.empid, a.code, a.name, b.DEPTNAME , b.JOBNAME
+		from employee a,
+		deptempl b
+		where a.EMPID=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				b.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				a.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				a.name like '%$name$%'
+			</isNotEmpty>
+		</dynamic>
+		 and not exists (select null from
+		adc_shift_group_empl where empid=a.empid)
+	</select>
+
+	<select id="queryUnIntoGroupEmplItemForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count
+		  from employee a, deptempl b
+		 where a.EMPID=b.EMPID 
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				b.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				a.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				a.name like '%$name$%'
+			</isNotEmpty>
+		</dynamic>
+		 and not exists (select null from
+		adc_shift_group_empl where empid=a.empid)
+	</select>
+</sqlMap>

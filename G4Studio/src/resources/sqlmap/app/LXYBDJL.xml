@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="LXYBDJL">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryLxybdjlForManage" parameterClass="map"
+		resultClass="dto">
+		select HR_EVENTID, a.BDLX, DEPTID, (select DEPTNAME from eadept where
+		DEPTID=a.DEPTID) DEPTNAME,
+		a.RYID, b.RYBH, b.XM, b.XB, b.SFZH, (select
+		USERNAME from eauser where
+		USERID=a.CZY) CZY, CZSJ,
+		a.BZ, a.BZ2,
+		a.BDZT,a.PP,a.GHDW,a.JLDATE,a.YGXJ,a.XYGXJ,a.XHQXJRQ,a.YHQXJRQ,a.XJJSRQ,a.GW,a.JKZRQ
+		from LXYBDJL a, LXYBMSQB b where a.RYID=b.RYID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="ryid">
+				a.ryid=#ryid#
+
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="rybh">
+				b.RYBH like '%$rybh$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+				b.XM like '%$xm$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+				b.SFZH like '%$sfzh$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ksrq">
+				a.CZSJ  <![CDATA[>=]]>
+				#ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jsrq">
+				a.CZSJ  <![CDATA[<=]]>
+				#jsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bdlx">
+				a.BDLX = #bdlx#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bdzt">
+				a.BDZT = #bdzt#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryLxybdjlForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count
+		from LXYBDJL a, LXYBMSQB b where a.RYID=b.RYID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="ryid">
+				a.ryid=#ryid#
+
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="rybh">
+				b.RYBH like '%$rybh$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+				b.XM like '%$xm$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+				b.SFZH like '%$sfzh$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ksrq">
+				a.CZSJ  <![CDATA[>=]]>
+				#ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jsrq">
+				a.CZSJ  <![CDATA[<=]]>
+				#jsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bdlx">
+				a.BDLX = #bdlx#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bdzt">
+				a.BDZT = #bdzt#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryLxybdjlExcel" parameterClass="map" resultClass="dto">
+		select HR_EVENTID, ( CASE a.BDLX WHEN 1 then '入职' when 2 then '调出'
+		when '3' then '调入' when 4 then '星级' when '5' then '离职' when '6' then
+		'黑名单' end) BDLX,
+		DEPTID, (select DEPTNAME from eadept where
+		DEPTID=a.DEPTID) DEPTNAME,
+		( CASE a.ygxj WHEN 0 THEN '无星级' WHEN 1 THEN
+		'一星级' WHEN 2 THEN '二星级'
+		WHEN 3 THEN '三星级' WHEN 4 THEN '四星级' WHEN 5 THEN
+		'五星级' END)as YGXJ,
+		( CASE a.xygxj WHEN 0 THEN '无星级' WHEN 1 THEN '一星级'
+		WHEN 2 THEN '二星级'
+		WHEN 3 THEN '三星级' WHEN 4 THEN '四星级' WHEN 5 THEN '五星级'
+		END)as XYGXJ,
+		a.RYID, b.RYBH, b.XM, (case b.XB when 1 then '男' when 2
+		then '女' end)
+		XB, b.SFZH, (select USERNAME from eauser where
+		USERID=a.CZY) CZY,
+		CZSJ,
+		(CASE a.BZ WHEN 1 THEN '工资待遇低' WHEN 2 THEN
+		'工作时间长' WHEN 3 THEN '工作量和工作压力太大'
+		WHEN 4 THEN '不认同部门领导或身边同事' WHEN 5 THEN
+		'不认同兴隆企业文化和规章制度'
+		WHEN 6 THEN '个人身体原因' WHEN 7 THEN '家庭原因' WHEN 8 THEN
+		'单位离家远' WHEN 9 THEN
+		'企业淘汰' WHEN 10 THEN '违反企业规定（离职后自动添加黑名单）' WHEN 11
+		THEN '证章到期' END ) as
+		BZ , a.BZ2,
+		a.BDZT,a.PP,a.GHDW,a.JLDATE,a.YGXJ,a.XHQXJRQ,a.XJJSRQ
+		from LXYBDJL a,
+		LXYBMSQB b where a.RYID=b.RYID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="rybh">
+				b.RYBH like '%$rybh$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+				b.XM like '%$xm$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+				b.SFZH like '%$sfzh$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ksrq">
+				a.CZSJ  <![CDATA[>=]]>
+				#ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jsrq">
+				a.CZSJ  <![CDATA[<=]]>
+				#jsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bdlx">
+				a.BDLX = #bdlx#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bdzt">
+				a.BDZT = #bdzt#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveLxybdjlBasicItem" parameterClass="map">
+		insert into LXYBDJL (HR_EVENTID, DEPTID, RYID, BDLX, BDRQ, CZY, CZSJ,
+		BZ, BDZT
+		<dynamic>
+			<isNotEmpty prepend="," property="ghdw">
+				GHDW
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="pp">
+				PP
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ygxj">
+				YGXJ
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xygxj">
+				XYGXJ
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xhqxjrq">
+				XHQXJRQ
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xjjsrq">
+				XJJSRQ
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="gw">
+				GW
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jkzrq">
+				JKZRQ
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bz2">
+				BZ2
+			</isNotEmpty>
+		</dynamic>
+		) values (#hr_eventid#, #deptid#, #ryid#, #bdlx#, #bdrq#, #czy#,
+		#czsj#, #bz#, #bdzt#
+		<dynamic>
+			<isNotEmpty prepend="," property="ghdw">
+				#ghdw#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="pp">
+				#pp#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ygxj">
+				#ygxj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xygxj">
+				#xygxj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xhqxjrq">
+				#xhqxjrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xjjsrq">
+				#xjjsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="gw">
+				#gw#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jkzrq">
+				#jkzrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bz2">
+				#bz2#
+			</isNotEmpty>
+		</dynamic>
+		)
+	</insert>
+
+	<insert id="saveLxybdjlItem" parameterClass="map">
+		insert into LXYBDJL
+		(HR_EVENTID, DEPTID, RYID, BDLX, BDRQ, CZY, CZSJ, BZ,
+		BDZT,GHDW,PP,JLDATE,YGXJ,XYGXJ,XHQXJRQ,XJJSRQ,GW , JKZRQ)
+		values
+		(#hr_eventid#, (select deptid from bmlxy where ryid=#ryid#), #ryid#,
+		#bdlx#, #bdrq#, #czy#, #czsj#, #bz#,
+		#bdzt#,#ghdw#,#pp#,(select ydrq
+		from bmlxy where
+		ryid=#ryid#),#ygxj#,#ygxj#,#hqxjrq#,#xjjsrq#,(select
+		gw from bmlxy
+		where ryid=#ryid#),(select jkzrq from bmlxy where
+		ryid=#ryid#) )
+	</insert>
+	<insert id="saveLxybdjlhmdItem" parameterClass="map">
+		insert into
+		LXYBDJL (HR_EVENTID, DEPTID, RYID, BDLX, BDRQ, CZY, CZSJ, BZ,
+		BDZT,GHDW,PP,YGXJ,XYGXJ,XHQXJRQ,YHQXJRQ,XJJSRQ,JLDATE,GW,JKZRQ)
+		values
+		(#hr_eventid#, (select deptid from bmlxy where ryid=#ryid#), #ryid#,
+		#bdlx#, #bdrq#,
+		#czy#, #czsj#, #bz#, #bdzt#,(select ghdw from bmlxy
+		where ryid=#ryid#),
+		(select pp from bmlxy where ryid=#ryid#),(select
+		YGXJ FROM BMLXY WHERE
+		RYID=#ryid#),
+		(select YGXJ FROM BMLXY WHERE
+		RYID=#ryid#),(select HQXJRQ FROM BMLXY WHERE
+		RYID=#ryid#),(select
+		HQXJRQ FROM BMLXY WHERE RYID=#ryid#),
+		(select XJJSRQ from bmlxy where
+		RYID=#ryid#),(select ydrq from bmlxy where
+		ryid=#ryid#),
+		(select gw from
+		bmlxy where ryid=#ryid#),(select jkzrq from bmlxy where
+		ryid=#ryid#))
+	</insert>
+	<insert id="saveLxybdjlxjItem" parameterClass="map">
+		insert into
+		LXYBDJL (HR_EVENTID, DEPTID, RYID, BDLX, BDRQ, CZY, CZSJ, BZ,
+		BDZT,GHDW,PP,YGXJ,XYGXJ,XHQXJRQ,YHQXJRQ,XJJSRQ,GW,JKZRQ)
+		values
+		(#hr_eventid#, (select deptid from bmlxy where ryid=#ryid#), #ryid#,
+		#bdlx#, #bdrq#, #czy#, #czsj#,
+		#bz#, #bdzt#,(select ghdw from bmlxy
+		where ryid=#ryid#),(select pp from
+		bmlxy where ryid=#ryid#),
+		(select
+		YGXJ FROM BMLXY WHERE RYID=#ryid#),#xygxj#,#hqxjrq#,(select hqxjrq
+		from bmlxy where ryid=#ryid#),
+		(select XJJSRQ from bmlxy where
+		RYID=#ryid#),(select gw from bmlxy where
+		ryid=#ryid#),(select jkzrq
+		from bmlxy where ryid=#ryid#))
+	</insert>
+
+	<delete id="deleteLxybdjlItem" parameterClass="map">
+		delete from
+		LXYBDJL where HR_EVENTID = #hr_eventid#
+	</delete>
+
+	<update id="updateLxybdjlItem" parameterClass="dto">
+		update LXYBDJL
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="hr_eventid">
+				HR_EVENTID = #hr_eventid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ryid">
+				RYID = #ryid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bdlx">
+				BDLX = #bdlx#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bdrq">
+				BDRQ = #bdrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="czy">
+				CZY = #czy#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="czsj">
+				CZSJ = #czsj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bz">
+				BZ = #bz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bdzt">
+				BDZT = #bdzt#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="pp">
+				PP = #pp#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ghdw">
+				GHDW = #ghdw#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xygxj">
+
+				XYGXJ=#xygxj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hqxjrq">
+				YHQXJRQ=#hqxjrq#
+
+			</isNotEmpty>
+
+
+		</dynamic>
+		where HR_EVENTID=#hr_eventid#
+	</update>
+
+
+</sqlMap>

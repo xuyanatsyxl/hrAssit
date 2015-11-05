@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftRecord">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftRecordItemForManage" parameterClass="map"
+		resultClass="dto">
+		select a.REC_ID, a.APPLY_ID, b.RECORD_TYPE, c.DEPTID, c.DEPTNAME,
+		b.GROUP_ID,
+		(select group_name from adc_shift_group where
+		group_id=b.group_id) as
+		group_name,
+		b.EMPID, (select name from employee
+		where empid=b.empid) as empname,
+		b.PATTERN_ID,
+		(select
+		pattern_shift_name from adc_shift_pattern where
+		pattern_id=b.pattern_id) as pattern_shift_name,
+		a.INIT_DATE,
+		a.INIT_POSITION, b.priority,
+		a.OPERATOR, (select username from eauser
+		where userid=a.operator) as operator_name, a.OPERATE_TIME, a.HOLIABLE
+		from
+		Adc_Shift_Record a, adc_shift_apply b, eadept c
+		where
+		a.APPLY_ID=b.APPLY_ID and b.deptid=c.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				b.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftRecordItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from Adc_Shift_Record a, adc_shift_apply b,
+		eadept c
+		where a.APPLY_ID=b.APPLY_ID and b.deptid=c.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				b.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftRecordItem" parameterClass="dto">
+		insert into
+		Adc_Shift_Record (APPLY_ID, INIT_DATE, INIT_POSITION, OPERATOR,
+		OPERATE_TIME, HOLIABLE)
+		values(#apply_id#, #init_date#,
+		#init_position#,
+		#operator#, #operate_time#, #holiable#)
+	</insert>
+
+	<delete id="deleteAdcShiftRecordItem" parameterClass="dto">
+		delete from
+		Adc_Shift_Record where REC_ID = #rec_id#
+	</delete>
+	
+	<delete id="deleteAdcShiftRecordByApplyId">
+		delete from Adc_Shift_Record where APPLY_ID = #apply_id#
+	</delete>
+
+	<update id="updateAdcShiftRecordItem" parameterClass="dto">
+		update Adc_Shift_Record
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="rec_id">
+				rec_id = #rec_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="apply_id">
+				apply_id = #apply_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="init_date">
+				init_date = #init_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="init_position">
+				init_position =
+				#init_position#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operator">
+				operator = #operator#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operate_time">
+				operate_time =
+				#operate_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="holiable">
+				HOLIABLE =	#holiable#
+			</isNotEmpty>
+		</dynamic>
+		where rec_id = #rec_id#
+	</update>
+</sqlMap>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShift">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<!-- ADC_SHIFT -->
+	<select id="queryAdcShiftItemForManage" parameterClass="map"
+		resultClass="dto">
+		SELECT SHIFT_ID, SHIFT_NAME, DEPTID, (SELECT DEPTNAME FROM EADEPT
+		WHERE DEPTID=A.DEPTID) DEPTNAME,
+		ENTRY_PERSON, (SELECT USERNAME FROM
+		EAUSER WHERE USERID=A.ENTRY_PERSON)
+		ENTRY_PERSON_NAME,
+		ENTRY_TIME,
+		REMARK, ENABLED
+		FROM ADC_SHIFT A
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="enabled">
+				ENABLED like
+				"$enabled$"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+				A.DEPTID like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_id">
+				SHIFT_ID = $shift_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_name">
+				SHIFT_NAME like
+				"%$shift_name$%"
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		SELECT count(*) as count
+		FROM ADC_SHIFT A
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="enabled">
+				ENABLED like
+				"$enabled$"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+				A.DEPTID like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_id">
+				SHIFT_ID = $shift_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_name">
+				SHIFT_NAME like
+				"%$shift_name$%"
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftItem" parameterClass="dto">
+		insert into
+		ADC_SHIFT (SHIFT_ID, SHIFT_NAME, DEPTID, ENTRY_PERSON,
+		ENTRY_TIME,
+		REMARK, ENABLED)
+		values(#shift_id#, #shift_name#, #deptid#,
+		#entry_person#,
+		#entry_time#, #remark#, #enabled#)
+	</insert>
+
+	<update id="updateAdcShiftItem" parameterClass="dto">
+		UPDATE ADC_SHIFT
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="shift_id">
+				SHIFT_ID = #shift_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shift_name">
+				SHIFT_NAME = #shift_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="entry_person">
+				ENTRY_PERSON =
+				#entry_person#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="entry_time">
+				ENTRY_TIME = #entry_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				REMARK = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="enabled">
+				ENABLED = #enabled#
+			</isNotEmpty>
+			where SHIFT_ID = #shift_id#
+		</dynamic>
+	</update>
+
+	<delete id="deleteAdcShiftItem" parameterClass="map">
+		delete from
+		ADC_SHIFT where SHIFT_ID = #shift_id#
+	</delete>
+
+	<!-- ADC_SHIFT_DETAIL -->
+	<select id="queryAdcShiftDetailItemForManage" parameterClass="map"
+		resultClass="dto">
+		select ITEM_ID, SHIFT_ID, C_SHIFT_NAME, SHIFT_TYPE, WORK_TIME,
+		OFF_TIME, SHIFT_DRAW
+		from ADC_SHIFT_DETAIL
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="item_id">
+				item_id = $item_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_id">
+				SHIFT_ID = $shift_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_shift_name">
+				C_SHIFT_NAME like
+				"%$c_shift_name$%"
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftDetailItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from ADC_SHIFT_DETAIL
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="item_id">
+				item_id = $item_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_id">
+				SHIFT_ID = $shift_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_shift_name">
+				C_SHIFT_NAME like
+				"%$c_shift_name$%"
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftDetailItem" parameterClass="dto">
+		insert into
+		ADC_SHIFT_DETAIL (SHIFT_ID, C_SHIFT_NAME, SHIFT_TYPE, WORK_TIME,
+		OFF_TIME, SHIFT_DRAW)
+		values(#shift_id#, #c_shift_name#, #shift_type#,
+		#work_time#, #off_time#, #shift_draw#)
+	</insert>
+
+	<update id="updateAdcShiftDetailItem" parameterClass="dto">
+		update ADC_SHIFT_DETAIL
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="shift_id">
+				SHIFT_ID = #shift_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="c_shift_name">
+				C_SHIFT_NAME =
+				#c_shift_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shift_type">
+				SHIFT_TYPE = #shift_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="work_time">
+				WORK_TIME = #work_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="off_time">
+				OFF_TIME = #off_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				REMARK = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="enabled">
+				ENABLED = #enabled#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shift_draw">
+				SHIFT_DRAW = #shift_draw#
+			</isNotEmpty>       
+		</dynamic>
+		where SHIFT_ID = #shift_id#
+	</update>
+
+	<delete id="deleteAdcShiftDetailItem" parameterClass="map">
+		delete from
+		ADC_SHIFT_DETAIL where ITEM_ID = #item_id#
+	</delete>
+
+	<delete id="deleteAdcShiftDetailItemByShiftId" parameterClass="map">
+		delete from ADC_SHIFT_DETAIL where SHIFT_ID = #shift_id#
+	</delete>
+
+	<select id="checkIsInUsed" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from Adc_Shift_Apply where SHIFT_ID =
+		#shift_id#
+	</select>
+	
+	<!-- 为COMBOX组件准备数据 -->
+	<select id="queryAdcShiftItemForCombo" parameterClass="map" resultClass="dto">
+		select shift_id as value, shift_name as text 
+		  from adc_shift 
+	  	 where enabled = "1"
+	  	 <dynamic>
+	  	 	<isNotEmpty prepend="and" property="deptid">
+	  	 		deptid like '$deptid$%'
+	  	 	</isNotEmpty>
+	  	 </dynamic>
+	</select>
+	
+	<!-- 为COMBOX组件准备数据 -->
+	<select id="queryAdcShiftDetailItemForCombo" parameterClass="map" resultClass="dto">
+		select item_id as value, c_shift_name as text 
+		  from adc_shift_detail 
+	  	 where shift_id = #shift_id#
+	</select>
+</sqlMap>

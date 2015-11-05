@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftLeave">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftLeaveItemForManage" parameterClass="map"
+		resultClass="dto">
+		select xid, adc_date, deptid, (select deptname from eadept where
+		deptid=a.deptid) as deptname, a.empid, b.code, b.name, a.adc_id,
+		(select type_name from adc_attend_type where type_id=a.adc_id)
+		adc_name, aff_days, aff_hours, requestid, source_type,
+		operator,
+		(select username from
+		eauser where userid=operator)
+		operator_name,
+		operate_time, a.remark
+		from adc_shift_leave a, employee b
+		where
+		a.empid=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="empid">
+				a.empid = $empid$
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code like "$code$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like "%$name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="adc_date">
+				adc_date = '$adc_date$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				adc_date <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				adc_date  <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="source_type">
+				source_type =
+				#source_type#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftLeaveItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from adc_shift_leave a, employee b
+		where
+		a.empid=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="empid">
+				a.empid = $empid$
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code like "$code$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like "%$name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				adc_date <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				adc_date  <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="adc_date">
+				adc_date = '$adc_date$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="source_type">
+				source_type =
+				#source_type#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftLeaveItem" parameterClass="dto">
+		insert into
+		Adc_Shift_Leave(adc_date, deptid, empid, adc_id, aff_days, aff_hours,
+		request_id, source_type,
+		leave_start_time, leave_end_time, operator,
+		operate_time, remark)
+		values (#adc_date#, #deptid#, #empid#, #adc_id#,
+		#aff_days#, #aff_hours#,
+		#request_id#, #source_type#,
+		#leave_start_time#, #leave_end_time#, #operator#, #operate_time#,
+		#remark#)
+	</insert>
+
+	<delete id="deleteAdcShiftLeaveItem" parameterClass="dto">
+		delete from
+		Adc_Shift_Leave where xid = #xid#
+	</delete>
+
+	<update id="updateAdcShiftLeaveItem" parameterClass="dto">
+		update Adc_Shift_Leave
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="adc_date">
+				adc_date = #adc_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				deptid = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+				empid = #empid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="adc_id">
+				adc_id = #adc_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="aff_days">
+				aff_days = #aff_days#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="aff_hours">
+				aff_hours = #aff_hours#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="request_id">
+				request_id = #request_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="source_type">
+				source_type =
+				#source_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="leave_start_time">
+				leave_start_time =
+				#leave_start_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="leave_end_time">
+				leave_end_time =
+				#leave_end_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operator">
+				operator = #operator#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operate_time">
+				operate_time =
+				#operate_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark#
+			</isNotEmpty>
+		</dynamic>
+		where xid = #xid#
+	</update>
+	
+	<select id="reportAdcShiftLeave" parameterClass="map" resultClass="dto">
+		select a.adc_date, a.deptid, b.deptname, c.code, c.name, a.adc_id, (select type_name from adc_attend_type where type_id=a.adc_id) adc_name,
+     			a.ADDITION_INFO, abs(a.aff_days) aff_days
+		  from adc_shift_leave a, eadept b, employee c
+		 where a.deptid=b.deptid and a.empid=c.empid
+		 <dynamic>
+          	<isNotEmpty prepend="and" property="deptid">
+          		a.deptid like '$deptid$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="code">
+          		c.code = '$code$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="name">
+          		c.name like '%$name$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="start_date">
+          		a.adc_date <![CDATA[>=]]> '$start_date$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="end_date">
+          		a.adc_date <![CDATA[<=]]> '$end_date$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="adc_id">
+          		a.adc_id = '$adc_id$'
+          	</isNotEmpty>
+          </dynamic>
+	</select>
+	
+	<select id="reportAdcShiftLeaveForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		  from adc_shift_leave a, eadept b, employee c
+		 where a.deptid=b.deptid and a.empid=c.empid
+		 <dynamic>
+          	<isNotEmpty prepend="and" property="deptid">
+          		a.deptid like '$deptid$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="code">
+          		c.code = '$code$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="name">
+          		c.name like '%$name$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="start_date">
+          		a.adc_date <![CDATA[>=]]> '$start_date$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="end_date">
+          		a.adc_date <![CDATA[<=]]> '$end_date$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="adc_id">
+          		a.adc_id = '$adc_id$'
+          	</isNotEmpty>
+          </dynamic>
+	</select>
+</sqlMap>

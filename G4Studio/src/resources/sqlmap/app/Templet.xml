@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="Templet">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryTempletsForManage" parameterClass="map" resultClass="dto">
+	 	select XID, FLDNAME, FLDLABEL, MUSTED, ISCONST
+	   	  from TEMPLET_XLS
+	     where 1=1
+	</select>
+	
+	<select id="queryTempletsForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+	 	select count(*) as count
+	   	  from TEMPLET_XLS
+	     where 1=1
+	</select>
+	
+	<select id="queryTempletsConstForManage" parameterClass="map" resultClass="dto">
+		select XID, VALUE, MEMO
+		  from TEMPLET_CONST 
+		 where XID=#xid# order by VALUE
+	</select>
+	
+	<insert id="saveTempletXlsItem" parameterClass="map">
+		insert into TEMPLET_XLS (XID, FLDNAME, FLDLABEL, MUSTED, ISCONST)
+		    values (#xid#, #fldname#, #fldlabel#, #musted#, #isconst#)
+	</insert>
+	
+	<insert id="saveTempletConstItem" parameterClass="map">
+		insert into TEMPLET_CONST (XID, VALUE, MEMO)
+		   values(#xid#, #value#, #memo#)
+	</insert>
+	
+	<update id="updateTempletXlsItem" parameterClass="dto">
+		update TEMPLET_XLS
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="xid">
+	         XID = #xid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fldname">
+	         FLDNAME = #fldname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fldlabel">
+	         FLDLABEL = #fldlabel#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="musted">
+	         MUSTED = #musted#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isconst">
+	         ISCONST = #isconst#
+			</isNotEmpty>
+		</dynamic>
+		where XID=#xid#
+	</update>
+	
+	<delete id="deleteTempletXlsItem" parameterClass="map">
+		delete from TEMPLET_XLS where XID=#xid# 
+	</delete>
+	
+	<update id="updateTempletConstItem" parameterClass="dto">
+		update TEMPLET_CONST
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="xid">
+				XID = #xid#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="value">
+				VALUE = #value#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="memo">
+				MEMO = #memo#
+			</isNotEmpty>	
+		</dynamic>
+		where XID=#xid# and VALUE=#value#
+	</update>
+	
+	<delete id="deleteTempletConstItem" parameterClass="map">
+		delete from TEMPLET_CONST where XID=#xid# and VALUE=#value#
+	</delete>
+	
+</sqlMap>

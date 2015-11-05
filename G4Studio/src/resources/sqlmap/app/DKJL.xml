@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="DKJL">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryDkjlForManage" parameterClass="map"
+		resultClass="dto">
+		SELECT XID, DKSJ, A.EMPID, B.CODE, B.NAME, C.DEPTNAME, C.JOBNAME,
+		(SELECT BZ FROM dkjlb WHERE DKJID=A.DKJID) DKWZ, A.DKLX,
+		(select DEPTNAME FROM EADEPT WHERE DEPTID=A.DEPTID) DKQY
+		from DKJL A,
+		EMPLOYEE B, deptempl C
+		where a.EMPID=b.EMPID and b.EMPID=C.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				c.DEPTID LIKE
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				CODE = '$code$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dklx">
+				DKLX ='$dklx$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_unitname">
+				c.DEPTNAME like	'%$unitname$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+				DKSJ  <![CDATA[>=]]> #kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+				DKSJ  <![CDATA[<=]]> #jssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				DATE_FORMAT(dksj, "%Y-%m-%d") <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				DATE_FORMAT(dksj, "%Y-%m-%d")  <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="emps">
+				A.empid in <iterate property="emps" conjunction="," open="(" close=")">#emps[]#</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryDkjlForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		SELECT count(*) as count
+		from DKJL A, EMPLOYEE B, deptempl C
+		where
+		a.EMPID=b.EMPID and b.EMPID=C.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				c.DEPTID LIKE
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				CODE = '$code$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dklx">
+				DKLX ='$dklx$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_unitname">
+				c.DEPTNAME like
+				'%$unitname$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+				DKSJ  <![CDATA[>=]]>
+				#kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+				DKSJ  <![CDATA[<=]]>
+				#jssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				DATE_FORMAT(dksj, "%Y-%m-%d") <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				DATE_FORMAT(dksj, "%Y-%m-%d")  <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="emps">
+				<iterate conjunction="," open="(" close=")">#emps#</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="checkRecordExist" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from DKJL where DKJID=#dkjid# and DKSJ=#dksj#
+		and EMPID=#empid#
+	</select>
+
+	<insert id="saveDkjlItem" parameterClass="dto">
+		insert into DKJL (XID, DKSJ, EMPID, DKJID, DKLX, DEPTID, BZ)
+		values(#xid#, #dksj#, #empid#, #dkjid#, #dklx#, #deptid#, #bz#)
+	</insert>
+</sqlMap>

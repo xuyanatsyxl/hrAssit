@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="KQBC_JL">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryKqbcjlForManage" parameterClass="map"
+		resultClass="dto">
+		select a.ID, a.RQ, a.DEPTID, b.DEPTNAME, a.EMPID, c.CODE, c.NAME,
+		a.BCID, (select bcmc from kqbc where bcid=a.bcid) bcmc,
+		(select zbcmc
+		from kqbc_mx where bcid=a.bcid and zbcid=a.zbcid) zbcmc,
+		a.ZBCID,
+		a.YDKSJ, a.SJDKSJ,
+		a.DKZT, (select YYMC from wdkyy WHERE YYID=a.CLLX)
+		CLLX, a.CLSM, a.WHR,
+		(select username from eauser where userid=a.WHR)
+		WHRNAME, a.WHSJ, a.BZ
+		from kqbc_jl a, deptempl b, employee c
+		where
+		a.DEPTID=b.DEPTID and a.empid=c.empid and a.empid=b.empid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.DEPTID like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				c.CODE = #code#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				c.NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam">
+				c.NAME like
+				'%$queryParam$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+				a.RQ  <![CDATA[>=]]>
+				#kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+				a.RQ  <![CDATA[<=]]>
+				#jssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dkzt">
+				a.DKZT = #dkzt#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryKqbcjlForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count
+		from kqbc_jl a, deptempl b, employee c
+		where
+		a.DEPTID=b.DEPTID and a.empid=c.empid and a.empid=b.empid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.DEPTID like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				c.CODE = #code#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				c.NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam">
+				c.NAME like
+				'%$queryParam$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+				a.RQ  <![CDATA[>=]]>
+				#kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+				a.RQ  <![CDATA[<=]]>
+				#jssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dkzt">
+				a.DKZT = #dkzt#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<update id="updateKqbcjlItem" parameterClass="dto">
+		update kqbc_jl
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="cllx">
+				CLLX = #cllx#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="dkzt">
+				DKZT = #dkzt#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="clsm">
+				CLSM = #clsm#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="whr">
+				WHR = #whr#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="whsj">
+				WHSJ = #whsj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bz">
+				BZ = #bz#
+			</isNotEmpty>
+		</dynamic>
+		where id=#id#
+	</update>
+
+	<parameterMap id="procdto_cur" class="map">
+		<parameter property="p_rq" jdbcType="INTEGER" javaType="java.lang.Integer"
+			mode="IN" />
+		<parameter property="p_deptid" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+	</parameterMap>
+	<procedure id="hr_make_kq_report" parameterMap="procdto_cur">{call
+		hr_make_kq_report(?,?)}</procedure>
+
+	<select id="queryJbjlForManage" parameterClass="map"
+		resultClass="dto">
+		select rq, deptid, hr_getfulldeptname(deptid) as deptname,
+		(select code
+		from employee where empid=a.empid) code, (select name from
+		employee
+		where empid=a.empid) empname, YDKSJ, SJDKSJ
+		from kqbc_jl a
+		where
+		bcid='1' and zbcid='2' and dkzt='1' and (SJDKSJ-YDKSJ)>10000
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.DEPTID like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				a.empid in (select
+				empid from employee where name like '%$name$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				a.empid in (select
+				empid from employee where code = '$code$')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+				a.RQ  <![CDATA[>=]]>
+				#kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+				a.RQ  <![CDATA[<=]]>
+				#jssj#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryJbjlForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count
+		from kqbc_jl a
+		where bcid='1' and zbcid='2' and
+		dkzt='1' and (SJDKSJ-YDKSJ)>=10000
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.DEPTID like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				a.empid in (select
+				empid from employee where name like '%$name$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				a.empid in (select
+				empid from employee where code = '$code$')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+				a.RQ  <![CDATA[>=]]>
+				#kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+				a.RQ  <![CDATA[<=]]>
+				#jssj#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryKqbcJlSumReport" parameterClass="map"
+		resultClass="dto">
+		select b.deptid, b.DEPTNAME, count(if(a.DKZT='2', true, null)) WCLSL,
+		count(if(a.CLLX LIKE '01%', TRUE, NULL))WJSL,
+		count(if(a.CLLX LIKE
+		'10%', TRUE, NULL)) XXSL, count(if(a.CLLX LIKE '12%', TRUE,
+		NULL))
+		QJSL, count(if(a.CLLX LIKE '13%', TRUE, NULL)) GZYY,
+		count(if(a.CLLX
+		LIKE '14%', TRUE, NULL)) JSYY
+		from kqbc_jl a, eadept b
+		where
+		substring(a.deptid, 1, 3 * $bmjb$)=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+				a.RQ  <![CDATA[>=]]>
+				#kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+				a.RQ  <![CDATA[<=]]>
+				#jssj#
+			</isNotEmpty>
+		</dynamic>
+		group by b.deptid, b.DEPTNAME
+		order by b.sortno
+	</select>
+</sqlMap>

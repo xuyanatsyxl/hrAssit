@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<!-- 配置ActionFormBean -->
+	<form-beans>
+		<!-- 公共Form -->
+		<form-bean name="baseActionForm" type="org.g4studio.common.web.BaseActionForm" />
+	</form-beans>
+
+	<!-- Action映射 -->
+	<action-mappings type="org.g4studio.core.mvc.xstruts.action.ActionMapping">
+
+		<action name="baseActionForm" path="/lxycsh" scope="request"
+			parameter="reqCode" type="com.hr.xl.lxy.web.LxycshAction">
+			<forward name="lxyxjwhInit" path="/lxy/lxyxjwh.jsp" />
+
+		</action>
+
+		<!--联销员管理部份 -->
+		<action name="baseActionForm" path="/lxy" scope="request"
+			parameter="reqCode" type="com.hr.xl.lxy.web.LxyAction">
+			<forward name="manageLxyView" path="/lxy/lxybmInit.jsp" />
+			<forward name="lxypldr" path="/lxy/lxypldr.jsp" />
+			<forward name="queryLxybdjlView" path="/lxy/queryLxybdjl.jsp" />
+		</action>
+
+		<!--联销员岗位变动 -->
+		<action name="baseActionForm" path="/lxybd" scope="request"
+			parameter="reqCode" type="com.hr.xl.lxy.web.LxybdAction">
+			<forward name="lxysgView" path="/lxy/lxysg.jsp" />
+			<forward name="lxylzView" path="/lxy/lxylz.jsp" />
+			<forward name="lxyxjView" path="/lxy/lxyxj.jsp" />
+			<forward name="lxyhmdView" path="/lxy/lxyhmd.jsp" />
+			<forward name="lxyddView" path="/lxy/lxydd.jsp" />
+			<forward name="lxybdcxView" path="/lxy/lxybdcx.jsp" />
+			<forward name="lxylzcprsView" path="/lxy/lxylzcprs.jsp" />
+			<forward name="bmlxyxxwhView" path="/lxy/bmlxyxxwh.jsp" />
+			<forward name="lxyjkzView" path="/lxy/lxyjkz.jsp" />
+		</action>
+
+		<!--联销员查询报表 -->
+		<action name="baseActionForm" path="/lxyRpt" scope="request"
+			parameter="reqCode" type="com.hr.xl.lxy.web.LxyRptAction">
+			<forward name="lxybmhzView" path="/lxy/lxybmhz.jsp" />
+			<forward name="lxyxxView" path="/lxy/lxyxxSelect.jsp" />
+			<forward name="lxylzView" path="/lxy/lxylz.jsp" />
+			<forward name="lxyxjView" path="/lxy/lxyxj.jsp" />
+			<forward name="lxyhmdView" path="/lxy/lxyhmd.jsp" />
+			<forward name="lxyddView" path="/lxy/lxydd.jsp" />
+			<forward name="bmlxyxxView" path="/lxy/bmlxyxx.jsp" />
+		</action>
+
+
+		<action name="baseActionForm" path="/templet" scope="request"
+			parameter="reqCode" type="com.hr.xl.system.web.TempletAction">
+			<forward name="templetView" path="/templet/queryTemplet.jsp" />
+		</action>
+
+		<action name="baseActionForm" path="/nusoft" scope="request"
+			parameter="reqCode" type="com.hr.xl.nusoft.web.HrAction">
+			<forward name="EmpCardManageView" path="/kq/empcardManage.jsp" />
+		</action>
+
+		<!-- 考勤管理部分 -->
+		<!--打卡机管理 -->
+		<action name="baseActionForm" path="/dkj" scope="request"
+			parameter="reqCode" type="com.hr.xl.kq.web.DkjAction">
+			<forward name="manageDkjView" path="/kq/manageDkj.jsp" />
+			<forward name="queryDkjlView" path="/kq/queryDkjl.jsp" />
+		</action>
+
+		<action name="baseActionForm" path="/empl" scope="request"
+			parameter="reqCode" type="com.hr.xl.system.web.EmployeeAction">
+			<forward name="manageEmplView" path="/system/manageEmpl.jsp" />
+		</action>
+
+		<action name="baseActionForm" path="/kqbc" scope="request"
+			parameter="reqCode" type="com.hr.xl.kq.web.KqbcAction">
+			<forward name="manageKqbcjlView" path="/kq/manageKqbcjl.jsp" />
+			<forward name="manageJbjlView" path="/kq/reportJbjl.jsp" />
+			<forward name="queryKqbcjlSumReportView" path="/kq/reportKqbcSum.jsp" />
+		</action>
+
+		<!-- 考评管理 -->
+		<action name="baseActionForm" path="/kpgl" scope="request"
+			parameter="reqCode" type="com.hr.xl.kp.web.KpglAction">
+			<forward name="manageKpdaView" path="/kp/manageKpda.jsp" />
+			<forward name="manageKpdjView" path="/kp/manageKpdj.jsp" />
+		</action>
+
+		<!-- 节日管理 -->
+		<action name="baseActionForm" path="/holiday" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcHolidayAction">
+			<forward name="manageAdcHolidayView" path="/adc/manageAdcHoliday.jsp" />
+		</action>
+
+		<!-- 考勤报表管理 -->
+		<action name="baseActionForm" path="/adcreport" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcReportPersonMonthAction">
+			<forward name="queryAdcPersonMonthView" path="/adc/queryAdcPersonMonth.jsp" />
+			<forward name="queryAdcPersonMonthSumView" path="/adc/queryAdcPersonMonthSum.jsp" />
+		</action>
+
+		<action name="baseActionForm" path="/adcattendtype" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcAttendTypeAction">
+			<forward name="manageAdcAttendTypeView" path="/adc/manageAdcAttendType.jsp" />
+		</action>
+
+		<!-- 考勤班次管理 -->
+		<action name="baseActionForm" path="/adcshift" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftAction">
+			<forward name="manageAdcShiftView" path="/adc/manageAdcShift.jsp" />
+			<forward name="adcShiftDetailView" path="/adc/selectShiftDetail.jsp" />
+			<forward name="manageAdcShiftApplyDeptView" path="/adc/manageAdcShiftApplyDept.jsp" />
+			<forward name="manageAdcShiftApplyGroupView" path="/adc/manageAdcShiftApplyGroup.jsp" />
+			<forward name="manageAdcShiftApplyEmplView" path="/adc/manageAdcShiftApplyEmpl.jsp" />
+		</action>
+
+		<!-- 考勤班次管理 -->
+		<action name="baseActionForm" path="/adcshiftgroup" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftGroupAction">
+			<forward name="manageAdcShiftGroupView" path="/adc/manageAdcShiftGroup.jsp" />
+		</action>
+
+		<!-- 考勤排班 -->
+		<action name="baseActionForm" path="/adcshiftscheduling" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftSchedulingAction">
+			<forward name="manageAdcShiftSchedulingView" path="/adc/manageAdcShiftScheduling.jsp" />
+			<forward name="getPointView" path="/adc/getPoint.jsp" />
+		</action>
+
+		<!-- 基本班次 -->
+		<action name="baseActionForm" path="/adcshiftbasic" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftBasicAction">
+			<forward name="manageAdcShiftBasicView" path="/adc/manageAdcShiftBasic.jsp" />
+		</action>
+
+		<!-- 规律班次 -->
+		<action name="baseActionForm" path="/adcshiftpattern" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftPatternAction">
+			<forward name="manageAdcShiftPatternView" path="/adc/manageAdcShiftPattern.jsp" />
+		</action>
+
+		<!-- 班次应用 -->
+		<action name="baseActionForm" path="/adcshiftapply" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftApplyAction">
+			<forward name="manageAdcShiftApplyView" path="/adc/manageAdcShiftApply.jsp" />
+		</action>
+
+		<!-- 规律班次 -->
+		<action name="baseActionForm" path="/adcshiftrecord" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftRecordAction">
+			<forward name="manageAdcShiftRecordView" path="/adc/manageAdcShiftRecord.jsp" />
+		</action>
+
+		<!-- 月末报表 -->
+		<!-- 生成页面 -->
+		<action name="baseActionForm" path="/adcshiftreport" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftReportAction">
+			<forward name="makeAdcShiftReportView" path="/adc/makeAdcShiftReport.jsp" />
+		</action>
+
+		<!-- 考勤异常处理 -->
+		<action name="baseActionForm" path="/adcshiftexception" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftExceptionAction">
+			<forward name="manageAdcShiftExceptionView" path="/adc/manageAdcShiftException.jsp" />
+		</action>
+
+		<!-- 考勤请假处理 -->
+		<action name="baseActionForm" path="/adcshiftleave" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftLeaveAction">
+			<forward name="manageAdcShiftLeaveView" path="/adc/manageAdcShiftLeave.jsp" />
+			<forward name="queryAdcShiftLeaveView" path="/adc/queryAdcShiftLeave.jsp" />
+		</action>
+
+		<!-- OA接口管理 -->
+		<action name="baseActionForm" path="/oaintf" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.OaIntfAction">
+			<forward name="manageOaIntfView" path="/adc/manageOaIntf.jsp" />
+		</action>
+
+		<!-- 加班单管理 -->
+		<action name="baseActionForm" path="/adcovertime" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcOvertimeAction">
+			<forward name="manageAdcOvertimeView" path="/adc/manageAdcOvertime.jsp" />
+			<forward name="manageAdcOvertimeForCheckView" path="/adc/queryAdcOvertimeForCheck.jsp" />
+			<forward name="reportAdcOvertimeSumView" path="/adc/reportAdcOvertimeSum.jsp" />
+			<forward name="reportAdcOvertimeDetailView" path="/adc/reportAdcOvertimeDetail.jsp" />
+		</action>
+
+		<!-- 食堂管理 -->
+		<action name="baseActionForm" path="/adcshiftmeals" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftMealsAction">
+			<forward name="queryAdcShiftMealsDetailView" path="/adc/queryAdcShiftMealsDetail.jsp" />
+			<forward name="queryAdcShiftMealsView" path="/adc/queryAdcShiftMeals.jsp" />
+			<forward name="queryAdcMealsLeaveView" path="/adc/queryAdcMealsLeave.jsp" />
+		</action>
+
+		<!-- 食堂管理 -->
+		<action name="baseActionForm" path="/adcdinnerroom" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcDinnerRoomAction">
+			<forward name="manageAdcDinnerRoomView" path="/adc/manageAdcDinnerRoom.jsp" />
+			<forward name="selectDkjTreeView" path="/adc/selectDkjTree.jsp" />
+			<forward name="manageAdcDinnerRoomUnitView" path="/adc/manageAdcDinnerRoomUnit.jsp" />
+		</action>
+
+		<!-- 上传文件 -->
+		<action name="baseActionForm" path="/adcshiftupload" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftUploadAction">
+			<forward name="manageAdcShiftUploadView" path="/adc/manageAdcShiftUpload.jsp" />
+		</action>
+
+		<!-- Web报表引擎 -->
+		<action name="baseActionForm" path="/jasper" scope="request"
+			parameter="reqCode" type=" org.infotechdept.hr.kq.web.JasperReportAction">
+			<forward name="printHtmlView" path="/jasper/printInit.jsp" />
+		</action>
+		
+		<!-- 值班管理 -->
+		<action name="baseActionForm" path="/adcshiftduty" scope="request"
+			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftDutyAction">
+			<forward name="manageAdcShiftDutyView" path="/adc/manageAdcShiftDuty.jsp" />
+			<forward name="manageAdcShiftDutyCheckView" path="/adc/manageAdcShiftDutyCheck.jsp" />
+		</action>
+	</action-mappings>
+
+</struts-config>

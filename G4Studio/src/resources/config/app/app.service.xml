@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 业务系统 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 业务系统服务组件配置示例 <bean id="***Service" parent="baseTransactionProxyG4"> 
+		<property name="target"> <bean class="com.*.........*ServiceImpl"> <property 
+		name="g4Dao" ref="g4Dao" /> </bean> </property> </bean> -->
+
+	<bean id="lxyService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.lxy.service.impl.LxyServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="bdjlService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.lxy.service.impl.BdjlServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="lxybdService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.lxy.service.impl.LxybdServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="lxycshService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.lxy.service.impl.LxycshServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="templetService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.system.service.impl.TempletServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cardService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.kq.service.impl.CardServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="hrService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.kq.service.impl.CardServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dkjService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.kq.service.impl.DkjServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dkjlService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.kq.service.impl.DkjlServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="employeeService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.system.service.impl.EmployeeServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="kqbcService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.kq.service.impl.KqbcServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 考评管理 -->
+	<bean id="kpdaService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.kp.service.impl.KpdaServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="kpdjService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.kp.service.impl.KpdjServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="kpjlService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.hr.xl.kp.service.impl.KpjlServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 考勤管理2015 -->
+
+	<!-- 节假日管理 -->
+	<bean id="adcHolidayService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcHolidayServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 考勤类型设置 -->
+	<bean id="adcAttendTypeService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcAttendTypeServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 班次设置 -->
+	<bean id="adcShiftService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 班次应用 -->
+	<bean id="adcShiftApplyService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftApplyServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 排班 -->
+	<bean id="adcShiftSchedulingService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean
+				class="org.infotechdept.hr.kq.service.impl.AdcShiftSchedulingServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 分组 -->
+	<bean id="adcShiftGroupService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftGroupServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 基本班次 -->
+	<bean id="adcShiftBasicService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftBasicServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 规律班次 -->
+	<bean id="adcShiftPatternService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean
+				class="org.infotechdept.hr.kq.service.impl.AdcShiftPatternServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 排班 -->
+	<bean id="adcShiftRecordService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftRecordServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 报表 -->
+	<bean id="adcShiftReportService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftReportServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 异常 -->
+	<bean id="adcShiftExceptionService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean
+				class="org.infotechdept.hr.kq.service.impl.AdcShiftExceptionServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 请假 -->
+	<bean id="adcShiftLeaveService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftLeaveServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 加班 -->
+	<bean id="adcOvertimeService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcOvertimeServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 上传 -->
+	<bean id="adcShiftUploadService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftUploadServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 食堂 -->
+	<bean id="adcDinnerRoomService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcDinnerRoomServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="adcDinnerRoomUnitService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcDinnerRoomUnitServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="adcShiftDutyService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.infotechdept.hr.kq.service.impl.AdcShiftDutyServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+</beans>

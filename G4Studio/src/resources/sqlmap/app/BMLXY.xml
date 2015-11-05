@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="BMLXY">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<!-- 插入一条联销员部门关联数据 -->
+	<insert id="saveLxybmItem" parameterClass="dto">
+		insert into BMLXY (DEPTID, RYID, YDRQ, GHDW, PP, YXQ, YGXJ,GW,JKZRQ
+		<dynamic prepend=""> 
+			<isNotEmpty prepend="," property="hqxjrq">
+				HQXJRQ
+				
+			</isNotEmpty>
+			<isNotEmpty prepend=" ," property="xjjsrq">
+				XJJSRQ
+			</isNotEmpty>
+		</dynamic>
+		) values (#deptid#, #ryid#, #ydrq#, #ghdw#, #pp#, #yxq#, #ygxj#,#gw#,#jkzrq#
+		
+		<dynamic prepend=""> 
+			<isNotEmpty prepend=" ," property="hqxjrq">
+				#hqxjrq#
+				
+			</isNotEmpty>
+			<isNotEmpty prepend=" ," property="xjjsrq">
+				#xjjsrq#
+			</isNotEmpty>
+		</dynamic>
+		)
+	</insert>
+	
+	<delete id="deleteBmlxyItem" parameterClass="map">
+	   delete from BMLXY where DEPTID=#deptid# and ryid=#ryid#
+	</delete>
+	
+	<update id="updateBmlxyItem" parameterClass="dto">
+		update BMLXY
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="ryid">
+	         RYID = #ryid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+	         DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ydrq">
+	         YDRQ = #ydrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ghdw">
+	         ghdw = #ghdw#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="pp">
+	         PP = #pp#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="yxq">
+	         YXQ = #yxq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="gw">
+	         gw = #gw#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ygxj">
+	         YGXJ = #ygxj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hqxjrq">
+	         HQXJRQ = #hqxjrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xjjsrq">
+	         XJJSRQ = #xjjsrq#
+			</isNotEmpty>
+		</dynamic>
+		where  ryid=#ryid#
+		<isNotEmpty prepend="and" property="deptid">
+			DEPTID=#deptid#
+			
+		</isNotEmpty>
+		
+		
+	</update>
+	
+	<delete id="deleteBmlxyByRyID" parameterClass="dto">
+	    delete from BMLXY where RYID=#ryid#
+	</delete>
+	
+	<update id="updateLxyxj" parameterClass="dto">
+		update BMLXY
+		<dynamic prepend="SET"> 
+			
+			<isNotEmpty prepend="," property="ygxj">
+	         YGXJ = #ygxj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hqxjrq">
+	         HQXJRQ = #hqxjrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xjjsrq">
+	         XJJSRQ = #xjjsrq#
+			</isNotEmpty>
+		</dynamic>
+		where ryid=#ryid# and deptid=#deptid#
+	</update>
+	
+	<!-- 置空星级有效期 -->
+	<update id="updateLxyxjEmpty" parameterClass="dto">
+		update BMLXY set xjjsrq=null where ryid=#ryid# and deptid=#deptid#
+	</update>
+	
+	
+	
+	
+	<select id="queryLxyxjForManage" parameterClass="map" resultClass="dto">
+		SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, 
+       		   b.GHDW, b.PP, b.YDRQ, a.SFZH,b.HQXJRQ,B.XJJSRQ,b.GW, b.jkzrq
+          FROM lxybmsqb a, bmlxy b
+         where a.RYID=b.RYID and a.DQZT in ("2")
+		<dynamic>
+			<isNotEmpty prepend="AND" property="rybh">
+         		a.RYBH like "$rybh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ygxj">
+         		b.YGXJ =#ygxj#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pp">
+         		b.PP like "%$pp$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ghdw">
+				b.GHDW like "%$ghdw$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+         		b.DEPTID like "$deptid$%"
+			</isNotEmpty>
+		    <isNotEmpty prepend="and" property="xjjsrqstart">
+			b.xjjsrq  <![CDATA[>=]]> #xjjsrqstart#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="xjjsrqend">
+			b.xjjsrq  <![CDATA[<=]]> #xjjsrqend#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+		</dynamic> 
+	</select>
+	
+	<select id="queryLxyxjForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT count(*) as count
+          FROM lxybmsqb a, bmlxy b
+         where a.RYID=b.RYID and a.DQZT in ("2")
+		<dynamic>
+			<isNotEmpty prepend="AND" property="rybh">
+         		a.RYBH like "$rybh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ygxj">
+         		b.YGXJ =#ygxj#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pp">
+         		b.PP like "%$pp$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ghdw">
+				b.GHDW like "%$ghdw$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+         		b.DEPTID like "$deptid$%"
+			</isNotEmpty>
+		    <isNotEmpty prepend="and" property="xjjsrqstart">
+			b.xjjsrq  <![CDATA[>=]]> #xjjsrqstart#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="xjjsrqend">
+			b.xjjsrq  <![CDATA[<=]]> #xjjsrqend#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+		</dynamic> 
+	</select>
+	<select id="querbmlxyxjhqrq" parameterClass="map" resultClass="dto" >
+		select hqxjrq from bmlxy where ryid=#ryid#
+		
+	</select>
+	
+	<!-- 徐岩加 维护入司日期用-->
+	<select id="queryBmlxyItemForManage" parameterClass="map" resultClass="dto">
+		select deptid, ryid, ydrq, ghdw, pp, yxq, ygxj, hqxjrq, xjjsrq, gw, jkzrq
+		  from bmlxy
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="ryid">
+				ryid = $ryid$
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				deptid = '$deptid$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="checkBmlxyExists" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from BMLXY where deptid = #deptid# and ryid = #ryid#
+	</select>
+	
+	<delete id="deleteBmlxyItemByDeptidEmpid" parameterClass="dto">
+		delete from BMLXY where deptid = #deptid# and ryid = #ryid#
+	</delete>
+</sqlMap>

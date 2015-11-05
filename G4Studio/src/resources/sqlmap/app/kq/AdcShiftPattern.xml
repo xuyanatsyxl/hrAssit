@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftPattern">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftPatternItemForManage" parameterClass="map"
+		resultClass="dto">
+		select a.PATTERN_ID, a.PATTERN_SHIFT_NAME, a.DEPTID, b.DEPTNAME,
+		a.REGULAR_CYCLE,
+		a.REGULAR_CYCLE_UNIT, a.OPERATOR, (select username from eauser where USERID=a.operator)
+		operator_name,
+		a.OPERATE_TIME, a.enabled, a.remark
+		from adc_shift_pattern a, eadept b
+		where a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pattern_shift_name">
+				a.pattern_shift_name like '%$pattern_shift_name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pattern_id">
+				a.pattern_id = '$pattern_id$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftPatternItemForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count
+		from adc_shift_pattern a, eadept b
+		where a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pattern_shift_name">
+				a.pattern_shift_name like '%$pattern_shift_name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pattern_id">
+				a.pattern_id = '$pattern_id$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftPatternItem" parameterClass="dto">
+		insert into
+		adc_shift_pattern (pattern_id, pattern_shift_name, deptid,
+		regular_cycle, regular_cycle_unit, operator, operate_time, enabled,
+		remark)
+		values(#pattern_id#, #pattern_shift_name#, #deptid#, #regular_cycle#,
+		#regular_cycle_unit#, #operator#, #operate_time#, #enabled#, #remark#)
+	</insert>
+
+	<delete id="deleteAdcShiftPatternItem" parameterClass="dto">
+		delete
+		from adc_shift_pattern where pattern_id = #pattern_id#
+	</delete>
+
+	<update id="updateAdcShiftPatternItem" parameterClass="dto">
+		update Adc_Shift_Pattern
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="pattern_id">
+				pattern_id = #pattern_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="pattern_shift_name">
+				pattern_shift_name = #pattern_shift_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				deptid = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="regular_cycle">
+				regular_cycle = #regular_cycle#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="regular_cycle_unit">
+				regular_cycle_unit = #regular_cycle_unit#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operator">
+				operator = #operator#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operate_time">
+				operate_time = #operate_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="enabled">
+				enabled = #enabled#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark#
+			</isNotEmpty>
+		</dynamic>
+		where pattern_id = #pattern_id#
+	</update>
+	
+	<!-- AdcShiftPatternDetail -->
+	
+	<delete id="deleteAdcShiftPatternDetailByPatternId" parameterClass="dto">
+		delete from Adc_Shift_Pattern_Detail where pattern_id = #pattern_id#
+	</delete>
+	
+	<select id="queryAdcShiftPatternDetailItemForManage" parameterClass="map" resultClass="dto">
+		select POSITION_ID, PATTERN_ID, SHIFT_ID, (select basic_shift_name from adc_shift_basic where shift_id=a.shift_id) shift_name 
+		  from adc_shift_pattern_detail a
+		  <dynamic prepend="where">
+		  		<isNotEmpty prepend="and" property="pattern_id">
+		  			pattern_id = '$pattern_id$'
+		  		</isNotEmpty>
+		  </dynamic>
+		  order by POSITION_ID
+	</select>
+	
+	<select id="queryAdcShiftPatternDetailItemForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count 
+		  from adc_shift_pattern_detail a
+		  <dynamic prepend="where">
+		  		<isNotEmpty prepend="and" property="pattern_id">
+		  			pattern_id = '$pattern_id$'
+		  		</isNotEmpty>
+		  </dynamic>
+	</select>	
+	
+	<insert id="saveAdcShiftPatternDetailItem" parameterClass="dto">
+		insert into adc_shift_pattern_detail (position_id, pattern_id 
+		<dynamic>
+			<isNotNull prepend="," property="shift_id">
+				shift_id
+			</isNotNull>
+		</dynamic>
+		) values (#position_id#, #pattern_id# 
+		<dynamic>
+			<isNotNull prepend="," property="shift_id">
+				'$shift_id$'
+			</isNotNull>
+		</dynamic>
+		)
+	</insert>
+	
+	<delete id="deleteAdcShiftPatternDetailItem" parameterClass="dto">
+		delete from adc_shift_pattern_detail where pattern_id=#pattern_id# and position_id=#position_id#
+	</delete>
+	
+	<update id="updateAdcShiftPatternDetailItem" parameterClass="dto">
+		update adc_shift_pattern_detail
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="pattern_id">
+				pattern_id = #pattern_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shift_id">
+				shift_id = #shift_id#
+			</isNotEmpty>
+		</dynamic>
+		where position_id = #position_id# and pattern_id=#pattern_id#
+	</update>
+	
+</sqlMap>

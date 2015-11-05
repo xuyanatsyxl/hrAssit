@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftMeals">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftMealsDetailItemForManage"
+		parameterClass="map" resultClass="dto">
+		select meals_date, hr_getfulldeptname(a.deptid) deptname, b.EMPID,
+		b.code, b.name, sum(if(meals_type='1', meals_times, null)) zc,
+		sum(if(meals_type='2', meals_times, null)) wc,
+		sum(if(meals_type='3', meals_times, null)) wac,
+		sum(if(meals_type='4', meals_times, null)) jsfj,
+		sum(if(meals_type='5', meals_times, null)) bjsfj,
+		a.ROOM_ID, (select ROOM_NAME from ADC_DINNER_ROOM WHERE ROOM_ID=a.ROOM_ID) ROOM_NAME
+		from
+		adc_shift_meals a, employee b, eadept c
+		where a.EMPID=b.EMPID and a.deptid=c.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="room_id">
+				a.ROOM_ID =	'$room_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.meals_date <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.meals_date <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+		</dynamic>
+		group by meals_date, a.deptid, b.EMPID, b.code, b.name, a.room_id
+	</select>
+
+	<select id="queryAdcShiftMealsDetailItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(distinct a.MEALS_DATE, a.deptid, a.empid, a.ROOM_ID)
+		as count
+		from adc_shift_meals a, employee b, eadept c
+		where
+		a.EMPID=b.EMPID and a.deptid=c.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="room_id">
+				a.ROOM_ID =	'$room_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.meals_date <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.meals_date <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+
+	<select id="queryAdcShiftMealsItemForManage" parameterClass="map"
+		resultClass="dto">
+		select a.deptid, hr_getfulldeptname(a.deptid) deptname, b.EMPID,
+		b.code, b.name, sum(if(meals_type='1', meals_times, null)) zc,
+		sum(if(meals_type='2', meals_times, null)) wc,
+		sum(if(meals_type='3', meals_times, null)) wac, 
+		sum(if(meals_type='4', meals_times, null)) jsfj,
+		sum(if(meals_type='5', meals_times, null)) bjsfj,
+		a.ROOM_ID, (select ROOM_NAME from ADC_DINNER_ROOM WHERE ROOM_ID=a.ROOM_ID) ROOM_NAME
+		from
+		adc_shift_meals a, employee b, eadept c
+		where a.EMPID=b.EMPID and a.deptid=c.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="room_id">
+				a.ROOM_ID =	'$room_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.meals_date <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.meals_date <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+		</dynamic>
+		group by a.deptid, b.EMPID, b.code, b.name, a.room_id
+	</select>
+
+	<select id="queryAdcShiftMealsItemForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(distinct a.deptid, a.empid, a.ROOM_ID) as count
+		from adc_shift_meals a, employee b, eadept c
+		where a.EMPID=b.EMPID and a.deptid=c.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="room_id">
+				a.ROOM_ID =	'$room_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.meals_date <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.meals_date <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryAdcMealsLeaveItemForManage" parameterClass="map"
+		resultClass="dto">
+		select count(if(meals_type='4', 1, null)) jsfj, count(if(meals_type='5', 1, null)) bjsfj
+	      from adc_shift_meals
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="room_id">
+				room_id = '$room_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				meals_date = #start_date#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

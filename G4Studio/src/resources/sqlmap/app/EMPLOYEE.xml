@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="EMPLOYEE">
+	
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryEmployeesForManage" parameterClass="map" resultClass="dto">
+		select a.EMPID, a.`CODE`, a.`NAME`,a.SEX, a.BIRTHDAY, a.IDCARD,a.HIREDATE,a.REMARK,b.DEPTID, 
+			   (select deptname from eadept where deptid=b.deptid) DEPTNAME,b.ZBZWID,
+               b.JOBNAME,(select zwmc from zbzw where zwid=b.zbzwid) dyzbzw, a.DQZT
+        from employee a, deptempl b
+       where a.empid=b.empid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="code"> 
+									a.CODE = #code#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name"> 
+									a.NAME like '$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+									b.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dqzt"> 
+									a.dqzt = '$dqzt$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    a.NAME like '%$queryParam$%' 
+			</isNotEmpty>       	
+		</dynamic> 
+	</select>
+	
+	<select id="queryEmployeesForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+        from employee a, deptempl b
+       where a.empid=b.empid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="code"> 
+									a.CODE = #code#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name"> 
+									a.NAME like '$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+									b.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dqzt"> 
+									a.dqzt = '$dqzt$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    a.NAME like '%$queryParam$%' 
+			</isNotEmpty>       	
+		</dynamic> 
+	</select>
+	
+	<update id="updateEmplItem" parameterClass="dto">
+		update EMPLOYEE
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="empid">
+	         EMPID = #empid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="code">
+	         CODE = #code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="name">
+	         NAME = #name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sex">
+	         SEX = #sex#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="CARD">
+	         card = #card#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="birthday">
+	         BIRTHDAY = #birthday#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="idcard">
+	         IDCARD = #idcard#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hiredate">
+	         HIREDATE = #hiredate#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+	         REMARK = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="dqzt">
+	         DQZT = #dqzt#
+			</isNotEmpty>							
+		</dynamic> 
+	        WHERE EMPID = #empid#    		
+	</update>
+	
+	<select id="checkCodeExists" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from Employee where CODE=#code# and NAME 
+	</select>
+	
+	<select id="queryForDownload" parameterClass="map" resultClass="dto">
+		select empid, name, CARD
+		  from employee 
+		 where CARD is not null and DQZT=2
+	</select>
+	
+	<delete id="deleteEmplItem" parameterClass="dto">
+		delete from EMPLOYEE where EMPID=#empid#
+	</delete>
+	
+	<!--以下是人员删除时相关业务模板的检查-->
+	<select id="checkdkjl" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from dkjl where empid=#empid#	
+	</select>
+	
+	<select id="queryEmpidByCode" parameterClass="map" resultClass="java.lang.Integer">
+		select empid from employee where code = #code#
+	</select>
+	
+	<select id="queryEadeptItemByDeptid" parameterClass="java.lang.String" resultClass="dto">
+		select deptid, deptname from eadept where deptid=#deptid#
+	</select>
+</sqlMap>

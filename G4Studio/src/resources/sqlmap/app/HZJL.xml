@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="HZJL">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryHzjlForManage" parameterClass="map" resultClass="dto">
+	 select rq, kssj, jssj, zt, bz from hzjl
+		<dynamic prepend = "where">	
+			<isNotEmpty prepend="and" property="ksrq">
+			rq  <![CDATA[>=]]> #ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jsrq">
+			rq  <![CDATA[<=]]> #jsrq#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryHzjlForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+	 select count() as count  from hzjl
+		<dynamic prepend = "where">	
+			<isNotEmpty prepend="and" property="ksrq">
+			rq  <![CDATA[>=]]> #ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jsrq">
+			rq  <![CDATA[<=]]> #jsrq#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

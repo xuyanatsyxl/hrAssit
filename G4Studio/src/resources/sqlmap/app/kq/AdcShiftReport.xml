@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftReport">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<!-- 考勤明细查询 -->
+	<select id="queryAdcShiftSchedulingForReport" parameterClass="map"
+		resultClass="dto">
+		select a.SCH_DATE, a.deptid, (select deptname from eadept where
+		deptid=a.deptid) deptname, b.CODE, b.NAME,
+		a.ADC_ID, (select TYPE_NAME
+		from adc_attend_type where TYPE_ID=a.ADC_ID)
+		ADC_NAME,
+		a.SHIFT_ID,
+		(select shift_name from adc_shift where shift_id=a.shift_id)
+		shift_name,
+		a.ITEM_ID, (select c_shift_name from adc_shift_detail where
+		item_id=a.item_id)
+		c_shift_name,
+		a.WORK_TIME, a.OFF_TIME,
+		a.ACTUAL_WORK_TIME, a.ACTUAL_OFF_TIME
+		from adc_shift_scheduling a,
+		employee b
+		where a.EMPID=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.sch_date  <![CDATA[>=]]>
+				#kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.sch_date  <![CDATA[<=]]>
+				#jssj#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftSchedulingForReport" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count
+		from adc_shift_scheduling a,
+		employee b
+		where
+		a.EMPID=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.sch_date  <![CDATA[>=]]>
+				#kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.sch_date  <![CDATA[<=]]>
+				#jssj#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+
+</sqlMap>

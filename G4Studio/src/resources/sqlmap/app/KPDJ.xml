@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="KPDJ">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryKpdjsForManage" parameterClass="map" resultClass="dto">
+		select a.OID, a.DEPTID, a.DAID, (select DAMC from KPDA WHERE DAID=a.DAID) as DAMC,
+		       (select deptname from eadept where deptid=a.DEPTID) as DEPTNAME, 
+               a.SD, a.KPR, a.JDR, (select username from eauser where userid=a.JDR) AS JDRNAME, 
+               a.JDRQ, a.SHR, (select username from eauser where userid=a.shr) AS SHRNAME, a.SHRQ, a.BZ, a.ZT
+         from kpdj a	
+         where 1=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="oid"> 
+									a.OID = '$oid$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="damc"> 
+									a.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="damc"> 
+									a.DAMC like '%$damc$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="zt"> 
+									a.ZT = '$zt$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="kpr"> 
+									a.KPR = '$kpr$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssd">
+			a.SD  <![CDATA[>=]]> #kssd#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssd">
+			a.SD  <![CDATA[<=]]> #jssd#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+			a.JDRQ  <![CDATA[>=]]> #kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+			a.JDRQ  <![CDATA[<=]]> #jssj#
+			</isNotEmpty>
+		</dynamic>	 
+	</select>
+	
+	<select id="queryKpdjsForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+         from kpdj a	
+         where 1=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="oid"> 
+									a.OID = '$oid$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="damc"> 
+									a.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="damc"> 
+									a.DAMC like '%$damc$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="zt"> 
+									a.ZT = '$zt$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="kpr"> 
+									a.KPR = '$kpr$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssd">
+			a.SD  <![CDATA[>=]]> #kssd#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssd">
+			a.SD  <![CDATA[<=]]> #jssd#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="kssj">
+			a.JDRQ  <![CDATA[>=]]> #kssj#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jssj">
+			a.JDRQ  <![CDATA[<=]]> #jssj#
+			</isNotEmpty>
+		</dynamic>	 
+	</select>
+	
+	<insert id="saveKpdjItem" parameterClass="dto">
+		insert into KPDJ (OID, DEPTID, DAID, SD, KPR, JDR, JDRQ, SHR, SHRQ, BZ, ZT)
+	       values(#oid#, #deptid#, #daid#, #sd#, #kpr#, #jdr#, #jdrq#, #shr#, #shrq#, #bz#, #zt#)
+	</insert>
+	
+	<update id="updateKpdjItem" parameterClass="dto">
+		update KPDJ
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="oid">
+	         OID = #oid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+	         DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="daid">
+	         DAID = #daid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sd">
+	         SD = #sd#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="kpr">
+	         KPR = #kpr#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jdr">
+	         JDR = #jdr#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jdrq">
+	         JDRQ = #jdrq#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="shr">
+	         SHR = #shr#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shrq">
+	         SHRQ = #shrq#
+			</isNotEmpty>		
+			<isNotEmpty prepend="," property="bz">
+	         BZ = #bz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zt">
+	         ZT = #zt#
+			</isNotEmpty>				
+		</dynamic> 
+	        WHERE OID = #oid# 
+	</update>
+	
+	<delete id="deleteKpdjItem" parameterClass="map">
+		delete from KPDJ where OID=#oid#
+	</delete>
+	
+	<insert id="saveKpdjMxItem" parameterClass="dto">
+		insert into KPDJ_MX (OID, EMPID, GWMC, ZBZWID, KPJG, KPSM, RYFK, BZ)
+		  values(#oid#, #empid#, #gwmc#, #zbzwid#, #kpjg#, #kpsm#, #ryfk#, #bz#)
+	</insert>
+	
+	<update id="updateKpdjMxItem" parameterClass="dto">
+		update KPDJ_MX
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="oid">
+	         OID = #oid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+	         EMPID = #empid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="gwmc">
+	         GWMC = #gwmc#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zbzwid">
+	         ZBZWID = #zbzwid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="kpjg">
+	         KPJG = #kpjg#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="kpsm">
+	         KPSM = #kpsm#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ryfk">
+	         RYFK = #ryfk#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="bz">
+	         BZ = #bz#
+			</isNotEmpty>		
+		</dynamic> 
+	        WHERE OID = #oid# and EMPID=#empid# 
+	</update>
+	
+	<delete id="deleteKpdjMxItem" parameterClass="dto">
+		delete from KPDJ_MX where OID=#oid# and EMPID=#empid#
+	</delete>
+</sqlMap>

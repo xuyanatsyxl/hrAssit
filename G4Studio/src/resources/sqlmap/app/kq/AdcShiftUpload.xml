@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftUpload">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftUploadItemForManage" parameterClass="map"
+		resultClass="dto">
+		SELECT upfileid, deptid, hr_getfulldeptname(deptid) deptname, title,
+		path, filesize, operator,
+		(select username from eauser where userid=operator) operator_name,
+		operate_time, state, remark
+		from adc_shift_upload
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="deptid">
+				deptid like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = '$state$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftUploadItemForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		SELECT count(*) as count
+		from adc_shift_upload
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="deptid">
+				deptid like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = '$state$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="saveAdcShiftUploadItem" parameterClass="dto">
+		insert into Adc_Shift_Upload(upfileid, deptid, title, path, filesize, operator, operate_time, state, remark)
+			values (#upfileid#, #deptid#, #title#, #path#, #filesize#, #operator#, #operate_time#, #state#, #remark#)
+	</insert>
+	
+	<delete id="deleteAdcShiftUploadItem" parameterClass="java.lang.String">
+		delete from Adc_Shift_Upload where upfileid = #fileid#
+	</delete>
+	
+		<!-- 根据文件ID获取一个文件 -->
+	<select id="queryFileByFileID" parameterClass="java.lang.String" resultClass="dto">
+	   SELECT upfileid, title, path,filesize,remark
+		 FROM Adc_Shift_Upload WHERE upfileid = #fileid#
+	</select>
+</sqlMap>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="LXYReport">
+	<typeAlias alias="dto"  type="org.g4studio.core.metatype.impl.BaseDto" />
+	<select id="queryLxyxxForManager" parameterClass="map" resultClass="dto">
+
+		select b.DEPTID,  hr_getfulldeptname(b.deptid) as deptname, a.ryid, a.rybh, a.xm, a.XB, a.CSRQ, a.SFZH, a.HYZK, a.ZGXL,
+ 			   a.JZFS,a.LXSJ,a.JJLXR,a.JJLXRSJ,a.XLXZ,  a.SG,a.MZ,a.YWBS,a.TZ,a.CSD,a.ZJXY,a.HKSZD,a.HKXZ,a.LT,a.DQZT,a.LXZD,a.JZMJ,a.XZJ,a.JJLXRZD,
+ 			   b.GHDW, b.PP, b.YDRQ, b.YGXJ, b.GW, DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 as age
+          from lxybmsqb a, bmlxy b
+         where a.ryid=b.ryid
+		<dynamic>
+			
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lxsj">
+         		a.LXSJ like "$lxsj$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dqzt">
+				a.DQZT =#dqzt#
+			</isNotEmpty>
+		</dynamic> 
+	</select>
+	
+	<select id="queryLxyxxForExcel" parameterClass="map" resultClass="dto">
+	    select distinct deptid, hr_getfulldeptname(deptid) as deptname, a.RYID, a.RYBH, a.XM, (select CODEDESC from eacode where field='XB' and code=a.XB) as XB,
+	           a.CSRQ,a.SFZH,  (select CODEDESC from eacode where field='HYZK' and code=a.HYZK) as HYZK, a.ZGXL, 
+	           (select CODEDESC from eacode where field='JZFS' and code=a.JZFS) AS JZFS, a.LXSJ,a.JJLXR,a.JJLXRSJ, A.XLXZ, b.YGXJ, a.SG,a.MZ,a.YWBS,a.TZ,a.CSD,a.ZJXY,a.HKSZD,
+               DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 as age,A.HKXZ, a.LT, b.GW, b.GHDW, b.PP, b.YDRQ
+         from lxybmsqb a, bmlxy b
+        where a.RYID=b.ryid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>		
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lxsj">
+         		a.LXSJ like "$lxsj$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dqzt">
+				a.DQZT =#dqzt#
+			</isNotEmpty>		
+		</dynamic> 
+	</select>
+	
+	
+	
+	<select id="queryLxyxxForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+          from lxybmsqb a, bmlxy b
+         where a.ryid=b.ryid
+		<dynamic>	
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lxsj">
+         		a.LXSJ like "$lxsj$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dqzt">
+				a.DQZT =#dqzt#
+			</isNotEmpty>
+		</dynamic> 
+	</select>     
+	
+	
+	<select id="querybmLxyxxForManager" parameterClass="map" resultClass="dto">
+	  
+         
+         SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname, a.RYID, a.RYBH, a.XM, a.XB,a.CSRQ,a.SFZH,a.HYZK,a.ZGXL,
+	  a.JZFS,a.LXSJ,a.JJLXR,a.JJLXRSJ,a.XLXZ, b.YGXJ, b.XJJSRQ, a.SG,a.MZ,a.YWBS,a.TZ,a.CSD,a.ZJXY,a.HKSZD,a.HKXZ,a.LT,a.DQZT,a.LXZD,a.JZMJ,a.XZJ,a.JJLXRZD,
+       		   b.GHDW, b.PP, b.YDRQ, DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 AS AGE,b.GW
+          FROM lxybmsqb a, bmlxy b
+         where a.RYID=b.RYID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="rybh">
+         		a.RYBH like "%$rybh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ghdw">
+         		b.GHDW like "%$ghdw$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pp">
+         		b.PP like "%$pp$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+         		b.DEPTID like "$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lxsj">
+         		a.LXSJ like "$lxsj$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maxage">
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[<=]]>#maxage#
+				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="minage">
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[>=]]>#minage#
+				
+				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gw">
+				b.GW=#gw#
+				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dqzt">
+				a.DQZT = '$dqzt$'			
+			</isNotEmpty>			
+			
+		</dynamic> 
+	</select>
+	
+	<select id="querybmLxyxxForExcel" parameterClass="map" resultClass="dto">
+		select distinct deptid, hr_getfulldeptname(deptid) as deptname, a.RYID, a.RYBH, a.XM, 
+				(select CODEDESC from eacode where field='XB' and code=a.XB) AS XB, a.CSRQ, a.SFZH,
+				(select CODEDESC from eacode where field='HYZK' and code=a.HYZK) as HYZK, a.ZGXL, 
+				(select CODEDESC from eacode where field='JZFS' and code=a.JZFS) as JZFS, a.LXSJ,a.JJLXR,a.JJLXRSJ, 
+				(select CODEDESC from eacode where field='XLXZ' and code=a.XLXZ) as XLXZ, 
+				(select CODEDESC from eacode where field='YGXJ' and code=b.YGXJ) as YGXJ, b.XJJSRQ, a.SG,a.MZ,a.YWBS,a.TZ,a.CSD,a.ZJXY,a.HKSZD,
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 as age,
+				(select CODEDESC from eacode where field='HKXZ' and code=a.HKXZ) AS HKXZ, a.LT, 
+				(select CODEDESC from eacode where field='GW' and code=b.GW) AS GW, b.GHDW, b.PP, b.YDRQ
+		 from lxybmsqb a, bmlxy b
+		where a.RYID=b.ryid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="rybh">
+         		a.RYBH like "%$rybh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ghdw">
+         		b.GHDW like "%$ghdw$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pp">
+         		b.PP like "%$pp$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+         		b.DEPTID like "$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lxsj">
+         		a.LXSJ like "$lxsj$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maxage">
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[<=]]>#maxage#
+				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="minage">
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[>=]]>#minage#
+				
+				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gw">
+				b.GW=#gw#
+				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dqzt">
+				a.DQZT = '$dqzt$'			
+			</isNotEmpty>			
+		</dynamic> 
+	</select>
+	
+	
+	
+	<select id="querybmLxyxxForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT count(*) as count
+          FROM lxybmsqb a, bmlxy b
+         where a.RYID=b.RYID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="rybh">
+         		a.RYBH like "$rybh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ghdw">
+         		b.GHDW like "%$ghdw$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pp">
+         		b.PP like "%$pp$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+         		b.DEPTID like "$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lxsj">
+         		a.LXSJ like "$lxsj$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maxage">
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[<=]]>#maxage#
+				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="minage">
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[>=]]>#minage#
+				
+				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gw">
+				b.GW=#gw#
+				
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="dqzt">
+				a.DQZT = '$dqzt$'			
+			</isNotEmpty>	
+		</dynamic> 
+	</select>                          
+	
+	
+	
+	<select id="querydeptid" parameterClass="map" resultClass="dto">
+		select deptid from eadept where parentid=#deptid# or deptid=#deptid# order by deptid desc		
+	</select>
+	                     
+	<select id="querylxyxxhzForManage" parameterClass="map" resultClass="dto">
+		select count(if(a.XB=1, 1, null)) as man, count(if(a.XB=2, 1, null)) as man, count(*) as rycount, count(if(a.HYZK=1, 1, null)) as wh,
+				count(if(a.HYZK=2, 1, null)) as yh, count(if(a.HYZK=3, 1, null)) as ly, count(if(a.HYZK=4, 1, null)) as so, count(if(a.HYZK=5, 1, null)) as qt,
+				count(if(a.HKXZ=1, 1, null)) as ny, count(if(a.HKXZ=2, 1, null)) as fny, count(if(a.XLXZ=1, 1, null)) as tz, count(if(a.XLXZ=2, 1, null)) as zk,
+				count(if(a.XLXZ=3, 1, null)) as qtxl, count(if(b.YGXJ=0, 1, null)) as lxj, count(if(b.YGXJ=1, 1, null)) as yxj, count(if(b.YGXJ=2, 1, null)) as exj,
+				count(if(b.YGXJ=3, 1, null)) as sxj, count(if(b.YGXJ=4, 1, null)) as sixj, count(if(b.YGXJ=5, 1, null)) as wxj,
+				count(if(b.gw=1, 1, null)) as gwlxy, count(if(b.gw=2, 1, null)) as gwdz, count(if(b.gw=3, 1, null)) as gwlscxy, count(if(b.gw=4, 1, null)) as gwxsg,
+        		(SELECT DEPTID FROM eadept WHERE DEPTID=#deptid#) AS deptid,	
+				(SELECT DEPTNAME FROM eadept WHERE DEPTID=#deptid#) AS deptname	
+		 from lxybmsqb a, bmlxy b 
+	    where a.ryid=b.ryid and a.dqzt='2'
+		  and b.deptid = #deptid#
+	</select>
+	
+	
+	<select id="querylxyxxhzForsum" parameterClass="map" resultClass="dto">
+		select count(if(a.XB=1, 1, null)) as man, count(if(a.XB=2, 1, null)) as man, count(*) as rycount, count(if(a.HYZK=1, 1, null)) as wh,
+				count(if(a.HYZK=2, 1, null)) as yh, count(if(a.HYZK=3, 1, null)) as ly, count(if(a.HYZK=4, 1, null)) as so, count(if(a.HYZK=5, 1, null)) as qt,
+				count(if(a.HKXZ=1, 1, null)) as ny, count(if(a.HKXZ=2, 1, null)) as fny, count(if(a.XLXZ=1, 1, null)) as tz, count(if(a.XLXZ=2, 1, null)) as zk,
+				count(if(a.XLXZ=3, 1, null)) as qtxl, count(if(b.YGXJ=0, 1, null)) as lxj, count(if(b.YGXJ=1, 1, null)) as yxj, count(if(b.YGXJ=2, 1, null)) as exj,
+				count(if(b.YGXJ=3, 1, null)) as sxj, count(if(b.YGXJ=4, 1, null)) as sixj, count(if(b.YGXJ=5, 1, null)) as wxj,
+				count(if(b.gw=1, 1, null)) as gwlxy, count(if(b.gw=2, 1, null)) as gwdz, count(if(b.gw=3, 1, null)) as gwlscxy, count(if(b.gw=4, 1, null)) as gwxsg,
+        		(SELECT DEPTID FROM eadept WHERE DEPTID=#deptid#) AS deptid,	
+				(SELECT DEPTNAME FROM eadept WHERE DEPTID=#deptid#) AS deptname	
+		 from lxybmsqb a, bmlxy b 
+	    where a.ryid=b.ryid and a.dqzt='2'
+		  and b.deptid like  '$deptid$%'
+	</select>
+	
+	<select  id="querydeptSortNo" parameterClass="dto" resultClass="java.lang.Integer">
+		select leaf from eadept where deptid=#deptid#
+	</select>
+	
+	<select id="querylxyzzdyManage" parameterClass="map" resultClass="dto">
+		select (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname ,(select xm from lxybmsqb where ryid=b.ryid) as xm ,
+		(select CODEDESC from eacode where field='GW' and code=B.GW) as gw
+		 from BMLXY B where b.RYID=#ryid#		
+		
+	</select>
+	<select id="querylxyzzdyManage1" parameterClass="map" resultClass="dto">
+		select (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname1 ,(select xm from lxybmsqb where ryid=b.ryid) as xm1 ,
+		(select CODEDESC from eacode where field='GW' and code=b.GW) as gw1
+		 from BMLXY B where b.RYID=#ryid#		
+		
+	</select>
+</sqlMap>

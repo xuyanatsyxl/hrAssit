@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftException">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftExceptionItemForManage" parameterClass="map"
+		resultClass="dto">
+		select ID, EXCEPTION_DATE, a.deptid, b.DEPTNAME, c.CODE,
+		a.EMPID, c.NAME, sch_id, EXCEPTION_FIELD,
+		CHECK_TIME,
+		ACTUAL_CHECK_TIME, PROC_STATE, OPERATOR, (select username from eauser
+		where userid=OPERATOR) OPERATOR_NAME,
+		OPERATE_TIME, ADC_ID, (SELECT
+		TYPE_NAME from adc_attend_type WHERE TYPE_ID=ADC_ID)
+		ADC_NAME,
+		PROC_MEMO
+		from adc_shift_exception a, eadept b, employee c
+		where
+		a.DEPTID=b.deptid and a.EMPID=c.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.DEPTID like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				c.CODE = #code#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				c.NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam">
+				c.NAME like
+				'%$queryParam$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.EXCEPTION_DATE  <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.EXCEPTION_DATE  <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="proc_state">
+				a.PROC_STATE =
+				#proc_state#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="exception_ids">
+				a.id in
+				<iterate property="exception_ids" conjunction="," open="("
+					close=")">
+					#exception_ids[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftExceptionItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from adc_shift_exception a, eadept b, employee
+		c
+		where a.DEPTID=b.deptid and a.EMPID=c.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.DEPTID like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				c.CODE = #code#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				c.NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam">
+				c.NAME like
+				'%$queryParam$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.EXCEPTION_DATE  <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.EXCEPTION_DATE  <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="proc_state">
+				a.PROC_STATE =
+				#proc_state#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="exception_ids">
+				a.id in
+				<iterate property="exception_ids" conjunction="," open="("
+					close=")">
+					#exception_ids[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<update id="updateAdcShiftExceptionItem" parameterClass="dto">
+		update adc_shift_exception
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="adc_id">
+				adc_id = #adc_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="proc_state">
+				proc_state = #proc_state#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="proc_memo">
+				proc_memo = #proc_memo#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operator">
+				operator = #operator#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operate_time">
+				operate_time =
+				#operate_time#
+			</isNotEmpty>
+		</dynamic>
+		where id = #id#
+	</update>
+</sqlMap>

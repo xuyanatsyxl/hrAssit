@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="KPDA">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryKpdasForManager" parameterClass="map" resultClass="dto">
+		select DAID, DAMC, DEPTID, (SELECT DEPTNAME FROM EADEPT WHERE DEPTID=A.DEPTID) DEPTNAME, 
+ 			   A.JDR, (SELECT USERNAME FROM EAUSER WHERE USERID=A.JDR) JDRNAME, A.JDRQ, A.QYBZ, A.REMARK
+		  from KPDA A
+		 WHERE 1=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="daid"> 
+									A.DAID like '$daid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+									A.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="damc"> 
+									A.DAMC like '%$damc$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="jdr"> 
+									A.JDR = '$jdr$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    A.DAMC like '%$queryParam$%' 
+			</isNotEmpty>
+		</dynamic>	
+	</select>
+	
+	<select id="queryKpdasForManagerForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		  from KPDA A
+		 WHERE 1=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="daid"> 
+									A.DAID like '$daid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+									A.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="damc"> 
+									A.DAMC like '%$damc$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="jdr"> 
+									A.JDR = '$jdr$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    A.DAMC like '%$queryParam$%' 
+			</isNotEmpty>
+		</dynamic>	
+	</select>
+	
+
+	<insert id="saveKpdaItem" parameterClass="dto">
+		insert into KPDA(DAID, DAMC, DEPTID, JDRQ, JDR, QYBZ, REMARK)
+		  values (#daid#, #damc#, #deptid#, #jdrq#, #jdr#, #qybz#, #remark#)
+	</insert>
+	
+	<insert id="saveKpdaMxItem" parameterClass="dto">
+		insert into KPDA_MX(DAID, EMPID) values (#daid#, #empid#)
+	</insert>
+	
+	<delete id="deleteKpdaItem" parameterClass="map">
+		delete from KPDA where DAID=#daid#
+	</delete>
+	
+	<delete id="deleteKpdaMxItem" parameterClass="map">
+		delete from KPDA_MX where DAID=#daid# and EMPID=#empid#
+	</delete>
+	
+	<update id="updateKpdaItem" parameterClass="dto">
+		update KPDA
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="daid">
+	         DAID = #daid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="damc">
+	         DAMC = #damc#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+	         DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jdrq">
+	         JDRQ = #jdrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jdr">
+	         JDR = #jdr#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="qybz">
+	         QYBZ = #qybz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+	         REMARK = #remark#
+			</isNotEmpty>						
+		</dynamic> 
+	        WHERE DAID = #daid# 
+	</update>
+	
+	<update id="updateKpdaMxItem" parameterClass="dto">
+		update KPDA_MX
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="daid">
+	         DAID = #daid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+	         EMPID = #empid#
+			</isNotEmpty>		
+		</dynamic> 
+	        WHERE DAID = #daid# and EMPID = #empid#
+	</update>
+	
+	<select id="checkDaExists" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from KPDJ where DAID = #daid#
+	</select>
+	
+	<select id="queryKpdaMxForManager" parameterClass="map" resultClass="dto">
+		SELECT a.DAID, a.EMPID, b.CODE, b.NAME, b.SEX, c.JOBNAME
+          from kpda_mx a, employee b, deptempl c
+         where a.EMPID=b.EMPID and b.empid=c.empid
+		   and a.DAID = '$daid$'
+	</select>
+	
+	<select id="queryKpdaMxForManagerForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT count(*) as count
+          from kpda_mx a, employee b, deptempl c
+         where a.EMPID=b.EMPID and b.empid=c.empid
+		   and a.DAID = '$daid$'
+	</select>
+</sqlMap>

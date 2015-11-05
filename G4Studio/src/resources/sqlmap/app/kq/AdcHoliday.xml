@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcHoliday">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcHolidayForManage" parameterClass="map"
+		resultClass="dto">
+		select H_CODE, H_NAME, START_DATE, END_DATE, REMARK
+		from
+		ADC_HOLIDAY
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="h_name">
+				H_NAME like
+				"%$h_name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="h_code">
+				h_code = "$h_code$"
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcHolidayForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from ADC_HOLIDAY
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="h_name">
+				H_NAME like
+				"%$h_name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="h_code">
+				h_code = "$h_code$"
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcHolidayItem" parameterClass="dto">
+		insert into
+		Adc_Holiday(H_CODE, H_NAME, START_DATE, END_DATE, REMARK)
+		values
+		(#h_code#, #h_name#, #start_date#, #end_date#, #remark#)
+	</insert>
+
+	<update id="updateAdcHolidayItem" parameterClass="dto">
+		update Adc_Holiday
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="h_code">
+				H_CODE = #h_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="h_name">
+				H_NAME = #h_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="start_date">
+				START_DATE = #start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="end_date">
+				END_DATE = #end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				REMARK = #remark#
+			</isNotEmpty>
+		</dynamic>
+		WHERE H_CODE = #h_code#
+	</update>
+
+	<select id="getAdcHolidayByKey" parameterClass="map"
+		resultClass="dto">
+		select H_ID, H_NAME, START_DATE, END_DATE, REMARK
+		from
+		Adc_Holiday where
+		H_ID=#h_id#
+	</select>
+
+	<delete id="deleteAdcHolidayItem" parameterClass="dto">
+		delete from
+		Adc_Holiday where H_CODE = #h_code#
+	</delete>
+
+	<!-- Adc_Holiday_Detail -->
+	<select id="queryAdcHolidayDetailItemForManage" parameterClass="map"
+		resultClass="dto">
+		select ID, H_CODE, H_DATE, STRING_DATE, ADC_ID, (select TYPE_NAME from
+		Adc_Attend_Type where TYPE_ID=ADC_ID) as ADC_NAME
+		from
+		Adc_Holiday_Detail
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="h_code">
+				H_CODE = "$h_code$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="date">
+				H_DATE = "$date$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="string_date">
+				STRING_DATE =
+				"$string_date$"
+			</isNotEmpty>
+		</dynamic>
+		order by id
+	</select>
+
+	<select id="queryAdcHolidayDetailItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from Adc_Holiday_Detail
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="h_code">
+				H_CODE = "$h_code$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="date">
+				H_DATE = "$date$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="string_date">
+				STRING_DATE =
+				"$string_date$"
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcHolidayDetailItem" parameterClass="dto">
+		insert into Adc_Holiday_Detail (H_CODE, H_DATE
+		<dynamic>
+			<isNotEmpty prepend="," property="string_date">
+				STRING_DATE
+			</isNotEmpty>
+		</dynamic>
+		, ADC_ID) values (#h_code#,	#h_date#
+		<dynamic>
+			<isNotEmpty prepend="," property="string_date">
+				#string_date#
+			</isNotEmpty>
+		</dynamic>
+		, #adc_id#)
+	</insert>
+
+	<update id="updateAdcHolidayDetailItem" parameterClass="dto">
+		update Adc_Holiday_Detail
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="id">
+				id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="h_code">
+				H_CODE = #h_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="h_date">
+				H_DATE = #h_date#
+			</isNotEmpty>
+			<isNotNull prepend="," property="string_date">
+				STRING_DATE =
+				#string_date#
+			</isNotNull>
+			<isNotEmpty prepend="," property="adc_id">
+				ADC_ID = #adc_id#
+			</isNotEmpty>
+		</dynamic>
+		where ID =#id#
+	</update>
+
+	<delete id="deleteAdcHolidayDetailItem" parameterClass="dto">
+		delete
+		from Adc_Holiday_Detail where id = #id#
+	</delete>
+
+	<delete id="deleteAdcHolidayDetailItemByCode" parameterClass="dto">
+		delete from Adc_Holiday_Detail where H_CODE = #h_code#
+	</delete>
+
+	<select id="checkDateIsStringDate" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count from Adc_Holiday_Detail where
+		STRIN_DATE = '$date$'
+	</select>
+</sqlMap>

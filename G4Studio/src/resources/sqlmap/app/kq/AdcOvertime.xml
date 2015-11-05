@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcOvertime">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcOvertimeItemForManage" parameterClass="map"
+		resultClass="dto">
+		select a.over_code, a.deptid, b.DEPTNAME, a.yearmonth, a.operator,
+		(select username from eauser where userid=a.operator) as
+		operator_name,
+		a.operate_time, a.rpt_state, a.remark
+		from adc_overtime
+		a, eadept b
+		where a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="rpt_state">
+				a.rpt_state =
+				'$rpt_state$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_month">
+				a.yearmonth <![CDATA[>=]]>
+				'$start_month$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_month">
+				a.yearmonth <![CDATA[<=]]>
+				'$end_month$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcOvertimeItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from adc_overtime
+		a, eadept b
+		where
+		a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="rpt_state">
+				a.rpt_state =
+				'$rpt_state$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_month">
+				a.yearmonth <![CDATA[>=]]>
+				'$start_month$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_month">
+				a.yearmonth <![CDATA[<=]]>
+				'$end_month$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcOvertimeItem" parameterClass="dto">
+		insert into
+		Adc_Overtime (over_code, deptid, yearmonth, rpt_state, operator,
+		operate_time, remark)
+		values (#over_code#, #deptid#, #yearmonth#,
+		#rpt_state#, #operator#,
+		#operate_time#, #remark#)
+	</insert>
+
+	<delete id="deleteAdcOvertimeItems" parameterClass="dto">
+		delete from
+		Adc_Overtime where over_code = #over_code#
+	</delete>
+
+	<update id="updateAdcOvertimeItem" parameterClass="dto">
+		update Adc_Overtime
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="over_code">
+				over_code = #over_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				deptid = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="yearmonth">
+				yearmonth = #yearmonth#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="rpt_state">
+				rpt_state = #rpt_state#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operator">
+				operator = #operator#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operate_time">
+				operate_time =
+				#operate_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark#
+			</isNotEmpty>
+		</dynamic>
+		where over_code = #over_code#
+	</update>
+
+	<!-- Adc_Overtime_Detail -->
+	<select id="queryAdcOvertimeDetailItemForManage" parameterClass="map"
+		resultClass="dto">
+		select id, over_code, a.empid, b.code, b.name, a.days_normal,
+		a.hours_normal, a.days_weekend, a.hours_weekend, a.days_holiday,
+		a.hours_holiday
+		from
+		adc_overtime_detail a, employee b
+		where
+		a.empid=b.empid
+		<dynamic>
+			<isNotEmpty prepend="and" property="over_code">
+				a.over_code =
+				'$over_code$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcOvertimeDetailItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from adc_overtime_detail a, employee b
+		where
+		a.empid=b.empid
+		<dynamic>
+			<isNotEmpty prepend="and" property="over_code">
+				a.over_code =
+				'$over_code$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<delete id="deleteAdcOvertimeDetailItemsByOvercode"
+		parameterClass="dto">
+		delete from Adc_Overtime_Detail where over_code =
+		#over_code#
+	</delete>
+
+	<delete id="deleteAdcOvertimeDetailItems" parameterClass="dto">
+		delete
+		from Adc_Overtime_Detail where id = #id#
+	</delete>
+
+	<insert id="saveAdcOvertimeDetailItem" parameterClass="dto">
+		insert into Adc_Overtime_Detail (over_code, empid
+		<dynamic>
+			<isNotEmpty prepend="," property="days_normal">
+				days_normal
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hours_normal">
+				hours_normal
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="days_weekend">
+				days_weekend
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hours_weekend">
+				hours_weekend
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="days_holiday">
+				days_holiday
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hours_holiday">
+				hours_holiday
+			</isNotEmpty>
+		</dynamic>
+		) values (#over_code#, #empid#
+		<dynamic>
+			<isNotEmpty prepend="," property="days_normal">
+				#days_normal#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hours_normal">
+				#hours_normal#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="days_weekend">
+				#days_weekend#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hours_weekend">
+				#hours_weekend#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="days_holiday">
+				#days_holiday#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hours_holiday">
+				#hours_holiday#
+			</isNotEmpty>		
+		</dynamic> 
+		)
+	</insert>
+
+	<select id="queryAdcOvertimeItemForCheck" parameterClass="map" resultClass="dto">
+		select a.over_code, a.yearmonth, a.deptid, (select deptname from eadept where deptid=a.deptid) as deptname, a.rpt_state, sum(b.days_normal) as days_normal, sum(b.hours_normal) as hours_normal, sum(b.days_weekend) as days_weekend,
+				sum(b.hours_weekend) as hours_weekend, sum(b.days_holiday) as days_holiday, sum(b.hours_holiday) as hours_holiday, a.remark
+		 from adc_overtime a, adc_overtime_detail b
+		where a.over_code=b.over_code
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="rpt_state">
+				a.rpt_state = '$rpt_state$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_month">
+				a.yearmonth <![CDATA[>=]]> '$start_month$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_month">
+				a.yearmonth <![CDATA[<=]]> '$end_month$'
+			</isNotEmpty>
+		</dynamic>
+		group by a.over_code, a.yearmonth, a.deptid
+	</select>
+	
+	<select id="queryAdcOvertimeItemForCheckForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		 from adc_overtime
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="deptid">
+				deptid like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="rpt_state">
+				rpt_state = '$rpt_state$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_month">
+				yearmonth <![CDATA[>=]]> '$start_month$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_month">
+				yearmonth <![CDATA[<=]]> '$end_month$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 以下是各种考勤报表的SQL -->
+	<!-- 部门加班明细报表 -->
+	<select id="queryAdcOvertimeDetailItem" parameterClass="map"
+		resultClass="dto">
+		select a.yearmonth, a.deptid, c.code, c.name, (select deptname from
+		eadept where deptid=a.deptid) as deptname,
+		sum(b.days_normal) as
+		days_normal, sum(b.hours_normal) as
+		hours_normal, sum(b.days_weekend)
+		as days_weekend,
+		sum(b.hours_weekend) as hours_weekend,
+		sum(b.days_holiday) as
+		days_holiday, sum(b.hours_holiday) as
+		hours_holiday, a.remark
+		from adc_overtime a, adc_overtime_detail b,
+		employee c
+		where a.over_code=b.over_code and b.empid=c.empid and
+		a.rpt_state=2
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				c.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				c.name like '$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_month">
+				a.yearmonth <![CDATA[>=]]>
+				'$start_month$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_month">
+				a.yearmonth <![CDATA[<=]]>
+				'$end_month$'
+			</isNotEmpty>
+		</dynamic>
+		group by a.yearmonth, a.deptid, c.code, c.name
+	</select>
+	<select id="queryAdcOvertimeDetailItemForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(distinct a.yearmonth, a.deptid, c.code, c.name) as count
+		from adc_overtime a, adc_overtime_detail b, employee c
+		where a.over_code=b.over_code and b.empid=c.empid and a.rpt_state=2
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				c.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				c.name like '$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_month">
+				a.yearmonth <![CDATA[>=]]>
+				'$start_month$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_month">
+				a.yearmonth <![CDATA[<=]]>
+				'$end_month$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!-- 部门加班汇总报表 -->
+	<select id="queryAdcOvertimeSumItem" parameterClass="map"
+		resultClass="dto">
+		select c.deptid, c.deptname,
+		sum(b.days_normal) as
+		days_normal,
+		sum(b.hours_normal) as
+		hours_normal, sum(b.days_weekend)
+		as
+		days_weekend,
+		sum(b.hours_weekend) as hours_weekend,
+		sum(b.days_holiday) as
+		days_holiday, sum(b.hours_holiday) as
+		hours_holiday, a.remark
+		from adc_overtime a, adc_overtime_detail b,
+		eadept c
+		where a.over_code=b.over_code and substr(a.deptid, 1,
+		3 * $lev$)=c.deptid and a.rpt_state=2
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_month">
+				a.yearmonth <![CDATA[>=]]>
+				'$start_month$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_month">
+				a.yearmonth <![CDATA[<=]]>
+				'$end_month$'
+			</isNotEmpty>		    
+		</dynamic>
+		group by c.deptid
+	</select>
+	<select id="queryAdcOvertimeSumItemForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(distinct c.deptid, c.deptname)
+		from adc_overtime a, adc_overtime_detail b,
+		eadept c
+		where a.over_code=b.over_code and substr(a.deptid, 1,
+		3 * $lev$)=c.deptid and a.rpt_state=2
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_month">
+				a.yearmonth <![CDATA[>=]]>
+				'$start_month$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_month">
+				a.yearmonth <![CDATA[<=]]>
+				'$end_month$'
+			</isNotEmpty>		    
+		</dynamic>
+	</select>
+</sqlMap>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcReportPersonMonth">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcReportPersonMonthForManage" parameterClass="map"
+		resultClass="dto">
+		SELECT ID,YEARMONTH, a.DEPTID, b.DEPTNAME, a.EMPID, c.CODE, c.NAME,
+		WORK_DAYS, NOTWORK_DAYS, (WORK_DAYS-NOTWORK_DAYS) ACTUAL_WORK_DAYS, REST_DAYS, SICK_LEAVE_DAYS,
+		PERSONAL_LEAVE_DAYS,
+		ABSENTEEISM_DAYS, HOUR_LEAVE_HOURS,
+		FUNERAL_LEAVE_DAYS, DUTY_DAYS,
+		NIGHT_SHIFT_DAYS,
+		HOLIDAY_DAYS, CARE_DAYS, BIRTH_CONTROL_DAYS, INJURY_LEAVE_DAYS, NIGHT_SHIFT_LEAVE_DAYS,
+		OFFICIAL_AWAY_DAYS, ANNUAL_LEAVE_DAYS, DUTY_DAYS, NIGHT_SHIFT_DAYS, HOLIDAY_DAYS, 
+		OVERTIME_HOURS,  
+		a.JOBNAME, 
+		OVERTIME_HOURS, a.REMARK
+		FROM
+		adc_report_person_month a, eadept b,
+		employee c
+		where
+		a.DEPTID=b.DEPTID
+		and a.EMPID=c.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="start_month">
+				a.YEARMONTH  <![CDATA[>=]]>
+				$start_month$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="end_month">
+				a.YEARMONTH  <![CDATA[<=]]>
+				$end_month$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				c.CODE like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				c.NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="empid">
+				c.empid = $empid$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="yearmonth">
+				a.YEARMONTH = $yearmonth$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcReportPersonMonthForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		SELECT count(*) as count
+		FROM adc_report_person_month a, eadept b,
+		employee c
+		where
+		a.DEPTID=b.DEPTID and a.EMPID=c.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				a.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="start_month">
+				a.YEARMONTH  <![CDATA[>=]]>
+				$start_month$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="end_month">
+				a.YEARMONTH  <![CDATA[<=]]>
+				$end_month$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				c.CODE like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				c.NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="empid">
+				c.empid = $empid$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="yearmonth">
+				a.YEARMONTH = $yearmonth$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="checkUnProcExceptionExists" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as COUNT
+		from adc_shift_exception
+		where proc_state = '2'
+		<dynamic>
+			<isNotEmpty prepend="AND" property="yearmonth">
+				DATE_FORMAT(EXCEPTION_DATE, '%Y%m') = $yearmonth$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+				deptid like "$deptid$%"
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!-- 报表生成的存储过程 -->
+	<parameterMap id="prcdto_cur" class="map">
+		<parameter property="p_yearmonth" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" /> <!-- 入参 -->
+		<parameter property="p_deptid" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="appCode" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="OUT" /> <!-- 执行代码 -->
+		<parameter property="errMsg" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="OUT" /> <!-- 出错信息 -->
+	</parameterMap>
+	<procedure id="f_make_report" parameterMap="prcdto_cur">{call
+		f_make_report(?, ?, ?, ?)}
+	</procedure>
+
+	<select id="queryAdcShiftReportPersonalMonthForPrint"
+		parameterClass="map" resultClass="dto">
+		select a.deptid, d.deptname, b.empid, b.code, b.name, (select
+		jobname from deptempl where empid=a.empid and deptid=a.deptid) as
+		jobname, max(if(DATE_FORMAT(sch_date, '%d')=1, a.shift_symbol, null))
+		field1, max(if(DATE_FORMAT(sch_date, '%d')=2, a.shift_symbol, null)) field2,
+		max(if(DATE_FORMAT(sch_date, '%d')=3, a.shift_symbol, null)) field3,
+		max(if(DATE_FORMAT(sch_date, '%d')=4, a.shift_symbol, null)) field4,
+		max(if(DATE_FORMAT(sch_date, '%d')=5, a.shift_symbol, null)) field5,
+		max(if(DATE_FORMAT(sch_date, '%d')=6, a.shift_symbol, null)) field6,
+		max(if(DATE_FORMAT(sch_date, '%d')=7, a.shift_symbol, null)) field7,
+		max(if(DATE_FORMAT(sch_date, '%d')=8, a.shift_symbol, null)) field8,
+		max(if(DATE_FORMAT(sch_date, '%d')=9, a.shift_symbol, null)) field9,
+		max(if(DATE_FORMAT(sch_date, '%d')=10, a.shift_symbol, null)) field10,
+		max(if(DATE_FORMAT(sch_date, '%d')=11, a.shift_symbol, null)) field11,
+		max(if(DATE_FORMAT(sch_date, '%d')=12, a.shift_symbol, null)) field12,
+		max(if(DATE_FORMAT(sch_date, '%d')=13, a.shift_symbol, null)) field13,
+		max(if(DATE_FORMAT(sch_date, '%d')=14, a.shift_symbol, null)) field14,
+		max(if(DATE_FORMAT(sch_date, '%d')=15, a.shift_symbol, null)) field15,
+		max(if(DATE_FORMAT(sch_date, '%d')=16, a.shift_symbol, null)) field16,
+		max(if(DATE_FORMAT(sch_date, '%d')=17, a.shift_symbol, null)) field17,
+		max(if(DATE_FORMAT(sch_date, '%d')=18, a.shift_symbol, null)) field18,
+		max(if(DATE_FORMAT(sch_date, '%d')=19, a.shift_symbol, null)) field19,
+		max(if(DATE_FORMAT(sch_date, '%d')=20, a.shift_symbol, null)) field20,
+		max(if(DATE_FORMAT(sch_date, '%d')=21, a.shift_symbol, null)) field21,
+		max(if(DATE_FORMAT(sch_date, '%d')=22, a.shift_symbol, null)) field22,
+		max(if(DATE_FORMAT(sch_date, '%d')=23, a.shift_symbol, null)) field23,
+		max(if(DATE_FORMAT(sch_date, '%d')=24, a.shift_symbol, null)) field24,
+		max(if(DATE_FORMAT(sch_date, '%d')=25, a.shift_symbol, null)) field25,
+		max(if(DATE_FORMAT(sch_date, '%d')=26, a.shift_symbol, null)) field26,
+		max(if(DATE_FORMAT(sch_date, '%d')=27, a.shift_symbol, null)) field27,
+		max(if(DATE_FORMAT(sch_date, '%d')=28, a.shift_symbol, null)) field28,
+		max(if(DATE_FORMAT(sch_date, '%d')=29, a.shift_symbol, null)) field29,
+		max(if(DATE_FORMAT(sch_date, '%d')=30, a.shift_symbol, null)) field30,
+		max(if(DATE_FORMAT(sch_date, '%d')=31, a.shift_symbol, null)) field31
+		from adc_shift_scheduling a, employee b, eadept d
+		where a.empid=b.empid and a.deptid=d.deptid
+		and DATE_FORMAT(SCH_DATE, '%Y%m') = #yearmonth#
+		and a.deptid like '$deptid$%'
+		group by a.deptid, d.deptname, b.empid, b.code, b.name 
+		order by a.deptid
+	</select>
+</sqlMap>

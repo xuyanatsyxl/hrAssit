@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<!-- 配置ActionFormBean -->
+	<form-beans> 
+		<!-- 公共Form -->  
+		<form-bean name="baseActionForm" type="org.g4studio.common.web.BaseActionForm" />  
+	</form-beans>
+
+	<!-- Action映射 -->
+	<action-mappings type="org.g4studio.core.mvc.xstruts.action.ActionMapping"> 
+	
+	
+	</action-mappings>
+
+</struts-config>

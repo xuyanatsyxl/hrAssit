@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="Empcard">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryEmpcardForManage" parameterClass="map" resultClass="dto">
+		select EMPID, CARDID, DZSJ
+		  from EMPCARD
+		 where 1=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="empid"> 
+									EMPID = #empid#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cardid"> 
+									CARDID ='$cardid$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="checkCardExists" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from EMPCARD where CARDID = #cardid#
+	</select>
+	
+	<select id="checkEmpExists" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from EMPCARD where EMPID = #empid#
+	</select>
+	
+	<insert id="saveEmpcardItem" parameterClass="dto">
+		insert into EMPCARD (EMPID, CARDID, DZSJ)
+		  values(#empid#, #cardid#, #dzsj#)
+	</insert>
+</sqlMap>

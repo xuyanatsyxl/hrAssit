@@ -1,0 +1,1174 @@
+/*!
+ * Ext JS Library 3.1.0
+ * Copyright(c) 2006-2009 Ext JS, LLC
+ * licensing@extjs.com
+ * http://www.extjs.com/license
+ */
+.ext-el-mask {
+    background-color: #ccc;
+}
+
+.ext-el-mask-msg {
+    border-color:#6593cf;
+    background-color:#c3daf9;
+    background-image:url(../images/default/box/tb-blue.gif);
+}
+.ext-el-mask-msg div {
+    background-color: #eee;
+    border-color:#a3bad9;
+    color:#222;
+    font:normal 11px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-mask-loading div {
+    background-color:#fbfbfb;
+    background-image:url(../images/default/grid/loading.gif);
+}
+
+.x-item-disabled {
+    color: gray;
+}
+
+.x-item-disabled * {
+    color: gray !important;
+}
+
+.x-splitbar-proxy {
+    background-color: #aaa;
+}
+
+.x-color-palette a {
+    border-color:#fff;
+}
+
+.x-color-palette a:hover, .x-color-palette a.x-color-palette-sel {
+    border-color:#8bb8f3;
+    background-color: #eaeaea;
+}
+
+.x-color-palette em:hover, .x-color-palette span:hover{   
+    background-color: #eaeaea;
+}
+
+.x-color-palette em {
+    border-color:#aca899;
+}
+
+.x-ie-shadow {
+    background-color:#777;
+}
+
+.x-shadow .xsmc {
+    background-image: url(../images/default/shadow-c.png);
+}
+
+.x-shadow .xsml, .x-shadow .xsmr {
+    background-image: url(../images/default/shadow-lr.png);
+}
+
+.x-shadow .xstl, .x-shadow .xstc,  .x-shadow .xstr, .x-shadow .xsbl, .x-shadow .xsbc, .x-shadow .xsbr{
+    background-image: url(../images/default/shadow.png);
+}
+
+.loading-indicator {
+    font-size: 11px;
+    background-image: url(../images/default/grid/loading.gif);
+}
+
+.x-spotlight {
+    background-color: #ccc;
+}
+
+.x-tab-panel-header, .x-tab-panel-footer {
+	background-color: #eaeaea;
+	border-color:#d0d0d0;
+    overflow:hidden;
+    zoom:1;
+}
+
+.x-tab-panel-header, .x-tab-panel-footer {
+	border-color:#d0d0d0;
+}
+
+ul.x-tab-strip-top{
+    background-color:#dbdbdb;
+	background-image: url(../images/gray/tabs/tab-strip-bg.gif);
+	border-bottom-color:#d0d0d0;
+}
+
+ul.x-tab-strip-bottom{
+    background-color:#dbdbdb;
+	background-image: url(../images/gray/tabs/tab-strip-btm-bg.gif);
+	border-top-color:#d0d0d0;
+}
+
+.x-tab-panel-header-plain .x-tab-strip-spacer,
+.x-tab-panel-footer-plain .x-tab-strip-spacer {
+    border-color:#d0d0d0;
+    background-color: #eaeaea;
+}
+
+.x-tab-strip span.x-tab-strip-text {
+	font:normal 11px tahoma,arial,helvetica;
+	color:#333;
+}
+
+.x-tab-strip-over span.x-tab-strip-text {
+	color:#111;
+}
+
+.x-tab-strip-active span.x-tab-strip-text {
+	color:#333;
+    font-weight:bold;
+}
+
+.x-tab-strip-disabled .x-tabs-text {
+	color:#aaaaaa;
+}
+
+.x-tab-strip-top .x-tab-right, .x-tab-strip-top .x-tab-left, .x-tab-strip-top .x-tab-strip-inner{
+	background-image: url(../images/gray/tabs/tabs-sprite.gif);
+}
+
+.x-tab-strip-bottom .x-tab-right {
+	background-image: url(../images/gray/tabs/tab-btm-inactive-right-bg.gif);
+}
+
+.x-tab-strip-bottom .x-tab-left {
+	background-image: url(../images/gray/tabs/tab-btm-inactive-left-bg.gif);
+}
+
+.x-tab-strip-bottom .x-tab-strip-active .x-tab-right {
+	background-image: url(../images/gray/tabs/tab-btm-right-bg.gif);
+}
+
+.x-tab-strip-bottom .x-tab-strip-active .x-tab-left {
+	background-image: url(../images/gray/tabs/tab-btm-left-bg.gif);
+}
+
+.x-tab-strip .x-tab-strip-closable a.x-tab-strip-close {
+	background-image:url(../images/gray/tabs/tab-close.gif);
+}
+
+.x-tab-strip .x-tab-strip-closable a.x-tab-strip-close:hover{
+	background-image:url(../images/gray/tabs/tab-close.gif);
+}
+
+.x-tab-panel-body {
+    border-color:#d0d0d0;
+    background-color:#fff;
+}
+
+.x-tab-panel-body-top {
+    border-top: 0 none;
+}
+
+.x-tab-panel-body-bottom {
+    border-bottom: 0 none;
+}
+
+.x-tab-scroller-left {
+    background-image:url(../images/gray/tabs/scroll-left.gif);
+    border-bottom-color:#d0d0d0;
+}
+
+.x-tab-scroller-left-over {
+    background-position: 0 0;
+}
+
+.x-tab-scroller-left-disabled {
+    background-position: -18px 0;
+    opacity:.5;
+    -moz-opacity:.5;
+    filter:alpha(opacity=50);
+    cursor:default;
+}
+
+.x-tab-scroller-right {
+    background-image:url(../images/gray/tabs/scroll-right.gif);
+    border-bottom-color:#d0d0d0;
+}
+
+.x-tab-panel-bbar .x-toolbar, .x-tab-panel-tbar .x-toolbar {
+    border-color:#d0d0d0;
+}
+.x-form-field{
+    font:normal 12px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-form-text, textarea.x-form-field{
+    background-color:#fff;
+    background-image:url(../images/default/form/text-bg.gif);
+    border-color:#b5b8c8;
+}
+
+.x-form-select-one {
+    background-color:#fff;
+    border-color:#b5b8c8;
+}
+
+.x-form-check-group-label {
+    border-bottom: 1px solid #d0d0d0;
+    color: #333;
+}
+
+.x-editor .x-form-check-wrap {
+    background-color:#fff;
+}
+
+.x-form-field-wrap .x-form-trigger{
+    background-image:url(../images/default/form/trigger.gif);
+    border-bottom-color:#b5b8c8;
+}
+
+.x-form-field-wrap .x-form-date-trigger{
+    background-image: url(../images/default/form/date-trigger.gif);
+}
+
+.x-form-field-wrap .x-form-clear-trigger{
+    background-image: url(../images/default/form/clear-trigger.gif);
+}
+
+.x-form-field-wrap .x-form-search-trigger{
+    background-image: url(../images/default/form/search-trigger.gif);
+}
+
+.x-trigger-wrap-focus .x-form-trigger{
+    border-bottom-color:#7eadd9;
+}
+
+.x-item-disabled .x-form-trigger-over{
+    border-bottom-color:#b5b8c8;
+}
+
+.x-item-disabled .x-form-trigger-click{
+    border-bottom-color:#b5b8c8;
+}
+
+.x-form-focus, textarea.x-form-focus{
+	border-color:#7eadd9;
+}
+
+.x-form-invalid, textarea.x-form-invalid{
+    background-color:#fff;
+	background-image:url(../images/default/grid/invalid_line.gif);
+	border-color:#c30;
+}
+
+.ext-webkit .x-form-invalid{
+	background-color:#fee;
+	border-color:#ff7870;
+}
+
+.x-form-inner-invalid, textarea.x-form-inner-invalid{
+    background-color:#fff;
+	background-image:url(../images/default/grid/invalid_line.gif);
+}
+
+.x-form-grow-sizer {
+	font:normal 12px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-form-item {
+    font:normal 12px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-form-invalid-msg {
+    color:#c0272b;
+    font:normal 11px tahoma, arial, helvetica, sans-serif;
+    background-image:url(../images/default/shared/warning.gif);
+}
+
+.x-form-empty-field {
+    color:gray;
+}
+
+.x-small-editor .x-form-field {
+    font:normal 11px arial, tahoma, helvetica, sans-serif;
+}
+
+.ext-webkit .x-small-editor .x-form-field {
+    font:normal 12px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-form-invalid-icon {
+    background-image:url(../images/default/form/exclamation.gif);
+}
+
+.x-fieldset {
+    border-color:#b5b8c8;
+}
+
+.x-fieldset legend {
+    font:bold 11px tahoma, arial, helvetica, sans-serif;
+    color:#15428B;
+}
+
+.x-btn{
+	font:normal 11px tahoma, verdana, helvetica;
+}
+
+.x-btn button{
+    font:normal 11px arial,tahoma,verdana,helvetica;
+    color:#333;
+}
+
+.x-btn em {
+    font-style:normal;
+    font-weight:normal;
+}
+
+.x-btn-tl, .x-btn-tr, .x-btn-tc, .x-btn-ml, .x-btn-mr, .x-btn-mc, .x-btn-bl, .x-btn-br, .x-btn-bc{
+	background-image:url(../images/default/button/btn.gif);
+}
+
+.x-btn-click .x-btn-text, .x-btn-menu-active .x-btn-text, .x-btn-pressed .x-btn-text{
+    color:#000;
+}
+
+.x-btn-disabled *{
+	color:gray !important;
+}
+
+.x-btn-mc em.x-btn-arrow {
+    background-image:url(../images/default/button/arrow.gif);
+}
+
+.x-btn-mc em.x-btn-split {
+    background-image:url(../images/default/button/s-arrow.gif);
+}
+
+.x-btn-over .x-btn-mc em.x-btn-split, .x-btn-click .x-btn-mc em.x-btn-split, .x-btn-menu-active .x-btn-mc em.x-btn-split, .x-btn-pressed .x-btn-mc em.x-btn-split {
+    background-image:url(../images/default/button/s-arrow-o.gif);
+}
+
+.x-btn-mc em.x-btn-arrow-bottom {
+    background-image:url(../images/default/button/s-arrow-b-noline.gif);
+}
+
+.x-btn-mc em.x-btn-split-bottom {
+    background-image:url(../images/default/button/s-arrow-b.gif);
+}
+
+.x-btn-over .x-btn-mc em.x-btn-split-bottom, .x-btn-click .x-btn-mc em.x-btn-split-bottom, .x-btn-menu-active .x-btn-mc em.x-btn-split-bottom, .x-btn-pressed .x-btn-mc em.x-btn-split-bottom {
+    background-image:url(../images/default/button/s-arrow-bo.gif);
+}
+
+.x-btn-group-header {
+    color: #666;
+}
+
+.x-btn-group-tc {
+	background-image: url(../images/gray/button/group-tb.gif);
+}
+
+.x-btn-group-tl {
+	background-image: url(../images/gray/button/group-cs.gif);
+}
+
+.x-btn-group-tr {
+	background-image: url(../images/gray/button/group-cs.gif);
+}
+
+.x-btn-group-bc {
+	background-image: url(../images/gray/button/group-tb.gif);
+}
+
+.x-btn-group-bl {
+	background-image: url(../images/gray/button/group-cs.gif);
+}
+
+.x-btn-group-br {
+	background-image: url(../images/gray/button/group-cs.gif);
+}
+
+.x-btn-group-ml {
+	background-image: url(../images/gray/button/group-lr.gif);
+}
+.x-btn-group-mr {
+	background-image: url(../images/gray/button/group-lr.gif);
+}
+
+.x-btn-group-notitle .x-btn-group-tc {
+	background-image: url(../images/gray/button/group-tb.gif);
+}
+.x-toolbar{
+	border-color:#d0d0d0;
+    background-color:#f0f0f0;
+    background-image:url(../images/gray/toolbar/bg.gif);
+}
+
+.x-toolbar td,.x-toolbar span,.x-toolbar input,.x-toolbar div,.x-toolbar select,.x-toolbar label{
+    font:normal 11px arial,tahoma, helvetica, sans-serif;
+}
+
+.x-toolbar .x-item-disabled {
+	color:gray;
+}
+
+.x-toolbar .x-item-disabled * {
+	color:gray;
+}
+
+.x-toolbar .x-btn-mc em.x-btn-split {
+    background-image:url(../images/default/button/s-arrow-noline.gif);
+}
+
+.x-toolbar .x-btn-over .x-btn-mc em.x-btn-split, .x-toolbar .x-btn-click .x-btn-mc em.x-btn-split, 
+.x-toolbar .x-btn-menu-active .x-btn-mc em.x-btn-split, .x-toolbar .x-btn-pressed .x-btn-mc em.x-btn-split 
+{
+    background-image:url(../images/default/button/s-arrow-o.gif);
+}
+
+.x-toolbar .x-btn-mc em.x-btn-split-bottom {
+    background-image:url(../images/default/button/s-arrow-b-noline.gif);
+}
+
+.x-toolbar .x-btn-over .x-btn-mc em.x-btn-split-bottom, .x-toolbar .x-btn-click .x-btn-mc em.x-btn-split-bottom, 
+.x-toolbar .x-btn-menu-active .x-btn-mc em.x-btn-split-bottom, .x-toolbar .x-btn-pressed .x-btn-mc em.x-btn-split-bottom 
+{
+    background-image:url(../images/default/button/s-arrow-bo.gif);
+}
+
+.x-toolbar .xtb-sep {
+	background-image: url(../ext/resources/images/default/grid/grid-split.gif);
+}
+
+.x-tbar-page-first{
+	background-image: url(../images/default/grid/page-first.gif) !important;
+}
+
+.x-tbar-loading{
+	background-image: url(../images/default/grid/refresh.gif) !important;
+}
+
+.x-tbar-page-last{
+	background-image: url(../images/default/grid/page-last.gif) !important;
+}
+
+.x-tbar-page-next{
+	background-image: url(../images/default/grid/page-next.gif) !important;
+}
+
+.x-tbar-page-prev{
+	background-image: url(../images/default/grid/page-prev.gif) !important;
+}
+
+.x-item-disabled .x-tbar-loading{
+	background-image: url(../images/default/grid/loading.gif) !important;
+}
+
+.x-item-disabled .x-tbar-page-first{
+	background-image: url(../images/default/grid/page-first-disabled.gif) !important;
+}
+
+.x-item-disabled .x-tbar-page-last{
+	background-image: url(../images/default/grid/page-last-disabled.gif) !important;
+}
+
+.x-item-disabled .x-tbar-page-next{
+	background-image: url(../images/default/grid/page-next-disabled.gif) !important;
+}
+
+.x-item-disabled .x-tbar-page-prev{
+	background-image: url(../images/default/grid/page-prev-disabled.gif) !important;
+}
+
+.x-paging-info {
+    color:#444;
+}
+
+.x-toolbar-more-icon {
+    background-image: url(../images/gray/toolbar/more.gif) !important;
+}
+
+.x-statusbar .x-status-busy {
+    background-image: url(../images/default/grid/loading.gif);
+}
+
+.x-statusbar .x-status-text-panel {
+    border-color: #d0d0d0 #fff #fff #d0d0d0;
+}
+.x-resizable-handle {
+	background-color:#fff;
+}
+
+.x-resizable-over .x-resizable-handle-east, .x-resizable-pinned .x-resizable-handle-east,
+.x-resizable-over .x-resizable-handle-west, .x-resizable-pinned .x-resizable-handle-west
+{
+    background-image:url(../images/default/sizer/e-handle.gif);
+}
+
+.x-resizable-over .x-resizable-handle-south, .x-resizable-pinned .x-resizable-handle-south,
+.x-resizable-over .x-resizable-handle-north, .x-resizable-pinned .x-resizable-handle-north
+{
+    background-image:url(../images/default/sizer/s-handle.gif);
+}
+
+.x-resizable-over .x-resizable-handle-north, .x-resizable-pinned .x-resizable-handle-north{
+    background-image:url(../images/default/sizer/s-handle.gif);
+}
+.x-resizable-over .x-resizable-handle-southeast, .x-resizable-pinned .x-resizable-handle-southeast{
+    background-image:url(../images/default/sizer/se-handle.gif);
+}
+.x-resizable-over .x-resizable-handle-northwest, .x-resizable-pinned .x-resizable-handle-northwest{
+    background-image:url(../images/default/sizer/nw-handle.gif);
+}
+.x-resizable-over .x-resizable-handle-northeast, .x-resizable-pinned .x-resizable-handle-northeast{
+    background-image:url(../images/default/sizer/ne-handle.gif);
+}
+.x-resizable-over .x-resizable-handle-southwest, .x-resizable-pinned .x-resizable-handle-southwest{
+    background-image:url(../images/default/sizer/sw-handle.gif);
+}
+.x-resizable-proxy{
+    border-color:#3b5a82;
+}
+.x-resizable-overlay{
+    background-color:#fff;
+}
+
+.x-grid3 {
+    background-color:#fff;
+}
+
+.x-grid-panel .x-panel-mc .x-panel-body {
+    border-color:#d0d0d0;
+}
+
+.x-grid3-hd-row td, .x-grid3-row td, .x-grid3-summary-row td{
+	font:normal 11px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-grid3-hd-row td {
+    border-left-color:#eee;
+    border-right-color:#d0d0d0;
+}
+
+.x-grid-row-loading {
+    background-color: #fff;
+    background-image:url(../images/default/shared/loading-balls.gif);
+}
+
+.x-grid3-row {
+    border-color:#ededed;
+    border-top-color:#fff;
+}
+
+.x-grid3-row-alt{
+	background-color:#fafafa;
+}
+
+.x-grid3-row-over {
+	border-color:#ddd;
+    background-color:#efefef;
+    background-image:url(../images/default/grid/row-over.gif);
+}
+
+.x-grid3-resize-proxy {
+    background-color:#777;
+}
+
+.x-grid3-resize-marker {
+    background-color:#777;
+}
+
+.x-grid3-header{
+    background-color:#f9f9f9;
+	background-image:url(../images/default/grid/grid3-hrow.gif);
+}
+
+.x-grid3-header-pop {
+    border-left-color:#d0d0d0;
+}
+
+.x-grid3-header-pop-inner {
+    border-left-color:#eee;
+    background-image:url(../images/default/grid/hd-pop.gif);
+}
+
+td.x-grid3-hd-over, td.sort-desc, td.sort-asc, td.x-grid3-hd-menu-open {
+    border-left-color:#aaccf6;
+    border-right-color:#aaccf6;
+}
+
+td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-asc .x-grid3-hd-inner, td.x-grid3-hd-menu-open .x-grid3-hd-inner {
+    background-color:#ebf3fd;
+    background-image:url(../images/default/grid/grid3-hrow-over.gif);
+
+}
+
+.sort-asc .x-grid3-sort-icon {
+	background-image: url(../images/default/grid/sort_asc.gif);
+}
+
+.sort-desc .x-grid3-sort-icon {
+	background-image: url(../images/default/grid/sort_desc.gif);
+}
+
+.x-grid3-cell-text, .x-grid3-hd-text {
+	color:#000;
+}
+
+.x-grid3-split {
+	background-image: url(../images/default/grid/grid-split.gif);
+}
+
+.x-grid3-hd-text {
+	color:#333;
+}
+
+.x-dd-drag-proxy .x-grid3-hd-inner{
+    background-color:#ebf3fd;
+	background-image:url(../images/default/grid/grid3-hrow-over.gif);
+	border-color:#aaccf6;
+}
+
+.col-move-top{
+	background-image:url(../images/default/grid/col-move-top.gif);
+}
+
+.col-move-bottom{
+	background-image:url(../images/default/grid/col-move-bottom.gif);
+}
+
+.x-grid3-row-selected {
+	background-color: #dfe8f6 !important;
+	background-image: none;
+	border-color:#a3bae9;
+}
+
+.x-grid3-cell-selected{
+	background-color: #b8cfee !important;
+	color:#000;
+}
+
+.x-grid3-cell-selected span{
+	color:#000 !important;
+}
+
+.x-grid3-cell-selected .x-grid3-cell-text{
+	color:#000;
+}
+
+.x-grid3-locked td.x-grid3-row-marker, .x-grid3-locked .x-grid3-row-selected td.x-grid3-row-marker{
+    background-color:#ebeadb !important;
+    background-image:url(../images/default/grid/grid-hrow.gif) !important;
+    color:#000;
+    border-top-color:#fff;
+    border-right-color:#6fa0df !important;
+}
+
+.x-grid3-locked td.x-grid3-row-marker div, .x-grid3-locked .x-grid3-row-selected td.x-grid3-row-marker div{
+    color:#333 !important;
+}
+
+.x-grid3-dirty-cell {
+    background-image:url(../images/default/grid/dirty.gif);
+}
+
+.x-grid3-topbar, .x-grid3-bottombar{
+	font:normal 11px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-grid3-bottombar .x-toolbar{
+	border-top-color:#a9bfd3;
+}
+
+.x-props-grid .x-grid3-td-name .x-grid3-cell-inner{
+	background-image:url(../images/default/grid/grid3-special-col-bg.gif) !important;
+    color:#000 !important;
+}
+
+.x-props-grid .x-grid3-body .x-grid3-td-name{
+    background-color:#fff !important;
+    border-right-color:#eee;
+}
+
+.xg-hmenu-sort-asc .x-menu-item-icon{
+	background-image: url(../images/default/grid/hmenu-asc.gif);
+}
+
+.xg-hmenu-sort-desc .x-menu-item-icon{
+	background-image: url(../images/default/grid/hmenu-desc.gif);
+}
+
+.xg-hmenu-lock .x-menu-item-icon{
+	background-image: url(../images/default/grid/hmenu-lock.gif);
+}
+
+.xg-hmenu-unlock .x-menu-item-icon{
+	background-image: url(../images/default/grid/hmenu-unlock.gif);
+}
+
+.x-grid3-hd-btn {
+    background-color:#c3daf9;
+    background-image:url(../images/default/grid/grid3-hd-btn.gif);
+}
+
+.x-grid3-body .x-grid3-td-expander {
+    background-image:url(../images/default/grid/grid3-special-col-bg.gif);
+}
+
+.x-grid3-row-expander {
+    background-image:url(../images/default/grid/row-expand-sprite.gif);
+}
+
+.x-grid3-body .x-grid3-td-checker {
+    background-image: url(../images/default/grid/grid3-special-col-bg.gif);
+}
+
+.x-grid3-row-checker, .x-grid3-hd-checker {
+    background-image:url(../images/default/grid/row-check-sprite.gif);
+}
+
+.x-grid3-body .x-grid3-td-numberer {
+    background-image:url(../images/default/grid/grid3-special-col-bg.gif);
+}
+
+.x-grid3-body .x-grid3-td-numberer .x-grid3-cell-inner {
+	color:#444;
+}
+
+.x-grid3-body .x-grid3-td-row-icon {
+    background-image:url(../images/default/grid/grid3-special-col-bg.gif);
+}
+
+.x-grid3-body .x-grid3-row-selected .x-grid3-td-numberer,
+.x-grid3-body .x-grid3-row-selected .x-grid3-td-checker,
+.x-grid3-body .x-grid3-row-selected .x-grid3-td-expander {
+	background-image:url(../images/default/grid/grid3-special-col-sel-bg.gif);
+}
+
+.x-grid3-check-col {
+	background-image:url(../images/default/menu/unchecked.gif);
+}
+
+.x-grid3-check-col-on {
+	background-image:url(../images/default/menu/checked.gif);
+}
+
+.x-grid-group, .x-grid-group-body, .x-grid-group-hd {
+    zoom:1;
+}
+
+.x-grid-group-hd {
+    border-bottom-color:#d0d0d0;
+}
+
+.x-grid-group-hd div.x-grid-group-title {
+    background-image:url(../images/default/grid/group-collapse.gif);
+    color:#3764a0;
+    font:bold 11px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-grid-group-collapsed .x-grid-group-hd div.x-grid-group-title {
+    background-image:url(../images/default/grid/group-expand.gif);
+}
+
+.x-group-by-icon {
+    background-image:url(../images/default/grid/group-by.gif);
+}
+
+.x-cols-icon {
+    background-image:url(../images/default/grid/columns.gif);
+}
+
+.x-show-groups-icon {
+    background-image:url(../images/default/grid/group-by.gif);
+}
+
+.x-grid-empty {
+    color:gray;
+    font:normal 11px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-grid-with-col-lines .x-grid3-row td.x-grid3-cell {
+    border-right-color:#ededed;
+}
+
+.x-grid-with-col-lines .x-grid3-row{
+    border-top-color:#ededed;
+}
+
+.x-grid-with-col-lines .x-grid3-row-selected {
+	border-top-color:#a3bae9;
+}
+.x-dd-drag-ghost{
+	color:#000;
+	font: normal 11px arial, helvetica, sans-serif;
+    border-color: #ddd #bbb #bbb #ddd;
+	background-color:#fff;
+}
+
+.x-dd-drop-nodrop .x-dd-drop-icon{
+  background-image: url(../images/default/dd/drop-no.gif);
+}
+
+.x-dd-drop-ok .x-dd-drop-icon{
+  background-image: url(../images/default/dd/drop-yes.gif);
+}
+
+.x-dd-drop-ok-add .x-dd-drop-icon{
+  background-image: url(../images/default/dd/drop-add.gif);
+}
+
+.x-view-selector {
+    background-color:#c3daf9;
+    border-color:#3399bb;
+}
+.x-tree-node-expanded .x-tree-node-icon{
+	background-image:url(../images/default/tree/folder-open.gif);
+}
+
+.x-tree-node-leaf .x-tree-node-icon{
+	background-image:url(../images/default/tree/leaf.gif);
+}
+
+.x-tree-node-collapsed .x-tree-node-icon{
+	background-image:url(../images/default/tree/folder.gif);
+}
+
+.x-tree-node-loading .x-tree-node-icon{
+	background-image:url(../images/default/tree/loading.gif) !important;
+}
+
+.x-tree-node .x-tree-node-inline-icon {
+    background-image: none;
+}
+
+.x-tree-node-loading a span{
+	 font-style: italic;
+	 color:#444444;
+}
+
+.ext-ie .x-tree-node-el input {
+    width:15px;
+    height:15px;
+}
+
+.x-tree-lines .x-tree-elbow{
+	background-image:url(../images/default/tree/elbow.gif);
+}
+
+.x-tree-lines .x-tree-elbow-plus{
+	background-image:url(../images/default/tree/elbow-plus.gif);
+}
+
+.x-tree-lines .x-tree-elbow-minus{
+	background-image:url(../images/default/tree/elbow-minus.gif);
+}
+
+.x-tree-lines .x-tree-elbow-end{
+	background-image:url(../images/default/tree/elbow-end.gif);
+}
+
+.x-tree-lines .x-tree-elbow-end-plus{
+	background-image:url(../images/default/tree/elbow-end-plus.gif);
+}
+
+.x-tree-lines .x-tree-elbow-end-minus{
+	background-image:url(../images/default/tree/elbow-end-minus.gif);
+}
+
+.x-tree-lines .x-tree-elbow-line{
+	background-image:url(../images/default/tree/elbow-line.gif);
+}
+
+.x-tree-no-lines .x-tree-elbow-plus{
+	background-image:url(../images/default/tree/elbow-plus-nl.gif);
+}
+
+.x-tree-no-lines .x-tree-elbow-minus{
+	background-image:url(../images/default/tree/elbow-minus-nl.gif);
+}
+
+.x-tree-no-lines .x-tree-elbow-end-plus{
+	background-image:url(../images/default/tree/elbow-end-plus-nl.gif);
+}
+
+.x-tree-no-lines .x-tree-elbow-end-minus{
+	background-image:url(../images/default/tree/elbow-end-minus-nl.gif);
+}
+
+.x-tree-arrows .x-tree-elbow-plus{
+    background-image:url(../images/default/tree/arrows.gif);
+}
+
+.x-tree-arrows .x-tree-elbow-minus{
+    background-image:url(../images/default/tree/arrows.gif);
+}
+
+.x-tree-arrows .x-tree-elbow-end-plus{
+    background-image:url(../images/default/tree/arrows.gif);
+}
+
+.x-tree-arrows .x-tree-elbow-end-minus{
+    background-image:url(../images/default/tree/arrows.gif);
+}
+
+.x-tree-node{
+	color:#000;
+	font: normal 11px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-tree-node a, .x-dd-drag-ghost a{
+	color:#000;
+}
+
+.x-tree-node a span, .x-dd-drag-ghost a span{
+	color:#000;
+}
+
+.x-tree-node .x-tree-node-disabled a span{
+	color:gray !important;
+}
+
+.x-tree-node div.x-tree-drag-insert-below{
+ 	 border-bottom-color:#36c;
+}
+
+.x-tree-node div.x-tree-drag-insert-above{
+	 border-top-color:#36c;
+}
+
+.x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-below a{
+ 	 border-bottom-color:#36c;
+}
+
+.x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-above a{
+	 border-top-color:#36c;
+}
+
+.x-tree-node .x-tree-drag-append a span{
+	 background-color:#ddd;
+	 border-color:gray;
+}
+
+.x-tree-node .x-tree-node-over {
+	background-color: #eee;
+}
+
+.x-tree-node .x-tree-selected {
+	background-color: #d9e8fb;
+}
+
+.x-tree-drop-ok-append .x-dd-drop-icon{
+  background-image: url(../images/default/tree/drop-add.gif);
+}
+
+.x-tree-drop-ok-above .x-dd-drop-icon{
+  background-image: url(../images/default/tree/drop-over.gif);
+}
+
+.x-tree-drop-ok-below .x-dd-drop-icon{
+  background-image: url(../images/default/tree/drop-under.gif);
+}
+
+.x-tree-drop-ok-between .x-dd-drop-icon{
+  background-image: url(../images/default/tree/drop-between.gif);
+}
+.x-date-picker {
+    border-color: #1b376c;
+    background-color:#fff;
+}
+
+.x-date-middle,.x-date-left,.x-date-right {
+	background-image: url(../images/default/shared/hd-sprite.gif);
+	color:#fff;
+	font:bold 11px "sans serif", tahoma, verdana, helvetica;
+}
+
+.x-date-middle .x-btn .x-btn-text {
+    color:#fff;
+}
+
+.x-date-middle .x-btn-mc em.x-btn-arrow {
+    background-image:url(../images/gray/toolbar/btn-arrow-light.gif);
+}
+
+.x-date-right a {
+    background-image: url(../images/default/shared/right-btn.gif);
+}
+
+.x-date-left a{
+	background-image: url(../images/default/shared/left-btn.gif);
+}
+
+.x-date-inner th {
+    background-color:#dfecfb;
+    background-image:url(../images/default/shared/glass-bg.gif);
+	border-bottom-color:#a3bad9;
+    font:normal 10px arial, helvetica,tahoma,sans-serif;
+	color:#233d6d;
+}
+
+.x-date-inner td {
+    border-color:#fff;
+}
+
+.x-date-inner a {
+    font:normal 11px arial, helvetica,tahoma,sans-serif;
+    color:#000;
+}
+
+.x-date-inner .x-date-active{
+	color:#000;
+}
+
+.x-date-inner .x-date-selected a{
+    background-color:#dfecfb;
+	background-image:url(../images/default/shared/glass-bg.gif);
+	border-color:#8db2e3;
+}
+
+.x-date-inner .x-date-today a{
+	border-color:darkred;
+}
+
+.x-date-inner .x-date-selected span{
+    font-weight:bold;
+}
+
+.x-date-inner .x-date-prevday a,.x-date-inner .x-date-nextday a {
+	color:#aaa;
+}
+
+.x-date-bottom {
+    border-top-color:#a3bad9;
+    background-color:#dfecfb;
+    background-image:url(../images/default/shared/glass-bg.gif);
+}
+
+.x-date-inner a:hover, .x-date-inner .x-date-disabled a:hover{
+    coonSet.annotationNavigation</tags>
+          <tags>persp.actionSet:org.eclipse.ui.edit.text.actionSet.navigation</tags>
+          <tags>persp.actionSet:org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo</tags>
+          <tags>persp.actionSet:org.eclipse.ui.externaltools.ExternalToolsSet</tags>
+          <tags>persp.actionSet:org.eclipse.ui.actionSet.keyBindings</tags>
+          <tags>persp.actionSet:org.eclipse.ui.actionSet.openFiles</tags>
+          <tags>persp.actionSet:org.eclipse.wb.core.ui.actionset</tags>
+          <tags>persp.actionSet:org.eclipse.debug.ui.launchActionSet</tags>
+          <tags>persp.actionSet:org.eclipse.jdt.ui.JavaActionSet</tags>
+          <tags>persp.actionSet:org.eclipse.jdt.ui.JavaElementCreationActionSet</tags>
+          <tags>persp.actionSet:org.eclipse.ui.NavigateActionSet</tags>
+          <tags>persp.viewSC:org.eclipse.jdt.ui.PackageExplorer</tags>
+          <tags>persp.viewSC:org.eclipse.jdt.ui.TypeHierarchy</tags>
+          <tags>persp.viewSC:org.eclipse.jdt.ui.SourceView</tags>
+          <tags>persp.viewSC:org.eclipse.jdt.ui.JavadocView</tags>
+          <tags>persp.viewSC:org.eclipse.search.ui.views.SearchView</tags>
+          <tags>persp.viewSC:org.eclipse.ui.console.ConsoleView</tags>
+          <tags>persp.viewSC:org.eclipse.ui.views.ContentOutline</tags>
+          <tags>persp.viewSC:org.eclipse.ui.views.ProblemView</tags>
+          <tags>persp.viewSC:org.eclipse.ui.views.ResourceNavigator</tags>
+          <tags>persp.viewSC:org.eclipse.ui.views.TaskList</tags>
+          <tags>persp.viewSC:org.eclipse.ui.views.ProgressView</tags>
+          <tags>persp.viewSC:org.eclipse.ui.navigator.ProjectExplorer</tags>
+          <tags>persp.viewSC:org.eclipse.ui.texteditor.TemplatesView</tags>
+          <tags>persp.viewSC:org.eclipse.pde.runtime.LogView</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.JavaProjectWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.NewPackageCreationWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.NewClassCreationWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.NewInterfaceCreationWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.NewEnumCreationWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.NewAnnotationCreationWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.NewSourceFolderCreationWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.NewSnippetFileCreationWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.ui.wizards.NewJavaWorkingSetWizard</tags>
+          <tags>persp.newWizSC:org.eclipse.ui.wizards.new.folder</tags>
+          <tags>persp.newWizSC:org.eclipse.ui.wizards.new.file</tags>
+          <tags>persp.newWizSC:org.eclipse.ui.editors.wizards.UntitledTextFileWizard</tags>
+          <tags>persp.perspSC:org.eclipse.jdt.ui.JavaBrowsingPerspective</tags>
+          <tags>persp.perspSC:org.eclipse.debug.ui.DebugPerspective</tags>
+          <tags>persp.viewSC:org.eclipse.ant.ui.views.AntView</tags>
+          <tags>persp.showIn:org.eclipse.egit.ui.RepositoriesView</tags>
+          <tags>persp.actionSet:org.eclipse.debug.ui.breakpointActionSet</tags>
+          <tags>persp.actionSet:org.eclipse.jdt.debug.ui.JDTDebugActionSet</tags>
+          <tags>persp.newWizSC:org.eclipse.jdt.junit.wizards.NewTestCaseCreationWizard</tags>
+          <tags>persp.actionSet:org.eclipse.jdt.junit.JUnitActionSet</tags>
+          <tags>persp.showIn:org.eclipse.jdt.ui.PackageExplorer</tags>
+          <tags>persp.showIn:org.eclipse.team.ui.GenericHistoryView</tags>
+          <tags>persp.showIn:org.eclipse.ui.views.ResourceNavigator</tags>
+          <tags>persp.showIn:org.eclipse.ui.navigator.ProjectExplorer</tags>
+          <tags>persp.viewSC:org.eclipse.mylyn.tasks.ui.views.tasks</tags>
+          <tags>persp.newWizSC:org.eclipse.mylyn.tasks.ui.wizards.new.repository.task</tags>
+          <tags>persp.viewSC:org.eclipse.wb.core.StructureView</tags>
+          <tags>persp.viewSC:org.eclipse.wb.core.PaletteView</tags>
+          <tags>persp.perspSC:org.eclipse.wst.jsdt.ui.JavaPerspective</tags>
+          <tags>persp.actionSet:org.eclipse.debug.ui.debugActionSet</tags>
+          <tags>persp.actionSet:org.eclipse.rse.core.search.searchActionSet</tags>
+          <tags>persp.actionSet:org.zeroturnaround.eclipse.remoting.SyncNowToolbarActions</tags>
+          <children xsi:type="basic:PartSashContainer" xmi:id="_M2XqNRMbEeW-DN4GHMJcjQ" selectedElement="_M2XqNhMbEeW-DN4GHMJcjQ" horizontal="true">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_M2XqNhMbEeW-DN4GHMJcjQ" containerData="1903" selectedElement="_M2XqNxMbEeW-DN4GHMJcjQ">
+              <children xsi:type="basic:PartStack" xmi:id="_M2XqNxMbEeW-DN4GHMJcjQ" elementId="left" containerData="6000" selectedElement="_M2XqOBMbEeW-DN4GHMJcjQ">
+                <tags>newtablook</tags>
+                <tags>org.eclipse.e4.primaryNavigationStack</tags>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqOBMbEeW-DN4GHMJcjQ" elementId="org.eclipse.jdt.ui.PackageExplorer" ref="_M2XrwxMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqORMbEeW-DN4GHMJcjQ" elementId="org.eclipse.jdt.ui.TypeHierarchy" toBeRendered="false" ref="_M2XsPBMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqOhMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.views.ResourceNavigator" toBeRendered="false" ref="_M2XsPRMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqOxMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.navigator.ProjectExplorer" toBeRendered="false" ref="_M2XsPhMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqPBMbEeW-DN4GHMJcjQ" elementId="org.eclipse.jdt.junit.ResultView" toBeRendered="false" ref="_M2g0yhMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqPRMbEeW-DN4GHMJcjQ" elementId="org.eclipse.wb.core.StructureView" toBeRendered="false" ref="_M2g1aBMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqPhMbEeW-DN4GHMJcjQ" elementId="org.eclipse.wb.core.PaletteView" toBeRendered="false" ref="_M2g1aRMbEeW-DN4GHMJcjQ"/>
+              </children>
+              <children xsi:type="basic:PartStack" xmi:id="_M2XqPxMbEeW-DN4GHMJcjQ" elementId="org.eclipse.egit.ui.RepositoriesViewMStack" toBeRendered="false" containerData="4000">
+                <tags>newtablook</tags>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqQBMbEeW-DN4GHMJcjQ" elementId="org.eclipse.egit.ui.RepositoriesView" toBeRendered="false" ref="_M2XtRhMbEeW-DN4GHMJcjQ"/>
+              </children>
+            </children>
+            <children xsi:type="basic:PartSashContainer" xmi:id="_M2XqQRMbEeW-DN4GHMJcjQ" containerData="8097" selectedElement="_M2XqSxMbEeW-DN4GHMJcjQ">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_M2XqQhMbEeW-DN4GHMJcjQ" containerData="4212" selectedElement="_M2XqQxMbEeW-DN4GHMJcjQ" horizontal="true">
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqQxMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.editorss" containerData="7151" ref="_M2XrwRMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="basic:PartSashContainer" xmi:id="_M2XqRBMbEeW-DN4GHMJcjQ" containerData="2849" selectedElement="_M2XqRRMbEeW-DN4GHMJcjQ">
+                  <children xsi:type="basic:PartStack" xmi:id="_M2XqRRMbEeW-DN4GHMJcjQ" elementId="org.eclipse.mylyn.tasks.ui.views.tasksMStack" containerData="5000" selectedElement="_M2XqRhMbEeW-DN4GHMJcjQ">
+                    <tags>newtablook</tags>
+                    <children xsi:type="advanced:Placeholder" xmi:id="_M2XqRhMbEeW-DN4GHMJcjQ" elementId="org.eclipse.mylyn.tasks.ui.views.tasks" ref="_M2g0zhMbEeW-DN4GHMJcjQ"/>
+                  </children>
+                  <children xsi:type="basic:PartStack" xmi:id="_M2XqRxMbEeW-DN4GHMJcjQ" elementId="right" containerData="5000" selectedElement="_M2XqSBMbEeW-DN4GHMJcjQ">
+                    <tags>newtablook</tags>
+                    <tags>org.eclipse.e4.secondaryNavigationStack</tags>
+                    <children xsi:type="advanced:Placeholder" xmi:id="_M2XqSBMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.views.ContentOutline" ref="_M2XsvBMbEeW-DN4GHMJcjQ"/>
+                    <children xsi:type="advanced:Placeholder" xmi:id="_M2XqSRMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.texteditor.TemplatesView" toBeRendered="false" ref="_M2XtRBMbEeW-DN4GHMJcjQ"/>
+                    <children xsi:type="advanced:Placeholder" xmi:id="_M2XqShMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ant.ui.views.AntView" toBeRendered="false" ref="_M2XtRRMbEeW-DN4GHMJcjQ"/>
+                  </children>
+                </children>
+              </children>
+              <children xsi:type="basic:PartStack" xmi:id="_M2XqSxMbEeW-DN4GHMJcjQ" elementId="bottom" containerData="5788" selectedElement="_M2XqWBMbEeW-DN4GHMJcjQ">
+                <tags>newtablook</tags>
+                <tags>org.eclipse.e4.secondaryDataStack</tags>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqTBMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.views.ProblemView" ref="_M2XsQhMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqTRMbEeW-DN4GHMJcjQ" elementId="org.eclipse.jdt.ui.JavadocView" ref="_M2XsfRMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqThMbEeW-DN4GHMJcjQ" elementId="org.eclipse.jdt.ui.SourceView" ref="_M2XsgRMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqTxMbEeW-DN4GHMJcjQ" elementId="org.eclipse.search.ui.views.SearchView" toBeRendered="false" ref="_M2XshxMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqUBMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.views.BookmarkView" toBeRendered="false" ref="_M2XsuhMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqURMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.views.ProgressView" toBeRendered="false" ref="_M2XsuxMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqUhMbEeW-DN4GHMJcjQ" elementId="org.eclipse.ui.console.ConsoleView" ref="_M2XsiBMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqUxMbEeW-DN4GHMJcjQ" elementId="org.eclipse.team.sync.views.SynchronizeView" toBeRendered="false" ref="_M2g1kRMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqVBMbEeW-DN4GHMJcjQ" elementId="org.tigris.subversion.subclipse.ui.conflicts.TreeConflictsView" toBeRendered="false" ref="_M2g2VBMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqVRMbEeW-DN4GHMJcjQ" elementId="org.eclipse.debug.ui.DebugView" ref="_M2g1zhMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqVhMbEeW-DN4GHMJcjQ" elementId="org.eclipse.debug.ui.VariableView" ref="_M2g2BRMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqVxMbEeW-DN4GHMJcjQ" elementId="org.eclipse.debug.ui.BreakpointView" ref="_M2g2HhMbEeW-DN4GHMJcjQ"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_M2XqWBMbEeW-DN4GHMJcjQ" elementId="org.eclipse.team.ui.GenericHistoryView" ref="_M2g1dxMbEeW-DN4GHMJcjQ"/>
+              </children>
+            </children>
+          </children>
+        </children>
+        <children xsi:type="advanced:Perspective" xmi:id="_M2XqWRMbEeW-DN4GHMJcjQ" elementId="com.spket.xpc.perspective" selectedElement="_M2XqWhMbEeW-DN4GHMJcjQ" label="Spket IDE" iconURI="platform:/plugin/com.spket.js/icons/full/view16/spket.gif">
+          <persistedState key="persp.hiddenItems" value="persp.hideToolbarSC:org.eclipse.debug.ui.commands.RunToLine,persp.hideToolbarSC:org.eclipse.jdt.ui.actions.OpenProjectWizard,persp.hideToolbarSC:org.eclipse.ui.edit.text.toggleShowSelectedElementOnly,"/>
+          <tags>persp.actionSet:org.eclipse.mylyn.doc.actionSet</tags>
+          <tags>persp.actionSet:org.eclipse.mylyn.tasks.ui.navigation</tags>
+          <tags>persp.actionSet:org.eclipse.ui.cheatsheets.actionSet</tags>
+          <tags>persp.actionSet:org.eclipse.search.searchActionSet</tags>
+          <tags>persp.actionSet:org.eclipse.ui.edit.text.actionSet.annotationNavigation</tags>
+          <tags>persp.actionSet:org.eclipse.ui.edit.text.actionSet.navigation</tags>
+          <tags>persp.actionSet:org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo</tags>
+          <tags>persp.actionSet:org.eclipse.ui.externaltools.ExternalToolsSet</tags>
+          <tags>persp.actionSet:org.eclipse.ui.actionSet.keyBindings</tags>
+          <tags>persp.actionSet:org.eclipse.ui.actionSet.openFiles</tags>
+          <tags>persp.actionSet:org.eclipse.wb.core.ui.actionset</tags>
+          <tags>persp.newWizSC:org.eclipse.ui.wizards.new.file</tags>
+          <tags>persp.newWizSC:org.eclipse.ui.wizards.new.folder</tags>
+          <tags>persp.showIn:org.eclipse.ui.navigator.ProjectExplorer</tags>
+          <tags>persp.viewSC:org.eclipse.ui.navigator.ProjectExplorer</tags>
+          <tags>persp.viewSC:org.eclipse.ui.views.ContentOutline</tags>
+          <tags>persp.viewSC:org.eclipse.ui.views.PropertySheet</tags>
+          <tags>persp.viewSC:org.eclipse.ui.v

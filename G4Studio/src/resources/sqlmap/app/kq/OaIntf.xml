@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="OaIntf">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryOaIntfItemFormManage" parameterClass="map"
+		resultClass="dto">
+		select id, c.DEPTID, c.DEPTNAME, b.code, b.name, c.jobname,
+		DATE_FORMAT(CONCAT(KSRQ, ' '
+		,KSSJ, ':00'), '%Y-%m-%d %H:%i:%S') AS
+		KSSJ, requestid, txrcode,
+		DATE_FORMAT(CONCAT(JSRQ, ' ' ,JSSJ, ':00'),
+		'%Y-%m-%d %H:%i:%S') AS
+		JSSJ, WORKCODE, CLBZ, CLLX, (select TYPE_NAME
+		from adc_attend_type
+		where BUS_CODE=CLLX) ADC_NAME, days, txrcode, a.remark
+		from
+		oa_intf a, employee
+		b, deptempl c
+		where a.WORKCODE=b.CODE and
+		b.EMPID=c.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="requestid">
+				requestid =
+				"$requestid$""
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				c.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cllx">
+				a.cllx = "$cllx$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="clbz">
+				a.clbz = "$clbz$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code = "$code$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like "%$name$%"
+			</isNotEmpty>
+			<!-- 很复杂的日期选择，感谢张海 -->
+			<isNotEmpty prepend="and" property="start_date">
+			    <isEmpty property="end_date">
+			       (a.KSRQ <![CDATA[<=]]> '$start_date$' and a.JSRQ <![CDATA[>=]]> '$start_date$') 
+			    </isEmpty>
+			    <isNotEmpty  property="end_date">
+			        ((a.KSRQ <![CDATA[<=]]> '$start_date$' and a.JSRQ <![CDATA[>=]]> '$start_date$') or (a.KSRQ <![CDATA[<=]]> '$end_date$' and a.JSRQ <![CDATA[>=]]> '$end_date$') or ('$start_date$' <![CDATA[<=]]> a.KSRQ and '$end_date$' <![CDATA[>=]]> a.JSRQ))
+			    </isNotEmpty>
+			</isNotEmpty>
+			<isEmpty prepend="and" property="start_date">
+			    <isNotEmpty  property="end_date">
+			        (a.KSRQ <![CDATA[<=]]> '$end_date$' and a.JSRQ <![CDATA[>=]]> '$end_date$')
+			    </isNotEmpty>
+			</isEmpty>
+
+		</dynamic>
+	</select>
+
+	<select id="queryOaIntfItemFormManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from oa_intf a, employee
+		b, deptempl c
+		where
+		a.WORKCODE=b.CODE and
+		b.EMPID=c.EMPID
+		<dynamic>
+			<isNotEmpty prepend="and" property="requestid">
+				requestid =
+				"$requestid$""
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				c.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cllx">
+				a.cllx = "$cllx$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="clbz">
+				a.clbz = "$clbz$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="code">
+				b.code = "$code$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like "%$name$%"
+			</isNotEmpty>
+			<!-- 很复杂的日期选择，感谢张海 -->
+			<isNotEmpty prepend="and" property="start_date">
+			    <isEmpty property="end_date">
+			       (a.KSRQ <![CDATA[<=]]> '$start_date$' and a.JSRQ <![CDATA[>=]]> '$start_date$') 
+			    </isEmpty>
+			    <isNotEmpty  property="end_date">
+			        ((a.KSRQ <![CDATA[<=]]> '$start_date$' and a.JSRQ <![CDATA[>=]]> '$start_date$') or (a.KSRQ <![CDATA[<=]]> '$end_date$' and a.JSRQ <![CDATA[>=]]> '$end_date$') or ('$start_date$' <![CDATA[<=]]> a.KSRQ and '$end_date$' <![CDATA[>=]]> a.JSRQ))
+			    </isNotEmpty>
+			</isNotEmpty>
+			<isEmpty prepend="and" property="start_date">
+			    <isNotEmpty  property="end_date">
+			        (a.KSRQ <![CDATA[<=]]> '$end_date$' and a.JSRQ <![CDATA[>=]]> '$end_date$')
+			    </isNotEmpty>
+			</isEmpty>
+
+			
+		</dynamic>
+	</select>
+
+
+</sqlMap>

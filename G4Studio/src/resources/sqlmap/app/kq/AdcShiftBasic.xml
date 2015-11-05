@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftBasic">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftBasicItemForManage" parameterClass="map"
+		resultClass="dto">
+		select shift_id, basic_shift_name, a.deptid, b.DEPTNAME, work_time,
+		off_time, shift_type,
+		a.remark, a.operator,
+		(select username
+		from eauser
+		where userid=a.operator) operator_name,
+		a.operate_time,
+		interval_start_time, interval_end_time,
+		adc_id,
+		c.type_name
+		from
+		adc_shift_basic a, adc_attend_type c,
+		eadept b
+		where
+		a.deptid=b.deptid
+		and a.adc_id=c.type_id
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="basic_shift_name">
+				a.basic_shift_name like
+				"%$basic_shift_name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="shift_id">
+				a.shift_id =
+				"$shift_id$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.basic_shift_name
+				like '%$queryParam$%' or a.shift_id like '$queryParam$%')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftBasicItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from adc_shift_basic a, eadept b
+		where
+		a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="basic_shift_name">
+				a.basic_shift_name like
+				"%$basic_shift_name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="shift_id">
+				a.shift_id =
+				"$shift_id$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.basic_shift_name
+				like '%$queryParam$%' or a.shift_id like '$queryParam$%')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftBasicItem" parameterClass="dto">
+		insert into
+		adc_shift_basic (shift_id, basic_shift_name, deptid, work_time,
+		off_time, shift_type, remark, operator, operate_time,
+		adc_id,
+		interval_start_time, interval_end_time)
+		values(#shift_id#,
+		#basic_shift_name#, #deptid#, #work_time#,
+		#off_time#, #shift_type#,
+		#remark#, #operator#,
+		#operate_time#,
+		#adc_id#, #interval_start_time#,
+		#interval_end_time#)
+	</insert>
+
+	<update id="updateAdcShiftBasicItem" parameterClass="dto">
+		update adc_shift_basic
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="shift_id">
+				shift_id = #shift_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="basic_shift_name">
+				basic_shift_name =
+				#basic_shift_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				deptid = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="work_time">
+				work_time = #work_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="off_time">
+				off_time = #off_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shift_type">
+				shift_type = #shift_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operator">
+				operator = #operator#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="operate_time">
+				operate_time =
+				#operate_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="adc_id">
+				adc_id = #adc_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="interval_start_time">
+				interval_start_time = #interval_start_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="interval_end_time">
+				interval_end_time = #interval_end_time#
+			</isNotEmpty>
+		</dynamic>
+		where shift_id = #shift_id#
+	</update>
+
+	<delete id="deleteAdcShiftBasicItem" parameterClass="map">
+		delete from
+		adc_shift_basic where shift_id = #shift_id#
+	</delete>
+
+	<select id="checkAdcShiftBasicInUsed" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count from adc_shift_pattern_detail
+		where shift_id = #shift_id#
+	</select>
+
+	<select id="queryAdcShiftBasicItemForList" parameterClass="map"
+		resultClass="dto">
+		select shift_id, basic_shift_name, work_time, off_time, shift_type,
+		adc_id, c.type_name
+		from adc_shift_basic a, adc_attend_type c
+		where
+		a.adc_id=c.type_id
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="basic_shift_name">
+				a.basic_shift_name like
+				"%$basic_shift_name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="shift_id">
+				a.shift_id =
+				"$shift_id$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.basic_shift_name
+				like '%$queryParam$%' or a.shift_id like '$queryParam$%')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftBasicItemForListForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from adc_shift_basic a, adc_attend_type c
+		where a.adc_id=c.type_id
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				"$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="basic_shift_name">
+				a.basic_shift_name like
+				"%$basic_shift_name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="shift_id">
+				a.shift_id =
+				"$shift_id$"
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.basic_shift_name
+				like '%$queryParam$%' or a.shift_id like '$queryParam$%')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

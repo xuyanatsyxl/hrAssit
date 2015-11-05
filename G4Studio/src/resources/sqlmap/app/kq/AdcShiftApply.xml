@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftApply">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftApplyItemForManage" parameterClass="map"
+		resultClass="dto">
+		select APPLY_ID, RECORD_TYPE, DEPTID, hr_getfulldeptname(DEPTID) DEPTNAME,
+		GROUP_ID, (SELECT GROUP_NAME FROM ADC_SHIFT_GROUP WHERE
+		GROUP_ID=A.GROUP_ID) GROUP_NAME,
+		A.EMPID, B.CODE, B.NAME AS EMPNAME,
+		PATTERN_ID,
+		(select PATTERN_SHIFT_NAME FROM adc_shift_pattern WHERE PATTERN_ID=A.PATTERN_ID)
+		PATTERN_SHIFT_NAME, PRIORITY, ENABLED
+		from
+		ADC_SHIFT_APPLY A LEFT JOIN employee B
+		ON
+		A.EMPID=B.EMPID
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="deptid">
+				DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pattern_id">
+				pattern_id = $pattern_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_id">
+				SHIFT_ID = '$shift_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="apply_type">
+				APPLY_TYPE = '$apply_type$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftApplyItemForManageForPageCount" parameterClass="map"
+		resultClass="java.lang.Integer">
+		select count(*) as count
+		from
+		ADC_SHIFT_APPLY A LEFT JOIN employee B
+		ON
+		A.EMPID=B.EMPID
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="deptid">
+				DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pattern_id">
+				pattern_id = $pattern_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_id">
+				SHIFT_ID = '$shift_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="apply_type">
+				APPLY_TYPE = '$apply_type$'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftApplyItem" parameterClass="dto">
+		insert into	ADC_SHIFT_APPLY(RECORD_TYPE, DEPTID
+		<dynamic>
+			<isNotEmpty prepend="," property="group_id">
+				GROUP_ID
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+				EMPID
+			</isNotEmpty>		
+		</dynamic>
+		, PATTERN_ID, PRIORITY, ENABLED)
+		values(#record_type#, #deptid# 
+		<dynamic>
+			<isNotEmpty prepend="," property="group_id">
+				#group_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+				#empid#
+			</isNotEmpty>			
+		</dynamic>
+		, #pattern_id#,	#priority#, #enabled#)
+	</insert>
+
+	<update id="updateAdcShiftApply" parameterClass="dto">
+		update ADC_SHIFT_APPLY
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="apply_type">
+				APPLY_TYPE = #apply_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="group_id">
+				GROUP_ID = #group_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+				EMPID = #empid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="pattern_id">
+				pattern_id = #pattern_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="priority">
+				"priority" = #"priority"#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="enabled">
+				ENABLED = #enabled#
+			</isNotEmpty>
+		</dynamic>
+		where APPLY_ID = #apply_id#
+	</update>
+
+	<delete id="deleteAdcShiftApplyItems" parameterClass="map">
+		delete from
+		ADC_SHIFT_APPLY where apply_id = #apply_id#
+	</delete>
+	
+	<!-- 检查有无排班记录 -->
+	<select id="checkExistsApply" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from Adc_Shift_Apply where APPLY_ID = #apply_id#
+	</select>
+	
+	<!-- 检查有无排班记录 -->
+	<select id="checkRecordExists" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from Adc_Shift_Record where APPLY_ID = #apply_id#
+	</select>
+	
+	<!-- 读排班的优先级 -->
+	<select id="getCodeSortno" parameterClass="map" resultClass="java.lang.String">
+		select SORTNO from eacode where field = "RECORD_TYPE" and code = #code# 
+	</select>
+</sqlMap>

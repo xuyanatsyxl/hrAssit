@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcAttendType">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcAttendTypeItemForManage" parameterClass="map"
+		resultClass="dto">
+		select TYPE_ID, TYPE_NAME, BUS_CODE, TYPE_TYPE, SORT_NO, SYMBOL,
+		ENABLED
+		from
+		ADC_ATTEND_TYPE
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="type_name">
+				TYPE_NAME like
+				"%$type_name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="type_id">
+				TYPE_ID like
+				"$type_id$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="adc_id">
+				TYPE_ID = "$adc_id$"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="level">
+				char_length(TYPE_ID) =
+				2 * $level$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="type_type">
+				type_type =
+				'$type_type$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enabled">
+				enabled = $enabled$
+			</isNotEmpty>
+		</dynamic>
+		order by sort_no
+	</select>
+
+	<select id="queryAdcAttendTypeItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from
+		ADC_ATTEND_TYPE
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="type_name">
+				TYPE_NAME like
+				"%$type_name$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="type_id">
+				TYPE_ID like
+				"$type_id$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="adc_id">
+				TYPE_ID = "$adc_id$"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="level">
+				char_length(TYPE_ID) =
+				2 * $level$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="type_type">
+				type_type =
+				'$type_type$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enabled">
+				enabled = $enabled$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcAttendTypeItem" parameterClass="dto">
+		insert into
+		ADC_ATTEND_TYPE (TYPE_ID, TYPE_NAME, BUS_CODE, TYPE_TYPE, SORT_NO,
+		ENABLED, SYMBOL)
+		values
+		(#type_id#, #type_name#, #bus_code#,
+		#type_type#, #sort_no#, #enabled#, #symbol#)
+	</insert>
+
+	<update id="updateAdcAttendTypeItem" parameterClass="dto">
+		update ADC_ATTEND_TYPE
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="type_id">
+				TYPE_ID = #type_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="type_name">
+				TYPE_NAME = #type_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bus_code">
+				BUS_CODE = #bus_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sort_no">
+				SORT_NO = #sort_no#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="enabled">
+				ENABLED = #enabled#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="type_type">
+				TYPE_TYPE = #"type_type"#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="symbol">
+				symbol = #symbol#
+			</isNotEmpty>
+		</dynamic>
+		where TYPE_ID=#type_id#
+	</update>
+
+	<delete id="deleteAttendTypeItem" parameterClass="map">
+		delete from
+		ADC_ATTEND_TYPE where TYPE_ID=#type_id#
+	</delete>
+</sqlMap>

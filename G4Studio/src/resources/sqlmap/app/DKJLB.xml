@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="DKJLB">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryDkjlbForManage" parameterClass="map" resultClass="dto">
+	   select DKJID, DKJMC, DEVSN, DEPTID, (select DEPTNAME from eadept where DEPTID=a.DEPTID) DEPTNAME, 
+	          DKJXH, DKLX, IP, BZ, QYBZ
+	     from DKJLB a
+	    where 1=1
+		<dynamic>  
+			<isNotEmpty prepend="AND" property="dkjid">
+	    		DKJID like '$dkjid$%'
+			</isNotEmpty>		
+			<isNotEmpty prepend="AND" property="devsn">
+	    		DEVSN like '$devsn$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dkjmc">
+	    		DKJMC like '$dkjmc$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+	    		DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ip">
+	    		IP like '$ip$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dklx">
+	    		DKLX = '$dklx$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				IP like '$queryParam$%' or DEVSN like '%$queryParam$%' 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryDkjlbForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+	   select count(*) as count
+	     from DKJLB
+	    where 1=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="dkjid">
+	    		DKJID like '$dkjid$%'
+			</isNotEmpty>		
+			<isNotEmpty prepend="AND" property="devsn">
+	    		DEVSN like '$devsn$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dkjmc">
+	    		DKJMC like '$dkjmc$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+	    		DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ip">
+	    		IP like '$ip$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dklx">
+	    		DKLX = '$dklx$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				IP like '$queryParam$%' or DEVSN like '%$queryParam$%' 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="saveDkjlbItem" parameterClass="dto">
+		insert into DKJLB (DKJID, DEVSN, DKJMC, DEPTID, DKJXH, DKLX, IP, QYBZ, BZ) 
+		   values (#dkjid#, #devsn#, #dkjmc#, #deptid#, #dkjxh#, #dklx#, #ip#, #qybz#, #bz#)
+	</insert>
+	
+	<update id="updateDkjlbItem" parameterClass="dto">
+		update DKJLB
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="dkjid">
+	         DKJID = #dkjid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="devsn">
+	         DEVSN = #devsn#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="dkjmc">
+	         DKJMC = #dkjmc#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+	         DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="dkjxh">
+	         DKJXH = #dkjxh#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="dklx">
+	         DKLX = #dklx#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ip">
+	         IP = #ip#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bz">
+	         BZ = #bz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="qybz">
+	         QYBZ = #qybz#
+			</isNotEmpty>
+		</dynamic>
+		where DKJID = #dkjid#	
+	</update>
+	
+	<delete id="deleteDkjlbItem" parameterClass="map">
+		delete from DKJLB where DKJID = #dkjid#
+	</delete>
+	
+	<select id="checkIpExits" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from DKJLB where IP = #ip#
+	</select>
+	
+	<select id="checkDevsnExists" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count from DKJLB where DEVSN = #devsn#
+	</select>
+	
+	<select id="getDkjidByDevsn" parameterClass="map" resultClass="dto">
+		select DKJID, DKLX, DEPTID from DKJLB where DEVSN = #devsn#
+	</select>
+</sqlMap>

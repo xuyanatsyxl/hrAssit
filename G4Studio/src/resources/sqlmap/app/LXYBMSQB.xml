@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="LXYBMSQB">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryLxybmsqbForManage" parameterClass="map" resultClass="dto">
+		SELECT A.RYID,	A.RYBH, A.XM, A.FULLNAME,	A.XB,	A.CSRQ,	A.SG,	A.MZ,	A.YWBS,	A.TZ,	A.CSD, A.ZJXY,
+	    	   A.HKSZD, A.HKXZ, A.SFZH, A.ZZMM, A.HYZK, A.ZGXL, A.XLXZ, A.JZFS,A.LXSJ, A.LXZD, A.JZMJ, A.XZJ,	A.LT, A.JJLXR,	A.JJLXRZD,A.JDRQ,
+	       	   A.JJLXRSJ, A.BZ,	A.JDRQ,	A.DQZT,	A.JDR,  (SELECT USERNAME FROM EAUSER WHERE USERID=A.JDR) JDRM
+     	 FROM LXYBMSQB A
+        where A.DQZT='1' 
+		<dynamic> 			
+			<isNotEmpty prepend="AND" property="XM"> 
+									A.XM like '%$XM$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="LXSJ"> 
+									A.LXSJ like '$LXSJ$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="SFZH"> 
+									A.SFZH like '%$SFZH$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    A.XM like '%$queryParam$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ksrq">
+			A.JDRQ  <![CDATA[>=]]> #ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jsrq">
+			A.JDRQ  <![CDATA[<=]]> #jsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jdr">
+									A.jdr=#jdr#			
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="njdr">				
+									A.jdr!=#njdr#
+		    </isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="queryLxybmsqbForExcel" parameterClass="map" resultClass="dto">
+		SELECT A.RYID,	A.RYBH, A.XM, A.FULLNAME, (case A.XB when 1 then '男' when '2' then '女' end ) XB,	A.CSRQ,	A.SG,	A.MZ,	A.YWBS,	A.TZ,	A.CSD, A.ZJXY,
+	    	   A.HKSZD, A.HKXZ, A.SFZH, A.ZZMM, A.HYZK, A.ZGXL, A.XLXZ, A.JZFS,A.LXSJ, A.LXZD, A.JZMJ, A.XZJ,	A.LT, A.JJLXR,	A.JJLXRZD,A.JDRQ,
+	       	   A.JJLXRSJ, A.BZ,	A.JDRQ,	A.DQZT,	A.JDR,  (SELECT USERNAME FROM EAUSER WHERE USERID=A.JDR) JDRM
+     	 FROM LXYBMSQB A
+        where A.DQZT='1' 
+		<dynamic> 
+			
+			<isNotEmpty prepend="AND" property="XM"> 
+									A.XM like '%$XM$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="LXSJ"> 
+									A.LXSJ like '$LXSJ$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="SFZH"> 
+									A.SFZH like '%$SFZH$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    A.XM like '%$queryParam$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ksrq">
+			A.JDRQ  <![CDATA[>=]]> #ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jsrq">
+			A.JDRQ  <![CDATA[<=]]> #jsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jdr">
+									A.jdr=#jdr#			
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="njdr">				
+									A.jdr!=#njdr#
+		    </isNotEmpty>
+		</dynamic>
+	</select>
+	<select  id="queryLxydelete" parameterClass="map" resultClass="dto">
+		select RYID,XM,DQZT FROM LXYBMSQB WHERE RYID=#ryid#		
+	</select>
+	
+	<select id="queryLxybmsqbForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+     	 FROM LXYBMSQB A
+        where A.DQZT='1'  
+		<dynamic>
+			<isNotEmpty prepend="AND" property="DQZT"> 
+									A.DQZT = #DQZT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="XM"> 
+									A.XM like '%$XM$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="SFZH"> 
+									A.SFZH like '%$SFZH$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    A.XM like '%$queryParam$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ksrq">
+			a.JDRQ  <![CDATA[>=]]> #ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jsrq">
+			a.JDRQ  <![CDATA[<=]]> #jsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="jdr">
+									A.jdr=#jdr#			
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="njdr">				
+									A.jdr!=#njdr#
+		    </isNotEmpty>
+		</dynamic>	 
+	</select>
+	
+	<select id="checkIDCardUpdate" parameterClass="dto" resultClass="java.lang.Integer">
+		select count(*) as count from LXYBMSQB where SFZH = #sfzh#  
+	    <isNotEmpty prepend="and" property="ryid">
+		 RYID <![CDATA[ <> ]]> #ryid#
+	    </isNotEmpty>
+	</select>
+	
+	<insert id="saveLxybmsqbItem" parameterClass="dto">
+    	insert into LXYBMSQB (RYID, RYBH, XM, FULLNAME, XB, CSRQ, SG, MZ, YWBS, TZ,	CSD, ZJXY, HKSZD, HKXZ,SFZH, ZZMM, HYZK, ZGXL, XLXZ, JZFS, LXSJ, LXZD, 
+		                      JZMJ,	XZJ, LT, JJLXR, JJLXRZD, JJLXRSJ, BZ, JDRQ, DQZT, JDR)
+    	      values (#ryid#, #rybh#, #xm#, #fullname#, #xb#, #csrq#, #sg#, #mz#, #ywbs#, #tz#, #csd#, #zjxy#, #hkszd#, #hkxz#, #sfzh#, #zzmm#, #hyzk#, 
+    	              #zgxl#, #xlxz#, #jzfs#, #lxsj#, #lxzd#, #jzmj#, #xzj#, #lt#, #jjlxr#, #jjlxrzd#, #jjlxrsj#, #bz#, #jdrq#, #dqzt#, #jdr#)
+	</insert>
+    
+    
+	<update id="updateLxybmsqbItem" parameterClass="dto">
+    	update LXYBMSQB
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="ryid">
+	         RYID = #ryid#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="rybh">
+	         RYBH = #rybh#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xm">
+	         XM = #xm#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xb">
+	         XB = #xb#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="csrq">
+	         CSRQ = #csrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sg">
+	         SG = #sg#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="mz">
+	         MZ = #mz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ywbs">
+	         YWBS = #ywbs#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="tz">
+	         TZ = #tz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="csd">
+	         CSD = #csd#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zjxy">
+	         ZJXY = #zjxy#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hkszd">
+	         HKSZD = #hkszd#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hkxz">
+	         HKXZ = #hkxz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sfzh">
+	         SFZH = #sfzh#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zzmm">
+	         ZZMM = #zzmm#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="hyzk">
+	         HYZK = #hyzk#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zgxl">
+	         ZGXL = #zgxl#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xlxz">
+	         XLXZ = #xlxz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jzfs">
+	         JZFS = #jzfs#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lxsj">
+	         LXSJ = #lxsj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lxzd">
+	         LXZD = #lxzd#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jzmj">
+	         JZMJ = #jzmj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xzj">
+	         XZJ = #xzj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lt">
+	         LT = #lt#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jjlxr">
+	         JJLXR = #jjlxr#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jjlxrzd">
+	         JJLXRZD = #jjlxrzd#
+			</isNotEmpty>		
+			<isNotEmpty prepend="," property="jjlxrsj">
+	         JJLXRSJ = #jjlxrsj#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bz">
+	         BZ = #bz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="dqzt">
+	         DQZT = #dqzt#
+			</isNotEmpty>						
+		</dynamic>	
+		where RYID = #ryid#
+	</update>
+	
+	<delete id="deleteLxybmsqbItem" parameterClass="map">
+		delete from LXYBMSQB where RYID = #ryid#;
+		
+	</delete>
+	<delete id="deleteLxybmsqbJyItem" parameterClass="map">
+		delete from LXYBMSQB_JY where OID = #oid#
+	</delete>
+	<select id="queryLxybmsqbJyForManage" parameterClass="map" resultClass="dto">
+		select OID, RYID, SD, KSRQ, JSRQ, BYYX, ZY 
+		  from LXYBMSQB_JY where RYID = #ryid#
+	</select>
+	
+	<select id="queryLxybmsqbJyForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select COUNT(*) as count
+		  from LXYBMSQB_JY where RYID = #ryid#
+	</select>
+	<select id="querylxyjyOID" parameterClass="map" resultClass="java.lang.Integer">
+		select max(OID) as oid from LXYBMSQB_JY 
+	</select>
+	<insert id="saveLxybmsqbJyItem" parameterClass="map">
+		insert into LXYBMSQB_JY ( OID,RYID, SD, KSRQ, JSRQ, BYYX, ZY) values (#oid#,#ryid#, #sd#, #ksrq#, #jsrq#, #byyx#, #zy#)
+	</insert>
+	
+	<update id="updateLxybmsqbJyItem" parameterClass="dto">
+		update LXYBMSQB_JY
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="ryid">
+	         RYID = #ryid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sd">
+	         SD = #sd#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ksrq">
+	         KSRQ = #ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jsrq">
+	         JSRQ = #jsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="byyx">
+	         BYYX = #byyx#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zy">
+	         ZY = #zy#
+			</isNotEmpty>			
+		</dynamic>
+		where OID=#oid#
+	</update>
+	
+	<select id="queryLxybmsqbdqztIshmd" parameterClass="map" resultClass="java.lang.String">
+		select dqzt from lxybmsqb where ryid=#ryid#	
+		
+	</select>
+	
+	<!--联销员报名申请报(外部工作经历)-->
+	<select id="queryLxybmsqbWbForManage" parameterClass="map" resultClass="dto">
+		select OID, RYID, KSRQ, JSRQ, GZDW, ZW, XZ, KJBX, HTQX, LZYY, ZMR, ZMRZW
+		  from LXYBMSQB_WB where RYID = #ryid#
+	</select>
+	
+	<select id="queryLxybmsqbWbForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		  from LXYBMSQB_WB where RYID = #ryid#
+	</select>
+	<insert id="saveLxybmsqbWbItem" parameterClass="map">
+		insert into LXYBMSQB_WB (OID, RYID, KSRQ, JSRQ, GZDW, ZW, XZ, KJBX, HTQX, LZYY, ZMR, ZMRZW) 
+		   values (#oid#, #ryid#, #ksrq#, #jsrq#, #gzdw#, #zw#, #xz#, #kjbx#, #htqx#, #lzyy#, #zmr#, #zmrzw#)
+	</insert>
+	
+	<select id="querylxyWBOID" parameterClass="map" resultClass="java.lang.Integer">
+		select max(OID) as oid from LXYBMSQB_WB 
+	</select>
+	<update id="updateLxybmsqbWbItem" parameterClass="dto">
+		update LXYBMSQB_WB
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="ksrq">
+				KSRQ = #ksrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="jsrq">
+				JSRQ = #jsrq#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="gzdw">
+				GZDW = #gzdw#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zw">
+				ZW = #zw#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="xz">
+				XZ = #xz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="kjbx">
+				KJBX = #kjbx#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="htqx">
+				HTQX = #htqx#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lzyy">
+				LZYY = #lzyy#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zmr">
+				ZMR = #zmr#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zmrzw">
+				ZMRZW = #zmrzw#
+			</isNotEmpty>
+		</dynamic>
+		where OID = #oid#
+	</update>
+	
+	<delete id="deleteLxybmsqbWbItem" parameterClass="map">
+		delete from LXYBMSQB_WB where OID = #oid#
+	</delete>
+	<select id="queryLxybmsqbJJForManage" parameterClass="map" resultClass="dto">
+		select  oid,ryid,jjxm,jjcsrq,jjsfzh,jjdw,jjybrgx,jjxzz,JJLXFS from lxybmsqb_jj where ryid=#ryid#
+	</select>
+	<select  id="queryLxybmsqbJJForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) from lxybmsqb_jj where ryid=#ryid#		
+		
+	</select>
+	<delete id="deleteLxybmsqbJJItem" parameterClass="map">
+		delete from lxybmsqb_jj where oid=#oid#	
+	</delete>
+	<insert id="saveLxybmsqbJJItem" parameterClass="map">
+		insert into lxybmsqb_jj (RYID,JJXM,JJCSRQ,JJSFZH,JJDW,JJYBRGX,JJXZZ,JJLXFS) values (#ryid#,#jjxm#,#jjcsrq#,#jjsfzh#,#jjdw#,#jjybrgx#,#jjxzz#,#jjlxfs#)		
+	</insert>
+	<update id="updateLxybmsqbJJItem" parameterClass="dto">
+		update lxybmsqb_jj
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="ryid">
+				RYID = #ryid#
+			</isNotEmpty>			
+			<isNotEmpty prepend="," property="jjxm">
+				JJXM = #jjxm#
+			</isNotEmpty>			
+			<isNotEmpty prepend="," property="jjcsrq">
+				JJCSRQ = #jjcsrq#
+			</isNotEmpty>			
+			<isNotEmpty prepend="," property="jjsfzh">
+				JJSFZH = #jjsfzh#
+			</isNotEmpty>			
+			<isNotEmpty prepend="," property="jjdw">
+				JJDW = #jjdw#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="," property="jjybrgx">
+				JJYBRGX = #jjybrgx#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="," property="jjxzz">
+				JJXZZ = #jjxzz#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="," property="jjlxfs">
+				JJLXFS=#jjlxfs#				
+			</isNotEmpty>
+		</dynamic>
+		where OID=#oid#
+	</update>
+	<select id="deptCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		  from eadept where deptid = #deptid#
+	</select>
+	
+	
+</sqlMap>

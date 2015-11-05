@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<!-- 业务系统的SQL映射文件装载 -->
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" />
+	<sqlMap resource="sqlmap/app/LXYBMSQB.xml" />
+	<sqlMap resource="sqlmap/app/LXYBDJL.xml" />
+	<sqlMap resource="sqlmap/app/LXYHMD.xml" />
+	<sqlMap resource="sqlmap/app/LXYBD.xml" />
+	<sqlMap resource="sqlmap/app/BMLXY.xml" />
+	<sqlMap resource="sqlmap/app/LXYReport.xml" />
+	<sqlMap resource="sqlmap/app/Templet.xml" />
+	<sqlMap resource="sqlmap/app/Empcard.xml" />
+	<sqlMap resource="sqlmap/app/DKJLB.xml" />
+	<sqlMap resource="sqlmap/app/EMPLOYEE.xml" />
+	<sqlMap resource="sqlmap/app/Deptempl.xml" />
+	<sqlMap resource="sqlmap/app/Zbzw.xml" />
+	<sqlMap resource="sqlmap/app/DKJL.xml" />
+	<sqlMap resource="sqlmap/app/KQBC_JL.xml" />
+	<sqlMap resource="sqlmap/app/KPDA.xml" />
+	<sqlMap resource="sqlmap/app/KPDJ.xml" />
+	<sqlMap resource="sqlmap/app/KPJL.xml" />
+	<sqlMap resource="sqlmap/app/WDKYY.xml" />
+
+	<sqlMap resource="sqlmap/app/kq/OaIntf.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcAttendType.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcHoliday.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcReportPersonMonth.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShift.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftApply.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftScheduling.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftGroup.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftRecord.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftBasic.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftPattern.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftException.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftLeave.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcOvertime.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcDinnerRoom.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcDinnerRoomUnit.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftUpload.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftMeals.xml" />
+	<sqlMap resource="sqlmap/app/kq/AdcShiftDuty.xml" />	
+</sqlMapConfig>

@@ -1,0 +1,30 @@
+:Base FinalData.hlp
+:Title FinalData Enterprise 2.0
+1 Preface
+2 Preface=HID_PREFACE
+2 User Registration and Support=HID_REGISTER
+2 Introduction to FinalData=HID_INTRO
+1 Install / Uninstall
+2 Before Installing FinalData=HID_BEFOREINSTALL
+2 System Environments=HID_REQUIREMENTS
+2 Installaing FinalData=HID_INSTALL
+2 Uninstalling FinalData=HID_UNINSTALL
+1 General Data Recovery Procedure
+2 Launching FinalData=HID_LAUNCH
+2 Open=HID_OPEN
+2 Directory Scan=HID_DIRSCAN
+2 Cluster Scanning=HID_CLUSCAN
+2 Finding Data to Recover=HID_FIND
+2 Recovery=HID_RECOVER
+1 Other Useful Function
+2 Preferenc Settings=HID_PREFERENCE
+2 File Preview=HID_PREVIEW
+2 File Viewer=HID_FILEVIEWER
+2 Save File System Information=HID_FSINFO
+1 Drive Management
+2 What is Drive Management?=HID_DRIVEMGR
+2 File Delete Manager=HID_DDMGR
+2 Folder Protection=HID_DP
+2 Exceptions=HID_EXCEPTION
+2 Disk Log Manager=HID_LOGMGR
+2 

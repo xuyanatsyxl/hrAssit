@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="HR">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryHremplForManage" parameterClass="map" resultClass="dto">
+		SELECT C_EMPLOYEEID, C_CODE, C_NAME, C_GENDER as XB, C_ORGCODE, C_ORGNAME, C_UNITNAME, C_JOBNAME, C_IDCARD, C_DYZBZW
+  		  FROM TB_INF_EMPLOYEE
+		where C_EMPLOYEESTATUS in (2, 11)
+		<dynamic> 
+			<isNotEmpty prepend="AND" property="c_code"> 
+									C_CODE = '$c_code$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_name"> 
+									C_NAME like '%$c_name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_orgname"> 
+									C_ORGNAME like '%$c_orgname$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_idcard"> 
+									C_IDCARD ='$c_idcard$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_jobname"> 
+				                    C_JOBNAME like '%$c_jobname$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_unitname"> 
+				                    C_UNITNAME like '%$c_unitname$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="empid"> 
+				                    C_EMPLOYEEID = $empid$ 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryHremplForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT count(*) as count
+  		  FROM TB_INF_EMPLOYEE
+		where C_EMPLOYEESTATUS in (2, 11)
+		<dynamic> 
+			<isNotEmpty prepend="AND" property="c_code"> 
+									C_CODE = '$c_code$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_name"> 
+									C_NAME like '%$c_name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_orgname"> 
+									C_ORGNAME like '%$c_orgname$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_idcard"> 
+									C_IDCARD ='$c_idcard$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_jobname"> 
+				                    C_JOBNAME like '%$c_jobname$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="c_unitname"> 
+				                    C_UNITNAME like '%$c_unitname$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="empid"> 
+				                    C_EMPLOYEEID = $empid$ 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+</sqlMap>

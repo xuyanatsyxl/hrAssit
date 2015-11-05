@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcDinnerRoom">
+
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	<typeAlias alias="dkjVo" type="org.infotechdept.hr.kq.web.tag.vo.DkjVo"/>
+	
+	<select id="queryAdcDinnerRoomItemForManage" parameterClass="map" resultClass="dto">
+	 	select a.ROOM_ID, a.ROOM_NAME, a.DEPTID, b.DEPTNAME, a.REMARK
+		  from adc_dinner_room a, eadept b
+         where a.DEPTID=b.DEPTID
+         <dynamic>
+         	<isNotEmpty prepend="and" property="deptid">
+         		a.deptid like '$deptid$%'
+         	</isNotEmpty>
+         	<isNotEmpty prepend="and" property="room_name">
+         		a.room_name like '%$room_name$%'
+         	</isNotEmpty>
+         	<isNotEmpty prepend="and" property="queryParam">
+         		a.room_name like '%$queryParam$%'
+         	</isNotEmpty>
+         </dynamic>
+	</select>
+	
+	<select id="queryAdcDinnerRoomItemForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+	 	select count(*) as count
+		  from adc_dinner_room a, eadept b
+         where a.DEPTID=b.DEPTID
+         <dynamic>
+         	<isNotEmpty prepend="and" property="deptid">
+         		a.deptid like '$deptid$%'
+         	</isNotEmpty>
+         	<isNotEmpty prepend="and" property="room_name">
+         		a.room_name like '%$room_name$%'
+         	</isNotEmpty>
+         	<isNotEmpty prepend="and" property="queryParam">
+         		a.room_name like '%$queryParam$%'
+         	</isNotEmpty>
+         </dynamic>
+	</select>
+	
+	<insert id="saveAdcDinnerRoomItem" parameterClass="dto">
+		insert into ADC_DINNER_ROOM(ROOM_ID, ROOM_NAME, DEPTID, REMARK)
+			values(#room_id#, #room_name#, #deptid#, #remark#)
+	</insert>
+	
+	<delete id="deleteAdcDinnerRoomItems" parameterClass="dto">
+		delete from ADC_DINNER_ROOM where ROOM_ID = #room_id#
+	</delete>
+	
+	<update id="updateAdcDinnerRoomItem" parameterClass="dto">
+		update ADC_DINNER_ROOM
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="room_id">
+				ROOM_ID = #room_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="room_name">
+				ROOM_NAME = #room_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				REMARK = #remark#
+			</isNotEmpty>
+		</dynamic>
+		WHERE ROOM_ID=#room_id#
+	</update>
+	
+	<!-- 查询部门下打卡机:选择打卡机 -->
+	<select id="queryDkjsForRoleGrant" parameterClass="map" resultClass="dkjVo">
+			SELECT dkjid, dkjmc, deptid, 'false' as checked
+			from dkjlb WHERE deptid = #deptid# and dklx='2'
+	</select>
+	
+	<!-- 查询某食堂的已关联打卡机 -->
+	<select id="queryGrantedUsersByRoleId" parameterClass="map" resultClass="dto">
+		select ROOM_ID, DKJID from adc_dinner_room_dkj 
+		 where room_id=#room_id#
+	</select>
+	
+	<delete id="deleteAdcDinnerRoomDkjByRoomId" parameterClass="map">
+		delete from ADC_DINNER_ROOM_DKJ where room_id = #room_id#
+	</delete>
+	
+	<insert id="saveAdcDinnerRoomDkjItem" parameterClass="dto">
+		insert into ADC_DINNER_ROOM_DKJ(ROOM_ID, DKJID) values (#room_id#, #dkjid#)
+	</insert>
+</sqlMap>

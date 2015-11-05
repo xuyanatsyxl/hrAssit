@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcDinnerRoomUnit">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	<select id="queryAdcDinnerRoomUnitItemForManage" parameterClass="map" resultClass="dto">
+		select a.id, a.room_id, b.room_name, b.DEPTID, (select deptname from eadept where deptid=a.deptid) deptname,
+			   a.group_id, (select group_name from adc_shift_group where group_id=a.group_id) group_name,
+			   a.empid, (select name from employee where empid=a.empid) empname, a.unit_type, a.valid_start_date, a.valid_end_date, a.OPERATE_TIME, 
+			   a.OPERATOR, (select username from eauser where userid=a.OPERATOR) operator_name
+          from adc_dinner_room_unit a, adc_dinner_room b
+         where a.room_id=b.ROOM_ID
+         <dynamic>
+         	<isNotEmpty prepend="and" property="room_id">
+         		a.room_id = '$room_id$'
+         	</isNotEmpty>
+         </dynamic>	 
+	</select>
+	
+	<select id="queryAdcDinnerRoomUnitItemForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+          from adc_dinner_room_unit a, adc_dinner_room b
+         where a.room_id=b.ROOM_ID
+         <dynamic>
+         	<isNotEmpty prepend="and" property="room_id">
+         		a.room_id = '$room_id$'
+         	</isNotEmpty>
+         </dynamic>	 
+	</select>
+	
+	<insert id="saveAdcDinnerRoomUnitItem" parameterClass="dto">
+		insert into ADC_DINNER_ROOM_UNIT (ROOM_ID, DEPTID, UNIT_TYPE, OPERATE_TIME, OPERATOR
+		<dynamic>
+			<isNotEmpty prepend="," property="group_id">
+				GROUP_ID
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+				EMPID
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="valid_start_date">
+				VALID_START_DATE
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="valid_end_date">
+				VALID_END_DATE
+			</isNotEmpty>
+		</dynamic>
+		) values (#room_id#, #deptid#, #unit_type#, #operate_time#, #operator#
+		<dynamic>
+			<isNotEmpty prepend="," property="group_id">
+				#group_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+				#empid#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="valid_start_date">
+				#valid_start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="valid_end_date">
+				#valid_end_date#
+			</isNotEmpty>	
+		</dynamic>
+		)
+	</insert>
+	
+	<delete id="deleteAdcDinnerRoomUnitItems" parameterClass="map">
+		delete from ADC_DINNER_ROOM_UNIT where ID = #id#
+	</delete>
+	
+	<select id="checkUnitIsExists" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		  from ADC_DINNER_ROOM_UNIT
+		 where DEPTID=#deptid#
+		 <dynamic>
+		 	<isNotEmpty prepend="and" property="group_id">
+		 		group_id='$group_id$'
+		 	</isNotEmpty>
+		 	<isNotEmpty prepend="and" property="empid">
+		 		empid = $empid$
+		 	</isNotEmpty>
+		 </dynamic>
+	</select>
+</sqlMap>

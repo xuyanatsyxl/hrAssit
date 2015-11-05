@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="AdcShiftScheduling">
+
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+
+	<select id="queryAdcShiftSchedulingItemForManage"
+		parameterClass="map" resultClass="dto">
+		select ID, SCH_DATE, DEPTID, (select DEPTNAME from EADEPT WHERE
+		DEPTID=a.DEPTID) DEPT_NAME,
+		a.EMPID, b.code, b.name as EMPNAME,
+		SHIFT_ID,
+		(select BASIC_SHIFT_NAME from Adc_Shift_Basic
+		where
+		SHIFT_ID=a.SHIFT_ID)
+		SHIFT_NAME, WORK_TIME,
+		ACTUAL_WORK_TIME,
+		OFF_TIME,
+		ACTUAL_OFF_TIME,
+		ADC_ID, (select TYPE_NAME
+		from Adc_Attend_Type where
+		TYPE_ID=ADC_ID) ADC_NAME, a.COUNT
+		from
+		Adc_Shift_Scheduling a, employee b
+		where
+		a.EMPID=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_id">
+				SHIFT_ID = '$shift_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				SCH_DATE  <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				SCH_DATE  <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="adc_id">
+				ADC_ID = '$adc_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sch_ids">
+				ID in
+				<iterate property="sch_ids" conjunction="," open="(" close=")">
+					#sch_ids[].sch_id#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftSchedulingItemForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		from Adc_Shift_Scheduling a, employee b
+		where
+		a.EMPID=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="deptid">
+				DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shift_id">
+				SHIFT_ID = '$shift_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				SCH_DATE  <![CDATA[>=]]>
+				#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				SCH_DATE  <![CDATA[<=]]>
+				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="adc_id">
+				ADC_ID = '$adc_id$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sch_ids">
+				ID in
+				<iterate property="sch_ids" conjunction="," open="(" close=")">
+					#sch_ids[].sch_id#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="saveAdcShiftSchedulingItem" parameterClass="dto">
+		insert
+		into Adc_Shift_Scheduling (SCH_DATE, DEPTID, EMPID, SHIFT_ID, REC_ID,
+		WORK_TIME,
+		ACTUAL_WORK_TIME, OFF_TIME, ACTUAL_OFF_TIME, ADC_ID,
+		RECORD_TYPE, priority, count)
+		values(#sch_date#,
+		#deptid#,
+		#empid#, #shift_id#,
+		#rec_id#,
+		#work_time#,
+		#actual_work_time#,
+		#off_time#, #actual_off_time#,
+		#adc_id#,
+		#record_type#, #priority#, #count#)
+	</insert>
+
+	<update id="updateAdcShiftSchedulingItem" parameterClass="dto">
+		update Adc_Shift_Scheduling
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="id">
+				ID = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sch_date">
+				SCH_DATE = #sch_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deptid">
+				DEPTID = #deptid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="empid">
+				EMPID = #empid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shift_id">
+				SHIFT_ID = #shift_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="rec_id">
+				rec_id = #rec_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="work_time">
+				WORK_TIME = #work_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="actual_work_time">
+				ACTUAL_WORK_TIME =
+				#actual_work_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="off_time">
+				OFF_TIME = #off_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="actual_off_time">
+				ACTUAL_OFF_TIME =
+				#actual_off_time#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="adc_id">
+				ADC_ID = #adc_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="record_type">
+				record_type =
+				#record_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="priority">
+				priority = #priority#
+			</isNotEmpty>
+		</dynamic>
+		where ID = #id#
+	</update>
+
+	<!-- 根据组合条件删除排班记录 -->
+	<delete id="deleteAdcShiftSchedulingItem" parameterClass="dto">
+		delete from Adc_Shift_Scheduling
+		<dynamic prepend="where">
+		    <isNotEmpty prepend="and" property="start_date">
+				SCH_DATE  <![CDATA[>=]]> #start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				SCH_DATE  <![CDATA[<=]]> #end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="tmpdate">
+			    SCH_DATE = #tmpdate#    
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="id">
+			    ID = #id#    
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="rec_id">
+			    REC_ID = #rec_id#    
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	
+	<!-- 按日期和记录号删除排班记录 -->
+	<delete id="deleteAdcShiftSchedulingByDto" parameterClass="dto">
+	    delete from adc_shift_scheduling where rec_id=#rec_id# and 
+	</delete>
+
+	<!-- 班次排班 -->
+	<select id="queryAdcShiftSchedulingItemForMake" parameterClass="map"
+		resultClass="dto">
+		select ID, APPLY_TYPE, DEPTID, hr_getfulldeptname(DEPTID) AS DEPTNAME,
+		GROUP_ID,
+		(SELECT GROUP_NAME FROM ADC_GROUP WHERE GROUP_ID=a.GROUP_ID)
+		GROUP_NAME,
+		EMPID, (select NAME FROM employee WHERE EMPID=a.EMPID)
+		EMPNAME, SHIFT_ID,
+		(SELECT SHIFT_NAME FROM ADC_SHIFT WHERE
+		SHIFT_ID=a.SHIFT_ID)
+		SHIFT_NAME,
+		ITEM_ID, (SELECT C_SHIFT_NAME FROM
+		adc_shift_detail WHERE ITEM_ID=a.ITEM_ID)
+		C_SHIFT_NAME
+		from
+		adc_shift_apply a where ENABLED="1"
+		<dynamic>
+			<isNotEmpty prepend="and" property="apply_type">
+				a.APPLY_TYPE =
+				'$apply_type$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryAdcShiftSchedulingItemForMakeForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select COUNT(*) AS COUNT
+		from adc_shift_apply a where ENABLED="1"
+		<dynamic>
+			<isNotEmpty prepend="and" property="apply_type">
+				a.APPLY_TYPE =
+				'$apply_type$'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like
+				'$deptid$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="checkAdcShiftSchedulingExists" parameterClass="map"
+		resultClass="dto">
+		select id, priority from adc_shift_scheduling where
+		sch_date=#sch_date# and empid=#empid#
+	</select>
+
+	<!-- 查询人员 -->
+	<select id="queryDeptemplsForSchedulingByDeptid" parameterClass="map"
+		resultClass="dto">
+		select b.deptid, b.EMPID
+		from employee a, deptempl b
+		where
+		a.EMPID=b.EMPID and a.DQZT='2'
+		and b.deptid like '$deptid$%'
+	</select>
+
+	<select id="queryDeptemplsForSchedulingByGroupId"
+		parameterClass="map" resultClass="dto">
+		select b.deptid, b.EMPID
+		from employee
+		a, deptempl b, adc_shift_group_empl c
+		where a.EMPID=b.EMPID and
+		a.DQZT='2' and c.EMPID=a.EMPID
+		and b.deptid like '$deptid$%' and
+		c.GROUP_ID='$group_id$'
+	</select>
+
+	<select id="queryDeptemplsForSchedulingByEmpid" parameterClass="map"
+		resultClass="dto">
+		select b.deptid, b.EMPID
+		from employee a, deptempl b
+		where
+		a.EMPID=b.EMPID and a.DQZT='2'
+		and b.deptid like '$deptid$%' and
+		a.EMPID = $empid$
+	</select>
+
+	<!-- -->
+	<delete id="deleteAdcShiftSchedulingItemsByRecId"
+		parameterClass="dto">
+		delete from Adc_Shift_Scheduling where REC_ID =
+		#rec_id#
+	</delete>
+
+	<!-- 报表生成的存储过程 -->
+	<parameterMap id="prcdto_cur" class="map">
+		<parameter property="empid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="dksj" jdbcType="DATETIME" javaType="java.util.Date" mode="IN" />
+		<parameter property="appCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT" /> <!-- 执行代码 -->
+		<parameter property="errMsg" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT" /> <!-- 出错信息 -->
+	</parameterMap>
+	<procedure id="f_proc_dkjl" parameterMap="prcdto_cur">{call f_proc_dkjl(?, ?, ?, ?)}</procedure>
+
+	<!-- 根据ID号取日期最大日期最小日期 -->
+	<select id="queryMaxAndMinDate" parameterClass="java.util.ArrayList"
+		resultClass="dto">
+		select max(off_time) as end_date, min(work_time) as start_date
+		from
+		adc_shift_scheduling
+		where id in
+		<iterate conjunction="," open="(" close=")">#ids[]#</iterate>
+	</select>
+	
+	<update id="updateAdcShiftSchedulingForWeekEnd" parameterClass="dto">
+		update Adc_Shift_Scheduling 
+		   set SHIFT_ID=null, WORK_TIME=null, ACTUAL_WORK_TIME=null, OFF_TIME=null, ACTUAL_OFF_TIME=null, ADC_ID=#adc_id#
+		 where id in  
+		<iterate property="ids" conjunction="," open="(" close=")">#ids[]#</iterate>		
+	</update>
+</sqlMap>

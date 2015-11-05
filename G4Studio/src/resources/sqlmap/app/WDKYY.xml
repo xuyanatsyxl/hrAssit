@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="WDKYY">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="queryWdkyyItem" parameterClass="map" resultClass="dto">
+	   select YYID AS value, YYMC AS text 
+	     from WDKYY
+	   <dynamic prepend="where">
+			<isNotEmpty prepend="and" property="yyid">
+				YYID like '$yyid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="yyidlength">
+				length(YYID) = $yyidlength$
+			</isNotEmpty>
+		</dynamic>
+		order by sortno
+	</select>
+	
+	
+	
+</sqlMap>

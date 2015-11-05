@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 手工映射SQL语句 -->
+<sqlMap namespace="KPJL">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	<select id="queryKpjlsForManage" parameterClass="map" resultClass="dto">
+	  select OID, A.DEPTID, (SELECT DEPTNAME FROM EADEPT WHERE DEPTID=A.DEPTID) DEPTNAME, A.DAID, 
+	        B.DAMC, SD, A.JDR, (SELECT USERNAME FROM EAUSER WHERE USERID=A.JDR) JDRNAME,
+             A.JDRQ, A.SHR, (SELECT USERNAME FROM EAUSER WHERE USERID=A.SHR) SHRNAME, KPR, BZ, ZT
+       from KPDJ A, KPDA B
+      where A.DAID=B.DAID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="damc"> 
+									B.DAMC like '%$damc$%
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="oid"> 
+									A.OID = '$oid$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+									A.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    B.DAMC like '%$queryParam$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="kpr"> 
+									A.KPR like '%$kpr$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sd"> 
+				                    A.SD = '$sd$' 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="zt">
+				                    A.ZT = '$zt$'
+			</isNotEmpty>
+		</dynamic>	 
+	</select>
+	
+	<select id="queryKpjlsForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+	  select count(*) as count
+       from KPDJ A, KPDA B
+      where A.DAID=B.DAID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="damc"> 
+									B.DAMC like '%$damc$%
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="oid"> 
+									A.OID = '$oid$'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+									A.DEPTID like '$deptid$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="queryParam"> 
+				                    B.DAMC like '%$queryParam$%' 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="kpr"> 
+									A.KPR like '%$kpr$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sd"> 
+				                    A.SD = '$sd$' 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="zt">
+				                    A.ZT = '$zt$'
+			</isNotEmpty>
+		</dynamic>	 
+	</select>
+	
+	
+</sqlMap>

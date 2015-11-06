@@ -96,12 +96,12 @@ Ext
 						defaultType : 'textfield',
 						border : false,
 						items : [ {
-							fieldLabel : '加班单号',
-							name : 'over_code',
+							fieldLabel : '值班表号',
+							name : 'dutyid',
 							xtype : 'textfield', // 设置为数字输入框类型
 							anchor : '100%'
 						}, {
-							fieldLabel : '起始年月',
+							fieldLabel : '起始月份',
 							name : 'start_month',
 							xtype : 'datefield', // 设置为数字输入框类型
 							format : 'Ym',
@@ -114,7 +114,7 @@ Ext
 						defaultType : 'textfield',
 						border : false,
 						items : [ rptStateCombo, {
-							fieldLabel : '结束年月',
+							fieldLabel : '结束月份',
 							name : 'end_month',
 							xtype : 'datefield', // 设置为数字输入框类型
 							format : 'Ym',
@@ -178,47 +178,55 @@ Ext
 			// 定义列模型
 			var sm = new Ext.grid.CheckboxSelectionModel();
 			var cm = new Ext.grid.ColumnModel([ rownum, sm, {
-				header : '加班单号', // 列标题
-				dataIndex : 'over_code', // 数据索引:和Store模型对应
+				header : '值班表号', // 列标题
+				dataIndex : 'dutyid', // 数据索引:和Store模型对应
 				width : 80,
 				sortable : true
 			// 是否可排序
 			}, {
 				header : '年月',
 				dataIndex : 'yearmonth',
-				sortable : true
+				sortable : true,
+				width : 80
 			}, {
 				header : '部门编码',
-				dataIndex : 'deptid'
+				dataIndex : 'deptid',
+				width : 180,
+				sortable : true
 			}, {
 				header : '部门名称',
-				dataIndex : 'deptname'
+				dataIndex : 'deptname',
+				width : 200,
+				sortable : true
 			}, {
 				header : '上报状态',
 				dataIndex : 'rpt_state',
-				renderer : RPT_STATERender
+				renderer : RPT_STATERender,
+				sortable : true
 			}, {
-				header : '平时加班天数',
-				dataIndex : 'days_normal'
+				header : '起始日期',
+				dataIndex : 'qsrq',
+				sortable : true
 			}, {
-				header : '平时加班小时数',
-				dataIndex : 'hours_normal'
+				header : '结束日期',
+				dataIndex : 'jsrq',
+				sortable : true
 			}, {
-				header : '假日加班天数',
-				dataIndex : 'days_normal'
+				header : '人数',
+				dataIndex : 'rs',
+				width : 60,
+				sortable : true
 			}, {
-				header : '假日加班小时数',
-				dataIndex : 'hours_normal'
+				header : '操作员',
+				dataIndex : 'operator_name',
+				width : 60,
+				sortable : true
 			}, {
-				header : '节日加班天数',
-				dataIndex : 'days_holiday'
-			}, {
-				header : '节日加班小时数',
-				dataIndex : 'hours_holiday'
-			}, {
-				header : '备注',
-				dataIndex : 'remark'
-			} ]);
+				header : '操作时间',
+				dataIndex : 'operate_time',
+				width : 160,
+				sortable : true
+			}]);
 
 			/**
 			 * 数据存储
@@ -228,14 +236,14 @@ Ext
 						// 获取数据的方式
 						proxy : new Ext.data.HttpProxy(
 								{
-									url : './adcovertime.do?reqCode=queryAdcOvertimeItemForCheck'
+									url : './adcshiftduty.do?reqCode=queryAdcShiftDutyItemForCheck'
 								}),
 						// 数据读取器
 						reader : new Ext.data.JsonReader({
 							totalProperty : 'TOTALCOUNT', // 记录总数
 							root : 'ROOT' // Json中的列表数据根节点
 						}, [ {
-							name : 'over_code' // Json中的属性Key值
+							name : 'dutyid' // Json中的属性Key值
 						}, {
 							name : 'yearmonth'
 						}, {
@@ -245,19 +253,17 @@ Ext
 						}, {
 							name : 'rpt_state'
 						}, {
-							name : 'days_normal'
+							name : 'operator'
 						}, {
-							name : 'hours_normal'
+							name : 'operate_time'
 						}, {
-							name : 'days_weekend'
+							name : 'operator_name'
 						}, {
-							name : 'hours_weekend'
+							name : 'qsrq'
 						}, {
-							name : 'days_holiday'
+							name : 'jsrq'
 						}, {
-							name : 'hours_holiday'
-						}, {
-							name : 'remark'
+							name : 'rs'
 						} ])
 					});
 
@@ -326,11 +332,11 @@ Ext
 					handler : function(){
 						var rows = grid.getSelectionModel().getSelections();
 						if (Ext.isEmpty(rows)) {
-							Ext.Msg.alert('提示', '请先选中要上报的单据!');
+							Ext.Msg.alert('提示', '请先选中要审核的单据!');
 							return;
 						}
-						var strChecked = jsArray2JsString(rows, 'over_code');
-						Ext.Msg.confirm('请确认', '<span style="color:red"><b>提示:</b>上报后单据将无法修改，请仔细检查后再上报.</span><br>继续吗?',
+						var strChecked = jsArray2JsString(rows, 'dutyid');
+						Ext.Msg.confirm('请确认', '<span style="color:red"><b>提示:</b>审核后单据将无法修改，请仔细检查后再上报.</span><br>继续吗?',
 								function(btn, text) {
 									if (btn == 'yes') {
 										if (runMode == '0') {
@@ -341,7 +347,7 @@ Ext
 										}
 										showWaitMsg();
 										Ext.Ajax.request({
-											url : './adcovertime.do?reqCode=updateAdcOvertimeRptstate',
+											url : './adcshiftduty.do?reqCode=updateAdcShiftDutyRptstate',
 											success : function(response) {
 												var resultArray = Ext.util.JSON
 														.decode(response.responseText);
@@ -412,96 +418,80 @@ Ext
 					params : params
 				});
 			}
+
+			function viewInit(){
+				var record = grid.getSelectionModel().getSelected();
+				if (Ext.isEmpty(record)) {
+					Ext.MessageBox.alert('提示', '请先选择要查看的单据!');
+					return;
+				}
+				addadcshiftdutyPanel.getForm().loadRecord(record);
+				addadcshiftdutyWindow.show();
+				addadcshiftdutyWindow.setTitle('<span class="commoncss">查看值班表</span>');
+				var dutyid = record.get('dutyid');
+				store_pattern.load({
+					params : {
+						dutyid : dutyid,
+						start : 0,
+						limit : bbar_pattern.pageSize
+					}
+				});
+			}
 			
-			var group_pattern = [ {}, {
-				header : '员工编号',
-				rowmerge : true,
-				domid : 'code',
-				align : 'center'
-			}, {
-				header : '姓名',
-				rowmerge : true,
-				domid : 'name',
-				align : 'center'
-			}, {
-				header : '平时加班',
-				colspan : 2,
-				align : 'center'
-			}, {
-				header : '假日加班',
-				colspan : 2,
-				align : 'center'
-			}, {
-				header : '节日加班',
-				colspan : 2,
-				align : 'center'
-			} ];
-
-			var group = new Ext.ux.plugins.GroupHeaderGrid({
-				rows : [ group_pattern ]
+			//明细单据查看
+			var sm_pattern = new Ext.grid.CheckboxSelectionModel({
+				singleSelect : true
 			});
-
 			var cm_pattern = new Ext.grid.ColumnModel([
-					new Ext.grid.RowNumberer(),
-					{
+					new Ext.grid.RowNumberer(), sm_pattern, {
+						header : '值班日期',
+						dataIndex : 'dutydate',
+						editor : new Ext.grid.GridEditor(
+								new Ext.form.DateField({
+		
+								})),
+						renderer: Ext.util.Format.dateRenderer('Y-m-d'),
+						width : 80
+					}, {
 						header : '员工编号',
 						dataIndex : 'code',
 						width : 80
-					},
-					{
+					}, {
 						header : '姓名',
 						dataIndex : 'name',
-						width : 100
-					},
-					{
-						header : '天数',
-						dataIndex : 'days_normal',
-						editor : new Ext.grid.GridEditor(
-								new Ext.form.NumberField({})),
 						width : 80
-					},
-					{
-						header : '小时数',
-						dataIndex : 'hours_normal',
-						editor : new Ext.grid.GridEditor(
-								new Ext.form.NumberField({})),
+					}, {
+						header : '岗位',
+						dataIndex : 'jobname',
 						width : 80
-					},
-					{
-						header : '天数',
-						dataIndex : 'days_weekend',
-						editor : new Ext.grid.GridEditor(
-								new Ext.form.NumberField({})),
+					}, {
+						header : '班次ID',
+						dataIndex : 'shift_id',
+						editor: new Ext.grid.GridEditor(
+								new Ext.form.TextField({
+
+								})),
 						width : 80
-					},
-					{
-						header : '小时数',
-						dataIndex : 'hours_weekend',
-						editor : new Ext.grid.GridEditor(
-								new Ext.form.NumberField({})),
+					}, {
+						header : '班次名称',
+						dataIndex : 'shift_name',
+						width : 200
+					}, {
+						header : '上班时间',
+						dataIndex : 'work_time',
 						width : 80
-					},
-					{
-						header : '天数',
-						dataIndex : 'days_holiday',
-						editor : new Ext.grid.GridEditor(
-								new Ext.form.NumberField({})),
-						width : 80
-					},
-					{
-						header : '小时数',
-						dataIndex : 'hours_holiday',
-						editor : new Ext.grid.GridEditor(
-								new Ext.form.NumberField({})),
+					}, {
+						header : '下班时间',
+						dataIndex : 'off_time',
 						width : 80
 					}, {
 						dataIndex : 'empid',
 						hidden : true
 					}, {
-						dataIndex : 'over_code',
+						dataIndex : 'dutyid',
 						hidden : true
 					}, {
-						dataIndex : 'id',
+						dataIndex : 'xid',
 						hidden : true
 					} ]);
 
@@ -509,15 +499,17 @@ Ext
 					{
 						proxy : new Ext.data.HttpProxy(
 								{
-									url : './adcovertime.do?reqCode=queryAdcOvertimeDetailItemForManage'
+									url : './adcshiftduty.do?reqCode=queryAdcShiftDutyDetailItemForManage'
 								}),
 						reader : new Ext.data.JsonReader({
 							totalProperty : 'TOTALCOUNT',
 							root : 'ROOT'
 						}, [ {
-							name : 'id'
+							name : 'xid'
 						}, {
-							name : 'over_code'
+							name : 'dutyid'
+						}, {
+							name : 'dutydate'
 						}, {
 							name : 'empid'
 						}, {
@@ -525,17 +517,15 @@ Ext
 						}, {
 							name : 'name'
 						}, {
-							name : 'days_normal'
+							name : 'shift_id'
 						}, {
-							name : 'hours_normal'
+							name : 'shift_name'
 						}, {
-							name : 'days_weekend'
+							name : 'work_time'
 						}, {
-							name : 'hours_weekend'
+							name : 'off_time'
 						}, {
-							name : 'days_holiday'
-						}, {
-							name : 'hours_holiday'
+							name : 'jobname'
 						} ])
 					});
 
@@ -579,6 +569,7 @@ Ext
 				emptyMsg : "没有符合条件的记录",
 				items : [ '-', '&nbsp;&nbsp;', pagesize_combo_pattern ]
 			});
+			
 			var grid_pattern = new Ext.grid.GridPanel(
 					{
 						title : '<span class="commoncss">包含人员</span>',
@@ -593,21 +584,21 @@ Ext
 						},
 						stripeRows : true,
 						frame : true,
+						sm : sm_pattern,
 						cm : cm_pattern,
-						bbar : bbar_pattern,
-						plugins : group
+						bbar : bbar_pattern
 					});
 			
-			var addAdcOvertimePanel = new Ext.form.FormPanel({
-				id : 'addAdcOvertimePanel',
+			var addadcshiftdutyPanel = new Ext.form.FormPanel({
+				id : 'addadcshiftdutyPanel',
 				border : false,
 				labelWidth : 60, // 标签宽度
 				labelAlign : 'right', // 标签对齐方式
 				bodyStyle : 'padding:5 5 3 3', // 表单元素和表单面板的边距
 				buttonAlign : 'center',
 				region : 'north',
-				height : 40,
-				items : [ {
+				height : 60,
+				items : [  {
 					layout : 'column',
 					border : false,
 					items : [ {
@@ -616,9 +607,10 @@ Ext
 						labelWidth : 60, // 标签宽度
 						defaultType : 'textfield',
 						border : false,
-						items : [  {
+						items : [ {
 							name : 'deptname',
-							fieldLabel : '所属部门',
+							fieldLabel : '部门名称',
+							xtype : 'textfield',
 							disabled : true,
 							anchor : '99%'
 						}, {
@@ -636,18 +628,18 @@ Ext
 						labelWidth : 60, // 标签宽度
 						defaultType : 'textfield',
 						border : false,
-						items : [{
+						items : [ {
 							name : 'yearmonth',
 							fieldLabel : '月份',
 							allowBlank : false,
 							xtype : 'datefield',
 							format : 'Ym',
-							labelStyle : micolor,
 							disabled : true,
+							labelStyle : micolor,
 							anchor : '99%'
-						},  {
-							id : 'over_code',
-							name : 'over_code',
+						}, {
+							id : 'dutyid',
+							name : 'dutyid',
 							hidden : true
 						}, {
 							id : 'dirtydata',
@@ -657,8 +649,8 @@ Ext
 					} ]
 				} ]
 			});
-			
-			var addAdcOvertimeWindow = new Ext.Window(
+
+			var addadcshiftdutyWindow = new Ext.Window(
 					{
 						layout : 'border',
 						width : 600,
@@ -667,7 +659,7 @@ Ext
 						draggable : true,
 						closeAction : 'hide',
 						modal : true,
-						title : '<span class="commoncss">查看加班上报单</span>',
+						title : '<span class="commoncss">查看值班表</span>',
 						// iconCls : 'page_addIcon',
 						collapsible : true,
 						titleCollapse : true,
@@ -679,34 +671,14 @@ Ext
 						pageX : document.body.clientWidth / 2 - 820 / 2,
 						animateTarget : Ext.getBody(),
 						constrain : true,
-						items : [ addAdcOvertimePanel, grid_pattern ],
-						buttons : [
-								{
+						items : [ addadcshiftdutyPanel, grid_pattern ],
+						buttons : [{
 									text : '关闭',
 									iconCls : 'deleteIcon',
 									handler : function() {
-										addAdcOvertimeWindow.hide();
+										addadcshiftdutyWindow.hide();
 									}
 								} ]
 					});
-			
-			function viewInit(){
-				var record = grid.getSelectionModel().getSelected();
-				if (Ext.isEmpty(record)) {
-					Ext.MessageBox.alert('提示', '请先选择要查看的单据!');
-					return;
-				}
-				addAdcOvertimePanel.getForm().loadRecord(record);
-				addAdcOvertimeWindow.show();
-				addAdcOvertimeWindow.setTitle('<span class="commoncss">查看加班上报单</span>');
-				var overCode = record.get('over_code');
-				store_pattern.load({
-					params : {
-						over_code : overCode,
-						start : 0,
-						limit : bbar_pattern.pageSize
-					}
-				});
-			}
 
 		});

@@ -221,6 +221,7 @@
 			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftDutyAction">
 			<forward name="manageAdcShiftDutyView" path="/adc/manageAdcShiftDuty.jsp" />
 			<forward name="manageAdcShiftDutyCheckView" path="/adc/manageAdcShiftDutyCheck.jsp" />
+			<forward name="queryAdcShiftDutyView" path="/adc/queryAdcShiftDuty.jsp" />	
 		</action>
 	</action-mappings>
 

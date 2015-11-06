@@ -18,4 +18,6 @@ public interface AdcShiftDutyService extends BaseService{
 	public Dto deleteAdcShiftDutyDetailItem(Dto pDto);
 	
 	public Dto importFromExcel(Dto pDto);
+	
+	public Dto updateAdcShiftDutyRptstate(Dto pDto);
 }

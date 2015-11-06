@@ -181,13 +181,13 @@ Ext
 					text : '删除',
 					iconCls : 'page_delIcon',
 					handler : function() {
-						deleteAdcOvertimeItems();
+						deleteadcshiftdutyItems();
 					}
 				}, '-', {
 					text : 'Excel空表导出',
 					iconCls : 'page_excelIcon',
 					handler : function() {
-						exportExcel('adcovertime.do?reqCode=exportExcel');
+						exportExcel('adcshiftduty.do?reqCode=exportExcel');
 					}
 				}, '-', {
 					text : '导入Excel文件',
@@ -340,6 +340,9 @@ Ext
 				name : 'dutyid',
 				type : 'string'
 			}, {
+				name : 'deptid',
+				type : 'string'
+			}, {
 				name : 'empid',
 				type : 'string'
 			}, {
@@ -374,9 +377,9 @@ Ext
 						dataIndex : 'dutydate',
 						editor : new Ext.grid.GridEditor(
 								new Ext.form.DateField({
-								
+		
 								})),
-						render : Ext.util.Format.dateRenderer('Y-m-d'), 		
+						renderer: Ext.util.Format.dateRenderer('Y-m-d'),
 						width : 80
 					}, {
 						header : '员工编号',
@@ -419,6 +422,9 @@ Ext
 					}, {
 						dataIndex : 'xid',
 						hidden : true
+					}, {
+						dataIndex : 'deptid',
+						hidden : true
 					} ]);
 
 			var store_pattern = new Ext.data.Store(
@@ -452,6 +458,8 @@ Ext
 							name : 'off_time'
 						}, {
 							name : 'jobname'
+						}, {
+							name : 'deptid'
 						} ])
 					});
 
@@ -519,7 +527,7 @@ Ext
 									iconCls : 'page_addIcon',
 									handler : function() {
 										var deptid = Ext.getCmp(
-												"addAdcOvertimePanel")
+												"addadcshiftdutyPanel")
 												.findById('deptid').getValue();
 										store_emp.load({
 											params : {
@@ -570,7 +578,7 @@ Ext
 			// 监听下拉树的节点单击事件
 			addDeptTree.on('click', function(node) {
 				comboxWithTree.setValue(node.text);
-				Ext.getCmp("addAdcOvertimePanel").findById('deptid').setValue(
+				Ext.getCmp("addadcshiftdutyPanel").findById('deptid').setValue(
 						node.attributes.id);
 				comboxWithTree.collapse();
 			});
@@ -622,6 +630,8 @@ Ext
 					name : 'jobname'
 				}, {
 					name : 'deptname'
+				}, {
+					name : 'deptid'
 				} ])
 			});
 
@@ -733,7 +743,7 @@ Ext
 			});
 
 			function queryEmplItem() {
-				var deptid = Ext.getCmp("addAdcOvertimePanel").findById(
+				var deptid = Ext.getCmp("addadcshiftdutyPanel").findById(
 						'deptid').getValue();
 				store_emp.load({
 					params : {
@@ -786,15 +796,14 @@ Ext
 										}
 										grid_pattern.stopEditing();
 										Ext.each(rows, function(item) {
-															if (store_pattern.findExact('empid', item.get('empid')) == -1) {
-																var rec = new MyRecord();
-																rec.set('empid', item.get('empid'));
-																rec.set('code', item.get('code'));
-																rec.set('name', item.get('name'));
-																rec.set('jobname', item.get('jobname'));
-																store_pattern.insert(0,	rec);
-															}
-														});
+											var rec = new MyRecord();
+											rec.set('empid', item.get('empid'));
+											rec.set('deptid', item.get('deptid'));
+											rec.set('code', item.get('code'));
+											rec.set('name', item.get('name'));
+											rec.set('jobname', item.get('jobname'));
+											store_pattern.insert(0,	rec);
+										});
 										grid_pattern.startEditing(0, 3);
 									}
 								}, {
@@ -806,8 +815,8 @@ Ext
 								} ]
 					});
 
-			var addAdcOvertimePanel = new Ext.form.FormPanel({
-				id : 'addAdcOvertimePanel',
+			var addadcshiftdutyPanel = new Ext.form.FormPanel({
+				id : 'addadcshiftdutyPanel',
 				border : false,
 				labelWidth : 60, // 标签宽度
 				labelAlign : 'right', // 标签对齐方式
@@ -860,7 +869,7 @@ Ext
 				} ]
 			});
 
-			var addAdcOvertimeWindow = new Ext.Window(
+			var addadcshiftdutyWindow = new Ext.Window(
 					{
 						layout : 'border',
 						width : 600,
@@ -881,7 +890,7 @@ Ext
 						pageX : document.body.clientWidth / 2 - 820 / 2,
 						animateTarget : Ext.getBody(),
 						constrain : true,
-						items : [ addAdcOvertimePanel, grid_pattern ],
+						items : [ addadcshiftdutyPanel, grid_pattern ],
 						buttons : [
 								{
 									text : '保存',
@@ -893,7 +902,7 @@ Ext
 															'系统正处于演示模式下运行,您的操作被取消!该模式下只能进行查询操作!');
 											return;
 										}
-										saveAdcOvertimeItem();
+										saveadcshiftdutyItem();
 									}
 								},
 								{
@@ -901,13 +910,13 @@ Ext
 									id : 'btnReset',
 									iconCls : 'tbar_synchronizeIcon',
 									handler : function() {
-										clearForm(addAdcOvertimePanel.getForm());
+										clearForm(addadcshiftdutyPanel.getForm());
 									}
 								}, {
 									text : '关闭',
 									iconCls : 'deleteIcon',
 									handler : function() {
-										addAdcOvertimeWindow.hide();
+										addadcshiftdutyWindow.hide();
 									}
 								} ]
 					});
@@ -968,16 +977,16 @@ Ext
 				Ext.getCmp('btnReset').hide();
 				var flag = Ext.getCmp('windowmode').getValue();
 				if (typeof (flag) != 'undefined') {
-					addAdcOvertimePanel.form.getEl().dom.reset();
+					addadcshiftdutyPanel.form.getEl().dom.reset();
 				} else {
-					clearForm(addAdcOvertimePanel.getForm());
+					clearForm(addadcshiftdutyPanel.getForm());
 				}
 				var selectModel = deptTree.getSelectionModel();
 				var selectNode = selectModel.getSelectedNode();
 				Ext.getCmp('deptname').setValue(selectNode.attributes.text);
 				Ext.getCmp('deptid').setValue(selectNode.attributes.id);
-				addAdcOvertimeWindow.show();
-				addAdcOvertimeWindow
+				addadcshiftdutyWindow.show();
+				addadcshiftdutyWindow
 						.setTitle('<span class="commoncss">新增值班表</span>');
 				Ext.getCmp('windowmode').setValue('add');
 				comboxWithTree.setDisabled(false);
@@ -998,7 +1007,7 @@ Ext
 					return;
 				}
 
-				addAdcOvertimePanel.getForm().loadRecord(record);
+				addadcshiftdutyPanel.getForm().loadRecord(record);
 				var dutyid = record.get('dutyid');
 				store_pattern.load({
 					params : {
@@ -1008,8 +1017,8 @@ Ext
 					}
 				});
 				comboxWithTree.setDisabled(true);
-				addAdcOvertimeWindow.show();
-				addAdcOvertimeWindow
+				addadcshiftdutyWindow.show();
+				addadcshiftdutyWindow
 						.setTitle('<span class="commoncss">修改值班表</span>');
 				Ext.getCmp('windowmode').setValue('edit');
 				Ext.getCmp('dutyid').setValue(dutyid);
@@ -1019,14 +1028,14 @@ Ext
 			/**
 			 * 保存班次应用数据
 			 */
-			function saveAdcOvertimeItem() {
+			function saveadcshiftdutyItem() {
 				var count = store_pattern.getCount();
 				if (count == 0) {
 					Ext.Msg.alert('提示', '没有需要保存的明细数据!');
 					return;
 				}
 
-				if (!addAdcOvertimePanel.form.isValid()) {
+				if (!addadcshiftdutyPanel.form.isValid()) {
 					return;
 				}
 
@@ -1039,13 +1048,13 @@ Ext
 
 				var windowmode = Ext.getCmp('windowmode').getValue();
 				if (windowmode == 'add') {
-					addAdcOvertimePanel.form.submit({
-						url : './adcovertime.do?reqCode=saveAdcOvertimeItem',
+					addadcshiftdutyPanel.form.submit({
+						url : './adcshiftduty.do?reqCode=saveAdcShiftDutyItem',
 						waitTitle : '提示',
 						method : 'POST',
 						waitMsg : '正在处理数据,请稍候...',
 						success : function(form, action) {
-							addAdcOvertimeWindow.hide();
+							addadcshiftdutyWindow.hide();
 							store.reload();
 							form.reset();
 							Ext.MessageBox.alert('提示', action.result.msg);
@@ -1056,13 +1065,13 @@ Ext
 						}
 					});
 				} else {
-					addAdcOvertimePanel.form.submit({
-						url : './adcovertime.do?reqCode=updateAdcOvertimeItem',
+					addadcshiftdutyPanel.form.submit({
+						url : './adcshiftduty.do?reqCode=updateAdcShiftDutyItem',
 						waitTitle : '提示',
 						method : 'POST',
 						waitMsg : '正在处理数据,请稍候...',
 						success : function(form, action) {
-							addAdcOvertimeWindow.hide();
+							addadcshiftdutyWindow.hide();
 							store.reload();
 							form.reset();
 							Ext.MessageBox.alert('提示', action.result.msg);
@@ -1078,8 +1087,20 @@ Ext
 			/**
 			 * 删除加班申请单
 			 */
-			function deleteAdcOvertimeItems() {
+			function deleteadcshiftdutyItems() {
 				var rows = grid.getSelectionModel().getSelections();
+				var fields = '';
+				for (var i = 0; i < rows.length; i++) {
+					if (rows[i].get('rpt_state') == '2') {
+						fields = fields + rows[i].get('dutyid') + '<br>';
+					}
+				}
+				if (fields != '') {
+					Ext.Msg.alert('提示', '<b>您选中的项目中包含已经审核的值班表</b><br>' + fields
+									+ '<font color=red>已经审核的值班表不能删除!</font>');
+					return;
+				}
+				
 				if (Ext.isEmpty(rows)) {
 					Ext.Msg.alert('提示', '请先选中要删除的项目!');
 					return;
@@ -1100,7 +1121,7 @@ Ext
 										showWaitMsg();
 										Ext.Ajax
 												.request({
-													url : './adcovertime.do?reqCode=deleteAdcOvertimeItems',
+													url : './adcshiftduty.do?reqCode=deleteAdcShiftDutyItems',
 													success : function(response) {
 														var resultArray = Ext.util.JSON
 																.decode(response.responseText);

@@ -4,9 +4,10 @@
 <sqlMap namespace="AdcShiftDuty">
 	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
 	
+	<!-- 列表查询：记录 -->
 	<select id="queryAdcShiftDutyItemForManage" parameterClass="map" resultClass="dto">
 	 	select a.dutyid, a.yearmonth, a.deptid, b.deptname, a.rpt_state, a.operator,
-			(select username from eauser where userid=a.operator) as operator_name, a.operator_time, a.remark 
+			(select username from eauser where userid=a.operator) as operator_name, a.operate_time, a.remark 
 		from adc_shift_duty a, eadept b
 		where a.deptid=b.deptid
 		<dynamic>
@@ -27,7 +28,7 @@
 			</isNotEmpty>				
 		</dynamic>
 	</select>
-	
+	<!-- 列表查询：记录数 -->
 	<select id="queryAdcShiftDutyItemForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 	 	select count(*) as count
 		from adc_shift_duty a, eadept b
@@ -50,12 +51,12 @@
 			</isNotEmpty>				
 		</dynamic>
 	</select>
-	
+	<!-- 插入值班表主表 -->
 	<insert id="saveAdcShiftDutyItem" parameterClass="dto">
 		insert into adc_shift_duty(dutyid, yearmonth, deptid, rpt_state, operator, operate_time, remark)
 			values(#dutyid#, #yearmonth#, #deptid#, #rpt_state#, #operator#, #operate_time#, #remark#)
 	</insert>
-	
+	<!-- 更新值班表主表 -->
 	<update id="updateAdcShiftDutyItem" parameterClass="dto">
 		update adc_shift_duty
 		<dynamic prepend="set">
@@ -80,7 +81,7 @@
 		</dynamic>
 		where dutyid = #dutyid#
 	</update>
-	
+	<!-- 删除值班表主表 -->
 	<delete id="deleteAdcShiftDutyItem" parameterClass="map">
 		delete from adc_shift_duty where dutyid = #dutyid#
 	</delete>
@@ -88,25 +89,25 @@
 	<!-- 下面是明细表的映射 -->
 	<select id="queryAdcShiftDutyDetailItemForManage" parameterClass="map" resultClass="dto">
 		select a.xid, a.dutyid, a.dutydate, a.deptid, b.deptname, a.empid, c.code, c.name, a.shift_id,
-			(select basic_shift_name from adc_shift_basic where shift_id=a.shift_id) shift_name
-		 from adc_shift_duty_detail a, eadept b, employee c
-        where a.deptid=b.deptid and a.empid=c.empid
-		where a.deptid=b.deptid
+			 d.basic_shift_name shift_name, d.work_time, d.off_time, a.jobname
+		 from adc_shift_duty_detail a, eadept b, employee c, adc_shift_basic d
+        where a.deptid=b.deptid and a.empid=c.empid and a.shift_id=d.shift_id
+		and a.deptid=b.deptid
 		<dynamic>
 			<isNotEmpty prepend="and" property="dutyid">
-				a.dutyid like '$dutyid$%'
+				a.dutyid = '$dutyid$'
 			</isNotEmpty>		
 		</dynamic>
 	</select>
 	
 	<select id="queryAdcShiftDutyDetailItemForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-		 from adc_shift_duty_detail a, eadept b, employee c
-        where a.deptid=b.deptid and a.empid=c.empid
-		where a.deptid=b.deptid
+		 from adc_shift_duty_detail a, eadept b, employee c, adc_shift_basic d
+        where a.deptid=b.deptid and a.empid=c.empid and a.shift_id=d.shift_id
+		and a.deptid=b.deptid
 		<dynamic>
 			<isNotEmpty prepend="and" property="dutyid">
-				a.dutyid like '$dutyid$%'
+				a.dutyid = '$dutyid$'
 			</isNotEmpty>		
 		</dynamic>
 	</select>
@@ -131,8 +132,8 @@
 	</update>
 	
 	<insert id="saveAdcShiftDutyDetailItem" parameterClass="dto">
-		insert into adc_shift_duty_detail(xid, dutyid, dutydate, deptid, empid, shift_id)
-			values(#xid#, #dutyid#, #dutydate#, #deptid#, #empid#, #shift_id#)
+		insert into adc_shift_duty_detail(xid, dutyid, dutydate, deptid, empid, jobname, shift_id)
+			values(#xid#, #dutyid#, #dutydate#, #deptid#, #empid#, #jobname#, #shift_id#)
 	</insert>
 	
 	<delete id="deleteAdcShiftDutyDetailItem" parameterClass="dto">
@@ -142,4 +143,103 @@
 	<delete id="deleteAdcShiftDutyDetailItemByDutyId" parameterClass="dto">
 		delete from adc_shift_duty_detail where dutyid = #dutyid#
 	</delete>
+	
+	<select id="queryAdcShiftDutyReport" parameterClass="map" resultClass="dto">
+		select b.dutydate, b.deptid, hr_getfulldeptname(b.deptid) as deptname, 
+			d.code, d.name, b.jobname, b.shift_id, e.basic_shift_name, e.work_time, e.off_time
+		  from adc_shift_duty a, adc_shift_duty_detail b, eadept c, employee d, adc_shift_basic e
+         where a.dutyid=b.dutyid and b.deptid=c.deptid and b.empid=d.empid and b.shift_id=e.shift_id
+          and a.rpt_state=2
+          <dynamic>
+          	<isNotEmpty prepend="and" property="deptid">
+          		b.deptid like '$deptid$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="code">
+          		d.code = '$code$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="name">
+          		d.name like '%$name$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="start_date">
+          		b.dutydate <![CDATA[>=]]> '$start_date$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="end_date">
+          		b.dutydate <![CDATA[<=]]> '$end_date$'
+          	</isNotEmpty>
+          </dynamic>
+	</select>
+	
+	<select id="queryAdcShiftDutyReportForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		  from adc_shift_duty a, adc_shift_duty_detail b, eadept c, employee d, adc_shift_basic e
+         where a.dutyid=b.dutyid and b.deptid=c.deptid and b.empid=d.empid and b.shift_id=e.shift_id
+          and a.rpt_state=2
+          <dynamic>
+          	<isNotEmpty prepend="and" property="deptid">
+          		b.deptid like '$deptid$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="code">
+          		d.code = '$code$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="name">
+          		d.name like '%$name$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="start_date">
+          		b.dutydate <![CDATA[>=]]> '$start_date$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="end_date">
+          		b.dutydate <![CDATA[<=]]> '$end_date$'
+          	</isNotEmpty>
+          </dynamic>
+	</select>
+	
+	<!-- 上报界面 -->
+	<select id="queryAdcShiftDutyForCheck" parameterClass="map" resultClass="dto">
+	    select a.dutyid, a.yearmonth, a.deptid, c.deptname, a.rpt_state, a.operator, 
+	    	(select username from eauser where userid=a.operator) as operator_name,
+	    a.operate_time, 
+	           min(b.dutydate) qsrq, max(b.dutydate) jsrq, count(*) rs
+		  from adc_shift_duty a, adc_shift_duty_detail b, eadept c
+		where a.dutyid=b.dutyid and a.deptid=c.deptid
+		<dynamic>
+          	<isNotEmpty prepend="and" property="deptid">
+          		a.deptid like '$deptid$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="dutyid">
+          		a.dutyid like '%$dutyid$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="rpt_state">
+          		a.rpt_state = '$rpt_state$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="start_month">
+          		a.yearmonth <![CDATA[>=]]> '$start_month$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="end_month">
+          		a.yearmonth <![CDATA[<=]]> '$end_month$'
+          	</isNotEmpty>		    
+		</dynamic>
+		group by a.dutyid, a.yearmonth, a.deptid, a.rpt_state, a.operator, a.operate_time
+	</select>
+	
+	<select id="queryAdcShiftDutyForCheckForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+	    select count(*) as count
+	      from adc_shift_duty a
+		<dynamic prepend="where">
+          	<isNotEmpty prepend="and" property="deptid">
+          		a.deptid like '$deptid$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="dutyid">
+          		a.dutyid like '%$dutyid$%'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="rpt_state">
+          		a.rpt_state = '$rpt_state$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="start_month">
+          		a.yearmonth <![CDATA[>=]]> '$start_month$'
+          	</isNotEmpty>
+          	<isNotEmpty prepend="and" property="end_month">
+          		a.yearmonth <![CDATA[<=]]> '$end_month$'
+          	</isNotEmpty>		    
+		</dynamic>
+	</select>
 </sqlMap>

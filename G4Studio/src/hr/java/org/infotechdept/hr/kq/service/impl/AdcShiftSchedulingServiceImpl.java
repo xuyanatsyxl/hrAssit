@@ -38,6 +38,7 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 
 	/**
 	 * 根据条件返回请假记录
+	 * (只返回对考勤标记有影响的记录)
 	 * @param empid
 	 * @param deptid
 	 * @param pDate
@@ -51,8 +52,13 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 		List<Dto> items = g4Dao.queryForList("AdcShiftLeave.queryAdcShiftLeaveItemForManage", inDto);
 		if (items.size() == 0){
 			return null;
+		}else{
+			if (items.get(0).getAsString("adc_type").equalsIgnoreCase("1")){
+				return items.get(0);
+			}else{
+				return null;
+			}
 		}
-		return items.get(0);
 	}
 	
 	/**

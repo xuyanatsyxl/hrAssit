@@ -14,7 +14,8 @@
 		(select username from
 		eauser where userid=operator)
 		operator_name,
-		operate_time, a.remark
+		operate_time, a.remark,
+		(select TYPE_TYPE from adc_attend_type where TYPE_ID=a.adc_id) as adc_type
 		from adc_shift_leave a, employee b
 		where
 		a.empid=b.EMPID

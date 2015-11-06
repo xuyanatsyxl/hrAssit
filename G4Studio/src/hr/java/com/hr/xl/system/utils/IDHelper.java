@@ -18,7 +18,8 @@ public class IDHelper {
 	private static DefaultIDGenerator defaultIDGenerator_overCode = null;
 	private static DefaultIDGenerator defaultIDGenerator_upfileId = null;
 	private static DefaultIDGenerator defaultIDGenerator_roomId = null;
-
+	private static DefaultIDGenerator defaultIDGenerator_dutyId = null;
+	
 	static {
 		IdGenerator idGenerator_lxyid = new IdGenerator();
 		idGenerator_lxyid.setFieldname("RYBH");
@@ -84,6 +85,12 @@ public class IDHelper {
 		idGenerator_roomId.setFieldname("ROOM_ID");
 		defaultIDGenerator_roomId = idGenerator_roomId.getDefaultIDGenerator();
 	}
+	
+	static {
+		IdGenerator idGenerator_dutyId = new IdGenerator();
+		idGenerator_dutyId.setFieldname("DUTYID");
+		defaultIDGenerator_dutyId = idGenerator_dutyId.getDefaultIDGenerator();
+	}
 	/*
 	 * static { IdGenerator idGenerator_daid = new IdGenerator();
 	 * idGenerator_daid.setFieldname("DAID"); defaultIDGenerator_daid =
@@ -147,4 +154,8 @@ public class IDHelper {
 	public static String getRoomId(){
 		return defaultIDGenerator_roomId.create();
 	} 
+	
+	public static String getDutyId(){
+		return defaultIDGenerator_dutyId.create();
+	}
 }

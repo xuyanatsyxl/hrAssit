@@ -291,8 +291,12 @@ public class AdcShiftDutyAction extends BaseAction{
 		Dto inDto = new BaseDto();
 		inDto.put("strChecked", strChecked);
 		if (!isDemoMode(response)) {
-			adcShiftDutyService.updateAdcShiftDutyRptstate(inDto);
-			setOkTipMsg("值班表审核成功！", response);
+			Dto outDto = adcShiftDutyService.updateAdcShiftDutyRptstate(inDto);
+			if (outDto.getAsBoolean("success")){
+				setOkTipMsg("值班表审核成功！", response);
+			}else{
+				setErrTipMsg(outDto.getAsString("message"), response);
+			}
 		}
 		return mapping.findForward(null);
 	}

@@ -91,15 +91,11 @@
 
 	<insert id="saveAdcShiftLeaveItem" parameterClass="dto">
 		insert into
-		Adc_Shift_Leave(adc_date, deptid, empid, adc_id, aff_days, aff_hours,
-		request_id, source_type,
-		leave_start_time, leave_end_time, operator,
-		operate_time, remark)
-		values (#adc_date#, #deptid#, #empid#, #adc_id#,
-		#aff_days#, #aff_hours#,
-		#request_id#, #source_type#,
-		#leave_start_time#, #leave_end_time#, #operator#, #operate_time#,
-		#remark#)
+		Adc_Shift_Leave(adc_date, deptid, empid, shift_id, adc_id, aff_days, aff_hours,
+		requestid, source_type, operator, operate_time, remark, state, addition_info)
+		values (#adc_date#, #deptid#, #empid#, #shift_id#, #adc_id#,
+		#aff_days#, #aff_hours#, #requestid#, #source_type#,
+		#operator#, #operate_time#, #remark#, #state#, #addition_info#)
 	</insert>
 
 	<delete id="deleteAdcShiftLeaveItem" parameterClass="dto">

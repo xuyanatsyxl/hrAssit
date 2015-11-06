@@ -173,14 +173,68 @@ public class AdcShiftDutyServiceImpl extends BaseServiceImpl implements AdcShift
 	 * @return
 	 */
 	public Dto updateAdcShiftDutyRptstate(Dto pDto){
+		String rsltMsg = null;
 		Dto dto = new BaseDto();
+		Dto outDto = new BaseDto();
 		String[] arrChecked = pDto.getAsString("strChecked").split(",");
 		for (int i = 0; i < arrChecked.length; i++) {
-			dto.put("dutyid", arrChecked[i]);
-			dto.put("rpt_state", "2");
-			g4Dao.update("AdcShiftDuty.updateAdcShiftDutyItem", dto);
+			String dutyId = arrChecked[i];
+			Dto rslt = saveAdcShiftDutyCheckItem(dutyId);
+			if (rslt.getAsBoolean("success")){
+				dto.clear();
+				dto.put("dutyid", arrChecked[i]);
+				dto.put("rpt_state", "2");
+				g4Dao.update("AdcShiftDuty.updateAdcShiftDutyItem", dto);
+			}else{
+				rsltMsg += "单据[" + dutyId + "]审核失败！原因：[" + rslt.getAsString("message") + "]\r\n"; 
+			}
 		}
-		return null;
+		outDto.put("success", new Boolean(true));
+		outDto.put("message", rsltMsg);
+		return outDto;
+	}
+	
+	/**
+	 * 单张值班表审核
+	 * @param pDto
+	 * @return
+	 */
+	private Dto saveAdcShiftDutyCheckItem(String dutyId){
+		Dto outDto = new BaseDto();
+		Dto dto = new BaseDto();
+		dto.put("dutyid", dutyId);
+		List<Dto> items = g4Dao.queryForList("AdcShiftDuty.queryAdcShiftDutyDetailItemForManage", dto);
+		if (items.size() == 0){
+			outDto.put("success", new Boolean(false));
+			outDto.put("message", "无效的值班表号");
+			return outDto;
+		}
+		
+		String shiftId = items.get(0).getAsString("shift_id");
+		dto.clear();
+		dto.put("shift_id", shiftId);
+		List<Dto> it = g4Dao.queryForList("AdcShiftBasic.queryAdcShiftBasicItemForManage", dto);
+		String adcId = it.get(0).getAsString("adc_id");
+		dto.clear();
+		dto.put("adc_date", items.get(0).getAsDate("dutydate"));
+		dto.put("deptid", items.get(0).getAsString("deptid"));
+		dto.put("empid", items.get(0).getAsInteger("empid"));
+		dto.put("adc_id", adcId);
+		dto.put("shift_id", items.get(0).getAsString("shift_id"));
+		dto.put("addition_info", dutyId);
+		dto.put("aff_days", "1");
+		dto.put("aff_hours", "0");
+		dto.put("state", "1");
+		dto.put("requestid", null);
+		dto.put("source_type", "3"); //新定义的来源，值班表
+		dto.put("operator", "10000001");
+		dto.put("operate_time", G4Utils.getCurDate());
+		dto.put("remark", null);
+		
+		g4Dao.delete("AdcShiftLeave.saveAdcShiftLeaveItem", dto);
+		outDto.put("success", new Boolean(true));
+		
+		return outDto;
 	}
 
 }

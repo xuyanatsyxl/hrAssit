@@ -67,10 +67,10 @@ Ext
 				bodyStyle : 'padding:3 5 0', // 表单元素和表单面板的边距
 				buttonAlign : 'center',
 				height : 120,
-				items : [ {
+				items : [  comboxWithTree, {
 					layout : 'column',
 					border : false,
-					items : [ comboxWithTree, {
+					items : [{
 						columnWidth : .5,
 						layout : 'form',
 						labelWidth : 60, // 标签宽度
@@ -88,6 +88,7 @@ Ext
 							format : 'Ym',
 							anchor : '100%'
 						}, {
+							id : 'deptid',
 							name : 'deptid',
 							hidden : true
 						} ]
@@ -136,7 +137,7 @@ Ext
 					iconCls : 'previewIcon',
 					handler : function() {
 						queryBalanceInfo(qForm.getForm());
-						qWindow.collapse();
+						qWindow.hide();
 					}
 				}, {
 					text : '重置',
@@ -304,7 +305,8 @@ Ext
 						} else {
 							Ext.MessageBox.alert('提示', "当前没有可以导出的数据！！");
 						}						
-					} ]
+					} 
+				}]
 			});
 
 			// 表格实例
@@ -314,7 +316,7 @@ Ext
 				// collapsible : true,
 				border : true,
 				// 表格面板标题,默认为粗体，我不喜欢粗体，这里设置样式将其格式为正常字体
-				title : '<span class="commoncss">部门加班明细表/span>',
+				title : '<span class="commoncss">部门加班明细表</span>',
 				// height : 500,
 				autoScroll : true,
 				frame : true,

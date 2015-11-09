@@ -30,4 +30,12 @@ public class AdcShiftRecordServiceImpl extends BaseServiceImpl implements AdcShi
 		return null;
 	}
 
+	/**
+	 * 保存一条排班生成记录
+	 */
+	public Dto saveAdcShiftRecordLogsItem(Dto pDto) {
+		g4Dao.insert("AdcShiftRecord.saveAdcShiftRecordLogsItem", pDto);
+		return null;
+	}
+
 }

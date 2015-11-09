@@ -96,6 +96,43 @@ public class AdcShiftRecordAction extends BaseAction {
 	}
 
 	/**
-	 * 获得部门分组数据
+	 * 排班生成记录查询初始化
 	 */
+	public ActionForward adcShiftRecordLogsInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		super.removeSessionAttribute(request, "deptid");
+		Dto inDto = new BaseDto();
+		String deptid = super.getSessionContainer(request).getUserInfo().getDeptid();
+		inDto.put("deptid", deptid);
+		Dto outDto = organizationService.queryDeptinfoByDeptid(inDto);
+		request.setAttribute("rootDeptid", outDto.getAsString("deptid"));
+		request.setAttribute("rootDeptname", outDto.getAsString("deptname"));
+		UserInfoVo userInfoVo = getSessionContainer(request).getUserInfo();
+		request.setAttribute("login_account", userInfoVo.getAccount());
+		return mapping.findForward("manageAdcShiftRecordLogsView");
+	}
+	
+	/**
+	 * 排班记录查询
+	 */
+	public ActionForward queryAdcShiftRecordLogsItemForManage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		BaseActionForm aForm = (BaseActionForm) form;
+		Dto dto = aForm.getParamAsDto(request);
+		String deptid = request.getParameter("deptid");
+		if (G4Utils.isEmpty(deptid)) {
+			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
+		}
+		List items = g4Reader.queryForPage("AdcShiftRecord.queryAdcShiftRecordLogsItemForManage", dto);
+		for (int i = 0; i < items.size(); i++) {
+			Dto dto2 = (BaseDto) items.get(i);
+			dto2.put("rq", G4Utils.Date2String(dto2.getAsTimestamp("rq"), "yyyy-MM-dd"));
+			dto2.put("begin_time", G4Utils.Date2String(dto2.getAsTimestamp("begin_time"), "yyyy-MM-dd HH:mm:ss"));
+			dto2.put("end_time", G4Utils.Date2String(dto2.getAsTimestamp("end_time"), "yyyy-MM-dd HH:mm:ss"));
+		}
+		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftRecord.queryAdcShiftRecordLogsItemForManageForPageCount", dto);
+		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, null);
+		write(jsonString, response);
+		return mapping.findForward(null);
+	}
 }

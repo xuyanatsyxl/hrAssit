@@ -94,4 +94,47 @@
 		</dynamic>
 		where rec_id = #rec_id#
 	</update>
+	
+	<!-- 查询排班表生成记录 -->
+	<select id="queryAdcShiftRecordLogsItemForManage" parameterClass="map" resultClass="dto">
+	    select a.id, a.rq, a.rec_id, c.deptid, hr_getfulldeptname(c.deptid) as deptname, c.GROUP_ID, (select group_name from adc_shift_group where group_id=c.group_id) as group_name,
+			c.EMPID, (select NAME FROM EMPLOYEE WHERE EMPID=c.empid) as empname, c.PATTERN_ID, (select PATTERN_SHIFT_NAME from adc_shift_pattern where PATTERN_ID=c.pattern_id) as PATTERN_NAME,
+ 			a.begin_time, a.end_time, a.state, a.memo
+		 from adc_shift_record_logs a, adc_shift_record b, adc_shift_apply c
+	    where a.rec_id=b.REC_ID and b.APPLY_ID=c.APPLY_ID
+	    <dynamic>
+	        <isNotEmpty prepend="and" property="deptid">
+	            c.deptid like '$deptid$%'
+	        </isNotEmpty>
+	        <isNotEmpty prepend="and" property="start_date">
+				a.rq <![CDATA[>=]]>	#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.rq  <![CDATA[<=]]> #end_date#
+			</isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<select id="queryAdcShiftRecordLogsItemForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+	    select count(*) as count
+		 from adc_shift_record_logs a, adc_shift_record b, adc_shift_apply c
+	    where a.rec_id=b.REC_ID and b.APPLY_ID=c.APPLY_ID
+	    <dynamic>
+	        <isNotEmpty prepend="and" property="deptid">
+	            c.deptid like '$deptid$%'
+	        </isNotEmpty>
+	        <isNotEmpty prepend="and" property="start_date">
+				a.rq <![CDATA[>=]]>	#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.rq  <![CDATA[<=]]> #end_date#
+			</isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<!-- 插入生成记录 -->
+	<insert id="saveAdcShiftRecordLogsItem" parameterClass="dto">
+	    insert into Adc_Shift_Record_Logs (rq, rec_id, begin_time, end_time, state, memo)
+	    	values(#rq#, #rec_id#, #begin_time#, #end_time#, #state#, #memo#)
+	</insert>
 </sqlMap>

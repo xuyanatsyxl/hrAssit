@@ -434,15 +434,24 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 
 				while (tmpCalendar.getTime().getTime() <= endDate.getTime()) {
 					for (Dto dto : recList) {
+						Dto logDto = new BaseDto();
+						logDto.put("rq", tmpCalendar.getTime());
+						logDto.put("rec_id", dto.getAsBigDecimal("rec_id"));
+						logDto.put("begin_time", G4Utils.getCurrentTime());
 						try {
 							if (fullGen){
 								dto.put("tmpdate", G4Utils.Date2String(tmpCalendar.getTime(), "yyyy-MM-dd"));
 								g4Dao.delete("AdcShiftScheduling.deleteAdcShiftSchedulingItem", dto);
 							}
 							makeShiftSchedulingByDto(dto, tmpCalendar.getTime());
+							logDto.put("state", "2");
 						} catch (ParseException e) {
-							// TODO Auto-generated catch block
+							logDto.put("state", "1");
+							logDto.put("memo", e.getMessage());
 							e.printStackTrace();
+						}finally{
+							logDto.put("end_time", G4Utils.getCurrentTime());
+							g4Dao.insert("AdcShiftRecord.saveAdcShiftRecordLogsItem", logDto);
 						}
 					}
 					tmpCalendar.add(Calendar.DAY_OF_MONTH, 1);

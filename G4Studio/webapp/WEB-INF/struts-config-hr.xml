@@ -151,6 +151,7 @@
 		<action name="baseActionForm" path="/adcshiftrecord" scope="request"
 			parameter="reqCode" type="org.infotechdept.hr.kq.web.AdcShiftRecordAction">
 			<forward name="manageAdcShiftRecordView" path="/adc/manageAdcShiftRecord.jsp" />
+			<forward name="manageAdcShiftRecordLogsView" path="/adc/manageAdcShiftRecordLogs.jsp" />
 		</action>
 
 		<!-- 月末报表 -->

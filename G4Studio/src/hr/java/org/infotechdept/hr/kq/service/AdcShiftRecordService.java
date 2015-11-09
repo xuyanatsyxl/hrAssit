@@ -10,4 +10,6 @@ public interface AdcShiftRecordService extends BaseService {
 	public Dto deleteAdcShiftRecordItem(Dto pDto);
 
 	public Dto updateAdcShiftRecordItem(Dto pDto);
+	
+	public Dto saveAdcShiftRecordLogsItem(Dto pDto);
 }

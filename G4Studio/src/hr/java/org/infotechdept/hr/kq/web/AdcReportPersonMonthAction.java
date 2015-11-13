@@ -85,13 +85,8 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		dto.put("yearmonth", inDto.getAsString("yearmonth"));
 		dto.put("deptname", getfullDeptName(deptid));
 		List catalogList = g4Reader.queryForList("AdcReportPersonMonth.queryAdcShiftReportPersonalMonthForPrint", inDto);
-		int toIndex = 80;
-		if (catalogList.size() <= toIndex) {
-			toIndex = catalogList.size() - 1;
-		}
-		List subList = catalogList.subList(0, toIndex);
-		for (int i = 0; i < subList.size(); i++) {
-			Dto dto2 = (BaseDto) subList.get(i);
+		for (int i = 0; i < catalogList.size(); i++) {
+			Dto dto2 = (BaseDto) catalogList.get(i);
 			dto2.put("sortno", (i + 1));
 			dto2.put("yearmonth", inDto.getAsString("yearmonth"));
 			Dto cfDto = (BaseDto) g4Reader.queryForObject("AdcReportPersonMonth.queryAdcReportPersonMonthForManage", dto2);
@@ -119,7 +114,7 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		}
 		ReportData reportData = new ReportData();
 		reportData.setParametersDto(dto);
-		reportData.setFieldsList(subList);
+		reportData.setFieldsList(catalogList);
 		reportData.setReportFilePath("/report/jasper/hr/adcShiftReportMonth.jasper");
 		getSessionContainer(request).setReportData("adcShiftReportMonth", reportData);
 		return mapping.findForward(null);

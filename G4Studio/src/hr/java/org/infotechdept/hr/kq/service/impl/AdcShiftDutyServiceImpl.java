@@ -196,6 +196,7 @@ public class AdcShiftDutyServiceImpl extends BaseServiceImpl implements AdcShift
 	
 	/**
 	 * 单张值班表审核
+	 * 先查找排班记录，如果有，就直接应用
 	 * @param pDto
 	 * @return
 	 */
@@ -220,7 +221,6 @@ public class AdcShiftDutyServiceImpl extends BaseServiceImpl implements AdcShift
 		dto.put("deptid", items.get(0).getAsString("deptid"));
 		dto.put("empid", items.get(0).getAsInteger("empid"));
 		dto.put("adc_id", adcId);
-		dto.put("shift_id", items.get(0).getAsString("shift_id"));
 		dto.put("addition_info", dutyId);
 		dto.put("aff_days", "1");
 		dto.put("aff_hours", "0");
@@ -230,8 +230,8 @@ public class AdcShiftDutyServiceImpl extends BaseServiceImpl implements AdcShift
 		dto.put("operator", "10000001");
 		dto.put("operate_time", G4Utils.getCurDate());
 		dto.put("remark", null);
-		
-		g4Dao.delete("AdcShiftLeave.saveAdcShiftLeaveItem", dto);
+
+		g4Dao.insert("AdcShiftLeave.saveAdcShiftLeaveItem", dto);
 		outDto.put("success", new Boolean(true));
 		
 		return outDto;

@@ -192,7 +192,7 @@ public class AdcShiftDutyAction extends BaseAction{
 		BaseActionForm actionForm = (BaseActionForm) form;
 		Dto dto = actionForm.getParamAsDto(request);
 		FormFile theFile = actionForm.getTheFile();
-		String metaData = "dutydate,code,name,shift_id";
+		String metaData = "id,dutydate,code,name,shift_id";
 		ExcelReader excelReader = new ExcelReader(metaData, theFile.getInputStream());
 		List list = excelReader.read(3, 0);
 		dto.setDefaultAList(list);

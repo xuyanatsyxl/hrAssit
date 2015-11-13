@@ -26,7 +26,7 @@
 	
 	<!-- 获取最大部门子节点编号 -->
 	<select id="getMaxSubDeptId" parameterClass="java.lang.String" resultClass="java.lang.String">
-		SELECT MAX(deptid)
+		SELECT MAX(cascadeid)
 		  FROM eadept
 		 WHERE parentid = #parentid#
 	</select>

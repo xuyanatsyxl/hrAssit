@@ -186,16 +186,6 @@ public class LxyRptAction extends BaseAction {
 		super.setSessionAttribute(request, "QUERYBMLXYXX_QUERYDTO", dto);
 
 		List lxyList = g4Reader.queryForPage("LXYReport.querybmLxyxxForManager", dto);
-		/*
-		 * SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID)
-		 * as deptname, a.RYID, a.RYBH, a.XM, a.XB,a.CSRQ,a.SFZH,a.HYZK,a.ZGXL,
-		 * a.JZFS,a.LXSJ,a.JJLXR,a.JJLXRSJ,a.XLXZ, b.YGXJ,
-		 * a.SG,a.MZ,a.YWBS,a.TZ,
-		 * a.CSD,a.ZJXY,a.HKSZD,a.HKXZ,a.LT,a.DQZT,a.LXZD,a
-		 * .JZMJ,a.XZJ,a.JJLXRZD, b.GHDW, b.PP,
-		 * b.YDRQ,b.YGXJ,DATE_FORMAT(FROM_DAYS
-		 * (TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 AS AGE,b.GW
-		 */
 		for (int i = 0; i < lxyList.size(); i++) {
 			Dto dto2 = (BaseDto) lxyList.get(i);
 			dto2.put("csrq", G4Utils.stringToDate(dto2.getAsString("csrq"), "yyyyMMdd", "yyyy-MM-dd"));
@@ -215,21 +205,22 @@ public class LxyRptAction extends BaseAction {
 		parametersDto.put("jbr", super.getSessionContainer(request).getUserInfo().getUsername());
 		parametersDto.put("jbsj", G4Utils.getCurrentTime());
 		Dto inDto = (BaseDto) super.getSessionAttribute(request, "QUERYBMLXYXX_QUERYDTO");
-		inDto.put("rownum", "5000");
+
+		//过多的记录将禁止导出
+		Integer temp = (Integer)g4Reader.queryForObject("LXYReport.querybmLxyxxForExcelForPageCount", inDto);
+		if (temp.intValue() >= 8000){
+			setErrTipMsg("系统禁止导出超过8000记录的EXCEL，请缩小查询范围后再试！", response);
+			return mapping.findForward(null);
+		}
+		
 		List fieldsList = g4Reader.queryForList("LXYReport.querybmLxyxxForExcel", inDto);
 		for (int i = 0; i < fieldsList.size(); i++) {
 			Dto dto2 = (BaseDto) fieldsList.get(i);
 			dto2.put("csrq", G4Utils.Date2String(G4Utils.stringToDate(dto2.getAsString("csrq"), "yyyyMMdd", "yyyy-MM-dd"), "yyyy-MM-dd"));
 			dto2.put("ydrq", G4Utils.Date2String(G4Utils.stringToDate(dto2.getAsString("ydrq"), "yyyyMMdd", "yyyy-MM-dd"), "yyyy-MM-dd"));
-			dto2.put("xjjsrq",
-					G4Utils.Date2String(G4Utils.stringToDate(dto2.getAsString("xjjsrq"), "yyyyMMdd", "yyyy-MM-dd"), "yyyy-MM-dd"));
+			dto2.put("xjjsrq", G4Utils.Date2String(G4Utils.stringToDate(dto2.getAsString("xjjsrq"), "yyyyMMdd", "yyyy-MM-dd"), "yyyy-MM-dd"));
 		}
-		/*
-		 * int toIndex = 7; System.out.println(fieldsList.size() + "aa合计条数！！");
-		 * if (fieldsList.size() <= toIndex) { toIndex = fieldsList.size(); }
-		 */
 		List subList = fieldsList.subList(0, fieldsList.size());
-		System.out.println(subList.size() + "合计条数！！");
 		parametersDto.put("countXmid", new Integer(subList.size()));// 合计条数
 		ExcelExporter excelExporter = new ExcelExporter();
 		excelExporter.setTemplatePath("/report/excel/hr/lxy/bmlxyxxquery.xls");

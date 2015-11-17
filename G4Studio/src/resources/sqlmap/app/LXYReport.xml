@@ -161,16 +161,12 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="maxage">
 				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[<=]]>#maxage#
-				
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="minage">
-				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[>=]]>#minage#
-				
-				
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[>=]]>#minage#				
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="gw">
 				b.GW=#gw#
-				
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="dqzt">
 				a.DQZT = '$dqzt$'			
@@ -178,7 +174,46 @@
 		</dynamic> 
 	</select>
 	
-	
+	<select id="querybmLxyxxForExcelForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*) as count
+		 from lxybmsqb a, bmlxy b
+		where a.RYID=b.ryid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="rybh">
+         		a.RYBH like "%$rybh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="xm">
+         		a.XM like "%$xm$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ghdw">
+         		b.GHDW like "%$ghdw$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pp">
+         		b.PP like "%$pp$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid">
+         		b.DEPTID like "$deptid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sfzh">
+         		a.SFZH like "%$sfzh$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lxsj">
+         		a.LXSJ like "$lxsj$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maxage">
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[<=]]>#maxage#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="minage">
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 <![CDATA[>=]]>#minage#				
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gw">
+				b.GW=#gw#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dqzt">
+				a.DQZT = '$dqzt$'			
+			</isNotEmpty>			
+		</dynamic> 
+	</select>
 	
 	<select id="querybmLxyxxForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT count(*) as count

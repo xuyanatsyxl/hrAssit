@@ -945,21 +945,7 @@ Ext
 									updateUserItem();
 
 							}
-						} ,{
-							text : '重置',
-							id : 'adduserReset', 
-							iconCls : 'tbar_synchronizeIcon', handler :
-								  function() {
-								addUserForm.getForm().getEl().dom.reset();
-								Ext.getCmp('addformsave').show();
-								Ext.getCmp('adduserReset').show();
-								  setempty();
-								  Ext.getCmp('windowmode') .setValue('add'); 
-								  Ext.getCmp('ryid').setValue(ryid);
-								  Ext.getCmp('dqzt').setValue(1);
-								  }
-							
-						}]
+						} ]
 
 					});
 

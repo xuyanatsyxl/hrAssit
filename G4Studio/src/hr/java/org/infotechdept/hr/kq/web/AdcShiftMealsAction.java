@@ -81,6 +81,10 @@ public class AdcShiftMealsAction extends BaseAction{
 			HttpServletResponse response) throws Exception {
 		BaseActionForm aForm = (BaseActionForm) form;
 		Dto dto = aForm.getParamAsDto(request);
+		String deptid = request.getParameter("deptid");
+		if (G4Utils.isEmpty(deptid)) {
+			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
+		}
 		super.setSessionAttribute(request, "QUERYADCSHIFTMEALSITEM_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcShiftMeals.queryAdcShiftMealsItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftMeals.queryAdcShiftMealsItemForManageForPageCount", dto);
@@ -143,6 +147,64 @@ public class AdcShiftMealsAction extends BaseAction{
 		List items = g4Reader.queryForPage("AdcShiftMeals.queryAdcMealsLeaveItemForManage", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, null, null);
 		write(jsonString, response);
+		return mapping.findForward(null);
+	}
+	
+	/**
+	 * 综合查询初始化
+	 */
+	public ActionForward queryAdcShiftMealsByDeptInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		super.removeSessionAttribute(request, "deptid");
+		Dto inDto = new BaseDto();
+		String deptid = super.getSessionContainer(request).getUserInfo().getDeptid();
+		inDto.put("deptid", deptid);
+		Dto outDto = organizationService.queryDeptinfoByDeptid(inDto);
+		request.setAttribute("rootDeptid", outDto.getAsString("deptid"));
+		request.setAttribute("rootDeptname", outDto.getAsString("deptname"));
+		UserInfoVo userInfoVo = getSessionContainer(request).getUserInfo();
+		request.setAttribute("login_account", userInfoVo.getAccount());
+		return mapping.findForward("queryAdcShiftMealsByDeptView");
+	}
+	
+	/**
+	 * 综合查询:汇总
+	 */
+	public ActionForward queryAdcShiftMealsByDept(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		BaseActionForm aForm = (BaseActionForm) form;
+		Dto dto = aForm.getParamAsDto(request);
+		String deptid = request.getParameter("deptid");
+		if (G4Utils.isEmpty(deptid)) {
+			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
+		}
+		super.setSessionAttribute(request, "QUERYADCSHIFTMEALSBYDEPT_QUERYDTO", dto);
+		List items = g4Reader.queryForPage("AdcShiftMeals.queryAdcShiftMealsByDeptForManage", dto);
+		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftMeals.queryAdcShiftMealsByDeptForManageForPageCount", dto);
+		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, null);
+		write(jsonString, response);
+		return mapping.findForward(null);
+	}	
+	
+	/**
+	 * 综合查询:导出到EXCEL
+	 */
+	public ActionForward exportDeptExcel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		BaseActionForm actionForm = (BaseActionForm) form;
+		Dto dto = (BaseDto) super.getSessionAttribute(request, "QUERYADCSHIFTMEALSBYDEPT_QUERYDTO");
+		List empls = g4Reader.queryForList("AdcShiftMeals.queryAdcShiftMealsByDeptForManage", dto);
+		String deptid = dto.getAsString("deptid");
+		Dto parametersDto = new BaseDto();
+		parametersDto.put("reportTitle", "部门就餐统计汇总表");
+		parametersDto.put("jbr", super.getSessionContainer(request).getUserInfo().getUsername());
+		parametersDto.put("jbsj", G4Utils.getCurrentTime());
+
+		ExcelExporter excelExporter = new ExcelExporter();
+		excelExporter.setTemplatePath("/report/excel/hr/adc/adcShiftMealsDeptReport.xls");
+		excelExporter.setData(parametersDto, empls);
+		excelExporter.setFilename(deptid + ".xls");
+		excelExporter.export(request, response);
 		return mapping.findForward(null);
 	}
 }

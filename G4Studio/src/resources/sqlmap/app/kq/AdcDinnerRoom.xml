@@ -87,4 +87,9 @@
 	<insert id="saveAdcDinnerRoomDkjItem" parameterClass="dto">
 		insert into ADC_DINNER_ROOM_DKJ(ROOM_ID, DKJID) values (#room_id#, #dkjid#)
 	</insert>
+	
+	<!-- 删除食堂前检查是否已经有业务发生 -->
+	<select id="checkCanDelete" parameterClass="map" resultClass="java.lang.Integer">
+	    select count(*) as count from adc_shift_meals where room_id = #room_id#
+	</select>
 </sqlMap>

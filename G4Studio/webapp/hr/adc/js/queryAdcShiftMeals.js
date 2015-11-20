@@ -120,7 +120,7 @@ Ext.onReady(function() {
 		editable : false,
 		value : ' ',
 		emptyText : '请选择...',
-		fieldLabel : '食堂名称',
+		fieldLabel : '就餐食堂',
 		anchor : '100%',
 		mode : 'local',
 		triggerAction : 'all',
@@ -181,7 +181,7 @@ Ext.onReady(function() {
 		editable : false,
 		value : ' ',
 		emptyText : '请选择...',
-		fieldLabel : '所属部门',
+		fieldLabel : '就餐部门',
 		labelStyle : micolor,
 		anchor : '100%',
 		mode : 'local',
@@ -285,7 +285,7 @@ Ext.onReady(function() {
 			iconCls : 'previewIcon',
 			handler : function() {
 				if (!Ext.getCmp('qForm').findById('deptid').getValue()){
-					Ext.Msg.alert('提示', '必须选择部门！');
+					Ext.Msg.alert('提示', '必须选择就餐部门！');
 					return;
 				}
 				queryBalanceInfo(qForm.getForm());

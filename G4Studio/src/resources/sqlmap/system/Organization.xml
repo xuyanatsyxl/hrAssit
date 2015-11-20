@@ -38,7 +38,7 @@
 	<!-- 根据DTO查询部门信息 生成部门树 -->
 	<select id="queryDeptItemsByDto" parameterClass="map" resultClass="dto">
 		SELECT 
-		   deptid as id, deptname as text, parentid,leaf,sortno, cascadeid
+		   deptid as id, deptname as text, parentid,leaf,sortno
 		FROM EADEPT WHERE enabled='1'
 		<dynamic>
 			<isNotEmpty prepend="AND" property="deptid"> 
@@ -54,29 +54,9 @@
 		order by sortno
 	</select>
 	
-	<!-- 根据条件查询部门信息 -->
-	<select id="queryDeptItemsForManage" parameterClass="map" resultClass="dto">
-		SELECT  deptid, deptname, parentid, leaf, sortno, cascadeid, depttype
-		  FROM EADEPT WHERE enabled='1'
-		<dynamic>
-			<isNotEmpty prepend="AND" property="deptid"> 
-				deptid = #deptid#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="parentid"> 
-				parentid = #parentid#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptname"> 
-				deptname like '%$deptname$%'
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="cascadeid"> 
-				cascadeid like '$cascadeid$%'
-			</isNotEmpty>
-		</dynamic>
-	</select>
-	
 	<!-- 部门管理-部门列表 -->
 	<select id="queryDeptsForManage" parameterClass="map" resultClass="dto">
-	   SELECT   deptid, deptname, customid, cascadeid, depttype, 
+	   SELECT   deptid, deptname, customid,
 	         (SELECT deptname
 	            FROM eadept
 	           WHERE deptid = a.parentid) AS parentdeptname,
@@ -90,7 +70,7 @@
 	       FROM eadept a WHERE a.enabled='1'
 		<dynamic>
 			<isNotEmpty prepend="AND" property="deptid"> 
-									a.deptid = #deptid#
+									a.deptid like '$deptid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="parentid"> 
 									a.parentid = #parentid#
@@ -100,9 +80,6 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="queryParam"> 
 				                    a.deptname like '%$queryParam$%'
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="cascadeid"> 
-									a.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 		</dynamic>
 	   ORDER BY sortno DESC
@@ -113,7 +90,7 @@
 		  FROM eadept a WHERE a.enabled='1'
 		<dynamic>
 			<isNotEmpty prepend="AND" property="deptid"> 
-									a.deptid = #deptid#
+									a.deptid like '$deptid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="parentid"> 
 									a.parentid = #parentid#
@@ -124,18 +101,15 @@
 			<isNotEmpty prepend="AND" property="queryParam"> 
 				                    a.deptname like '%$queryParam$%'
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="cascadeid"> 
-									a.cascadeid like '$cascadeid$%'
-			</isNotEmpty>
 		</dynamic>
 	</select>
 	
 	<!-- 插入一条部门记录 -->
 	<insert id="saveDeptItem" parameterClass="dto">
 		INSERT INTO eadept (
-		   deptname, parentid, cascadeid, depttype,
-		   customid, leaf, sortno, remark, enabled) 
-		VALUES (#deptname#, #parentid#, #cascadeid#, #depttype#, 
+		   deptid, deptname, parentid, 
+		   customid,leaf, sortno, remark, enabled) 
+		VALUES (#deptid#, #deptname#, #parentid#,
 		    #customid#, #leaf#, #sortno#, #remark#, #enabled#)
 	</insert>
     
@@ -157,12 +131,6 @@
 			<isNotNull prepend="," property="customid">
 	         customid = #customid#
 			</isNotNull>
-			<isNotNull prepend="," property="depttype">
-	         depttype = #depttype#
-			</isNotNull>
-			<isNotNull prepend="," property="cascadeid">
-	         cascadeid = #cascadeid#
-			</isNotNull>
 			<isNotNull prepend="," property="leaf">
 	         leaf = #leaf#
 			</isNotNull>
@@ -180,7 +148,7 @@
 	<update id="updateEadeptItem" parameterClass="map" >
 		UPDATE 
 		  eadept SET ENABLED = '0'
-		 WHERE cascadeid like '$cascadeid$%'
+		 WHERE deptid like '$deptid$%'
 	</update>
 	
 	<select id="prepareChangeLeafOfDeletedParentForEadept" parameterClass="map" resultClass="java.lang.Integer">
@@ -193,16 +161,15 @@
 		DELETE
 		  FROM earoleauthorize
 		      WHERE roleid IN (SELECT roleid
-		                          FROM earole a, eadept b
-		                        WHERE a.deptid=b.deptid and b.CASCADEID like '$cascadeid$%')
-		                        
+		                         FROM earole
+		                        WHERE deptid like '$deptid$%')
 	</delete>
 	
 	<!-- 删除角色表  -->
 	<delete id="deleteEaroleInDeptManage" parameterClass="map" >
-	     delete earole 
-		   from earole, eadept
-         where earole.deptid=eadept.deptid and eadept.cascadeid like '$cascadeid$%'
+		DELETE 
+		  FROM earole
+		      WHERE deptid like '$deptid$%'
 	</delete>
 	
 	<!-- 删除人员授权表  -->
@@ -210,8 +177,8 @@
 		DELETE 
 		  FROM eauserauthorize
 		      WHERE userid IN (SELECT userid
-		                         FROM eauser a, eadept b
-		                        WHERE a.deptid=b.deptid and b.cascadeid like '$cascadeid$%')
+		                         FROM eauser
+		                        WHERE deptid like '$deptid$%')
 	</delete>
 	
 	<!-- 删除人员授权表2  -->
@@ -219,8 +186,8 @@
 		DELETE 
 		  FROM eauserauthorize
 		      WHERE roleid IN (SELECT roleid
-		                         FROM eauser a, eadept b
-		                        WHERE a.deptid=b.deptid and b.cascadeid like '$cascadeid$%')
+		                         FROM eauser
+		                        WHERE deptid like '$deptid$%')
 	</delete>
 	
 	<!-- 删除人员菜单映射表  -->
@@ -228,8 +195,8 @@
 		DELETE 
 		  FROM eausermenumap
 		      WHERE userid IN (SELECT userid
-		                         FROM eauser a, eadept b
-		                        WHERE a.deptid=b.deptid and b.cascadeid like '$cascadeid$%')
+		                         FROM eauser
+		                        WHERE deptid like '$deptid$%')
 	</delete>
 	
 	<!-- 删除人员附属信息表  -->
@@ -237,8 +204,8 @@
 		DELETE 
 		  FROM eausersubinfo
 		      WHERE userid IN (SELECT userid
-		                        FROM eauser a, eadept b
-		                        WHERE a.deptid=b.deptid and b.cascadeid like '$cascadeid$%')
+		                         FROM eauser
+		                        WHERE deptid like '$deptid$%')
 	</delete>
 	
 	<!-- 删除UI元素角色授权表  -->
@@ -246,15 +213,15 @@
 		DELETE 
 		  FROM earolemenupart
 		      WHERE roleid IN (SELECT roleid
-		                         FROM earole a, eadept b
-		                        WHERE a.deptid=b.deptid and b.CASCADEID like '$cascadeid$%')
+		                         FROM earole
+		                        WHERE deptid like '$deptid$%')
 	</delete>
 	
 	<!-- 删除人员表  -->
 	<update id="updateEauserInDeptManage" parameterClass="map" >
-		update eauser a, eadept b
-			set a.enabled = '0'
-		where a.deptid=b.deptid and b.cascadeid like '$cascadeid$%'
+		UPDATE eauser
+		  SET enabled = '0' 
+		      WHERE deptid like '$deptid$%'
 	</update>
 	
 	<!-- 根据用户所属部门编号查询部门对象 -->
@@ -281,11 +248,6 @@
 	<!-- 根据账户查询会话连接数 -->
 	<select id="countHttpSessions" parameterClass="java.lang.String" resultClass="java.lang.Integer">
 		select count(*) from eahttpsession where account = #account#
-	</select>
-	
-	<!-- 根据deptid查询cascadeid -->
-	<select id="queryCascadeidByDeptid" parameterClass="java.lang.Integer" resultClass="java.lang.String">
-		select cascadeid from eadept where deptid = #deptid#
 	</select>
 	
 </sqlMap>

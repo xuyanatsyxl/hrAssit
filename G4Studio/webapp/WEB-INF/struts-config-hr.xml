@@ -195,6 +195,7 @@
 			<forward name="queryAdcShiftMealsDetailView" path="/adc/queryAdcShiftMealsDetail.jsp" />
 			<forward name="queryAdcShiftMealsView" path="/adc/queryAdcShiftMeals.jsp" />
 			<forward name="queryAdcMealsLeaveView" path="/adc/queryAdcMealsLeave.jsp" />
+			<forward name="queryAdcShiftMealsByDeptView" path="/adc/AdcShiftMealsByDept.jsp" />
 		</action>
 
 		<!-- 食堂管理 -->

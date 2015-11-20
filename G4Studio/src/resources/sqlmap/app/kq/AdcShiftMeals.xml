@@ -34,6 +34,9 @@
 				a.meals_date <![CDATA[<=]]>
 				#end_date#
 			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.room_id in (select room_id from adc_dinner_room where deptid like '$deptid$%')
+			</isNotEmpty>
 		</dynamic>
 		group by meals_date, a.deptid, b.EMPID, b.code, b.name, a.room_id
 	</select>
@@ -62,6 +65,9 @@
 			<isNotEmpty prepend="and" property="end_date">
 				a.meals_date <![CDATA[<=]]>
 				#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.room_id in (select room_id from adc_dinner_room where deptid like '$deptid$%')
 			</isNotEmpty>
 		</dynamic>
 	</select>
@@ -94,8 +100,10 @@
 				#start_date#
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="end_date">
-				a.meals_date <![CDATA[<=]]>
-				#end_date#
+				a.meals_date <![CDATA[<=]]>	#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.room_id in (select room_id from adc_dinner_room where deptid like '$deptid$%')
 			</isNotEmpty>
 		</dynamic>
 		group by a.deptid, b.EMPID, b.code, b.name, a.room_id
@@ -124,6 +132,9 @@
 				a.meals_date <![CDATA[<=]]>
 				#end_date#
 			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.room_id in (select room_id from adc_dinner_room where deptid like '$deptid$%')
+			</isNotEmpty>
 		</dynamic>
 	</select>
 	
@@ -137,6 +148,59 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="start_date">
 				meals_date = #start_date#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 分部门综合查询：汇总表 -->
+	<select id="queryAdcShiftMealsByDeptForManage" parameterClass="map" resultClass="dto">
+		select a.deptid, hr_getfulldeptname(a.deptid) deptname, b.EMPID, b.code, b.name, sum(if(meals_type='1', meals_times, null)) zc,
+			   sum(if(meals_type='2', meals_times, null)) wc, sum(if(meals_type='3', meals_times, null)) wac, sum(if(meals_type='4', meals_times, null)) jsfj,
+			   sum(if(meals_type='5', meals_times, null)) bjsfj
+		 from adc_shift_meals a, employee b, eadept c
+		where a.EMPID=b.EMPID and a.deptid=c.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.meals_date <![CDATA[>=]]>	#start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.meals_date <![CDATA[<=]]>	#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like '$deptid$%'
+			</isNotEmpty>
+		</dynamic>
+		group by a.deptid, b.EMPID, b.code, b.name
+	</select>
+	
+	<select id="queryAdcShiftMealsByDeptForManageForPageCount"
+		parameterClass="map" resultClass="java.lang.Integer">
+		select count(distinct a.deptid, a.empid)
+		as count
+		from adc_shift_meals a, employee b, eadept c
+		where
+		a.EMPID=b.EMPID and a.deptid=c.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="code">
+				b.code like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				b.name like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="start_date">
+				a.meals_date <![CDATA[>=]]> #start_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="end_date">
+				a.meals_date <![CDATA[<=]]>	#end_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptid">
+				a.deptid like '$deptid$%'
 			</isNotEmpty>
 		</dynamic>
 	</select>

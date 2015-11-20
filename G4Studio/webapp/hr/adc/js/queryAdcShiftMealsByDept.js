@@ -1,146 +1,11 @@
 /**
- * 就餐明细查询
+ * 分部门综合查询
  * 
  * @author xuyan
- * @since 2015-06-20
+ * @since 2015-11-20
  */
 Ext.onReady(function() {
-	
-	var store_emp = new Ext.data.Store(
-			{
-				proxy : new Ext.data.HttpProxy(
-						{
-							url : './adcdinnerroom.do?reqCode=queryAdcDinnerRoomItemForManage'
-						}),
-				reader : new Ext.data.JsonReader({
-					totalProperty : 'TOTALCOUNT',
-					root : 'ROOT'
-				}, [ {
-					name : 'room_id'
-				}, {
-					name : 'room_name'
-				}, {
-					name : 'deptid'
-				}, {
-					name : 'deptname'
-				}])
-			});
-	
-	var cm_emp = new Ext.grid.ColumnModel([
-			{
-				header : '食堂编号',
-				dataIndex : 'room_id',
-				width : 100
-			}, {
-				header : '食堂名称',
-				dataIndex : 'room_name',
-				width : 160
-			}, {
-				header : '所属部门',
-				dataIndex : 'deptname',
-				width : 130,
-				hidden : true
-			}, {
-				dataIndex : 'deptid',
-				hidden : true
-			} ]);
 
-	
-	var pagesize_combo_emp = new Ext.form.ComboBox({
-		name : 'pagesize',
-		hiddenName : 'pagesize',
-		typeAhead : true,
-		triggerAction : 'all',
-		lazyRender : true,
-		mode : 'local',
-		store : new Ext.data.ArrayStore({
-			fields : [ 'value', 'text' ],
-			data : [ [ 10, '10条/页' ], [ 20, '20条/页' ], [ 50, '50条/页' ],
-					[ 100, '100条/页' ], [ 250, '250条/页' ],
-					[ 500, '500条/页' ] ]
-		}),
-		valueField : 'value',
-		displayField : 'text',
-		value : '50',
-		editable : false,
-		width : 85
-	});
-	
-	var number_emp = parseInt(pagesize_combo_emp.getValue());
-	pagesize_combo_emp.on("select", function(comboBox) {
-		bbar_emp.pageSize = parseInt(comboBox.getValue());
-		number_emp = parseInt(comboBox.getValue());
-		store_emp.reload({
-			params : {
-				start : 0,
-				limit : bbar_emp.pageSize
-			}
-		});
-	});
-
-	var bbar_emp = new Ext.PagingToolbar({
-		pageSize : number_emp,
-		store : store_emp,
-		displayInfo : true,
-		displayMsg : '显示{0}条到{1}条,共{2}条',
-		emptyMsg : "没有符合条件的记录",
-		items : [ '-', '&nbsp;&nbsp;', pagesize_combo_emp ]
-	});
-	
-	var grid_emp = new Ext.grid.GridPanel({
-		height : 500,
-		// width:600,
-		autoScroll : true,
-		region : 'center',
-		margins : '3 3 3 3',
-		store : store_emp,
-		loadMask : {
-			msg : '正在加载表格数据,请稍等...'
-		},
-		stripeRows : true,
-		frame : true,
-		cm : cm_emp,
-		bbar : bbar_emp
-	});		
-	
-	grid_emp.on("cellclick", function(grid, rowIndex, columnIndex, e){
-		var store = grid_emp.getStore();
-		var record = store.getAt(rowIndex);
-		Ext.getCmp('empname').setValue('[' + record.get('room_id') + ']' + record.get('room_name'));
-		Ext.getCmp('room_id').setValue(record.get('room_id'));
-		comboxEmp.collapse();
-	}); 
-	
-	var comboxEmp = new Ext.form.ComboBox({
-		id : 'empname',
-		name : 'empname',
-		store : new Ext.data.SimpleStore({
-					fields : [],
-					data : [[]]
-				}),
-		editable : false,
-		value : ' ',
-		emptyText : '请选择...',
-		fieldLabel : '就餐食堂',
-		anchor : '100%',
-		mode : 'local',
-		triggerAction : 'all',
-		maxHeight : 390,
-		// 下拉框的显示模板,addDeptTreeDiv作为显示下拉树的容器
-		tpl : "<tpl for='.'><div style='height:390px'><div id='addEmpDiv'></div></div></tpl>",
-		allowBlank : true,
-		onSelect : Ext.emptyFn
-	});
-	
-	// 监听下拉框的下拉展开事件
-	comboxEmp.on('expand', function() {
-				// 将UI树挂到treeDiv容器
-				grid_emp.render('addEmpDiv');
-				store_emp.reload();
-
-	});
-	
-	
 	var addRoot = new Ext.tree.AsyncTreeNode({
 		text : root_deptname,
 		expanded : true,
@@ -160,43 +25,32 @@ Ext.onReady(function() {
 	
 	// 监听下拉树的节点单击事件
 	addDeptTree.on('click', function(node) {
-		comboxWithTree.setValue(node.text);
-		Ext.getCmp("qForm").findById('deptid').setValue(node.attributes.id);
-		comboxEmp.reset();
-		store_emp.reload({
-			params : {
-				deptid : node.attributes.id,
-				start : 0,
-				limit : bbar_emp.pageSize
-			}
-		});
-		comboxWithTree.collapse();
-			});
-
-	var comboxWithTree = new Ext.form.ComboBox(
-			{
-				id : 'deptname',
-				store : new Ext.data.SimpleStore({
-					fields : [],
-					data : [ [] ]
-				}),
-				editable : false,
-				allowBlank : false,
-				value : '',
-				emptyText : '请选择...',
-				fieldLabel : '就餐企业',
-				labelStyle : micolor,
-				anchor : '100%',
-				mode : 'local',
-				triggerAction : 'all',
-				maxHeight : 390,
-				// 下拉框的显示模板,addDeptTreeDiv作为显示下拉树的容器
-				tpl : "<tpl for='.'><div style='height:390px'><div id='addDeptTreeDiv'></div></div></tpl>",
-				allowBlank : false,
-				onSelect : Ext.emptyFn
+				comboxWithTree.setValue(node.text);
+				Ext.getCmp("qForm").findById('deptid').setValue(node.attributes.id);
+				comboxWithTree.collapse();
 			});
 	
-
+	
+	var comboxWithTree = new Ext.form.ComboBox({
+		id : 'deptname',
+		store : new Ext.data.SimpleStore({
+					fields : [],
+					data : [[]]
+				}),
+		editable : false,
+		value : ' ',
+		emptyText : '请选择...',
+		fieldLabel : '选择部门',
+		labelStyle : micolor,
+		anchor : '100%',
+		mode : 'local',
+		triggerAction : 'all',
+		maxHeight : 390,
+		// 下拉框的显示模板,addDeptTreeDiv作为显示下拉树的容器
+		tpl : "<tpl for='.'><div style='height:390px'><div id='addDeptTreeDiv'></div></div></tpl>",
+		allowBlank : false,
+		onSelect : Ext.emptyFn
+	});
 
 	// 监听下拉框的下拉展开事件
 	comboxWithTree.on('expand', function() {
@@ -215,7 +69,7 @@ Ext.onReady(function() {
 		bodyStyle : 'padding:3 5 0', // 表单元素和表单面板的边距
 		buttonAlign : 'center',
 		height : 120,
-		items : [ comboxWithTree,  comboxEmp, {
+		items : [ comboxWithTree, {
 			layout : 'column',
 			border : false,
 			items : [ {
@@ -258,11 +112,7 @@ Ext.onReady(function() {
 					xtype : 'datefield', // 设置为数字输入框类型
 					format : 'Y-m-d',
 					anchor : '100%'
-				}, {
-					id : 'room_id',
-					name : 'room_id',
-					hidden : true
-				} ]
+				}]
 			} ]
 		}]
 	});
@@ -270,8 +120,8 @@ Ext.onReady(function() {
 	var qWindow = new Ext.Window({
 		title : '<span class="commoncss">查询条件</span>', // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
-		width : 450, // 窗口宽度
-		height : 180, // 窗口高度
+		width : 400, // 窗口宽度
+		height : 160, // 窗口高度
 		closable : false, // 是否可关闭
 		closeAction : 'hide', // 关闭策略
 		collapsible : true, // 是否可收缩
@@ -290,7 +140,7 @@ Ext.onReady(function() {
 			iconCls : 'previewIcon',
 			handler : function() {
 				if (!Ext.getCmp('qForm').findById('deptid').getValue()){
-					Ext.Msg.alert('提示', '必须选择部门！');
+					Ext.Msg.alert('提示', '必须选择就餐部门！');
 					return;
 				}
 				queryBalanceInfo(qForm.getForm());
@@ -319,12 +169,11 @@ Ext.onReady(function() {
 	});
 
 	// 定义列模型
-	var cm = new Ext.grid.ColumnModel([ rownum, {
-		header : '日期', // 列标题
-		dataIndex : 'meals_date', // 数据索引:和Store模型对应
-		width : 100,
-		sortable : true
-	// 是否可排序
+	var cm = new Ext.grid.ColumnModel([ rownum,  {
+		header : '部门编码',
+		dataIndex : 'deptid',
+		sortable : true,
+		width : 120
 	}, {
 		header : '所在部门',
 		dataIndex : 'deptname',
@@ -375,14 +224,14 @@ Ext.onReady(function() {
 	var store = new Ext.data.Store({
 		// 获取数据的方式
 		proxy : new Ext.data.HttpProxy({
-			url : 'adcshiftmeals.do?reqCode=queryAdcShiftMealsDetailItemForManage'
+			url : 'adcshiftmeals.do?reqCode=queryAdcShiftMealsByDept'
 		}),
 		// 数据读取器
 		reader : new Ext.data.JsonReader({
 			totalProperty : 'TOTALCOUNT', // 记录总数
 			root : 'ROOT' // Json中的列表数据根节点
 		}, [ {
-			name : 'meals_date' // Json中的属性Key值
+			name : 'deptid'
 		}, {
 			name : 'deptname'
 		}, {
@@ -401,13 +250,15 @@ Ext.onReady(function() {
 			name : 'jsfj'
 		}, {
 			name : 'bjsfj'
-		} ])
+		}])
 	});
-
+	
 	// 翻页排序时带上查询条件
 	store.on('beforeload', function() {
-		this.baseParams = qForm.getForm().getValues();
-	});
+				this.baseParams = qForm.getForm().getValues();
+			});
+
+
 	// 每页显示条数下拉选择框
 	var pagesize_combo = new Ext.form.ComboBox({
 		name : 'pagesize',
@@ -453,8 +304,7 @@ Ext.onReady(function() {
 		items : [ {
 			text : '查询',
 			iconCls : 'previewIcon',
-			handler : function() {
-				
+			handler : function() {			
 				qWindow.show();
 			}
 		}, {
@@ -463,7 +313,13 @@ Ext.onReady(function() {
 			handler : function() {
 				store.reload();
 			}
-		} ]
+		}, {
+			text : '导出EXCEL',
+			iconCls : 'page_excelIcon',
+			handler : function(){
+				exportExcel('adcshiftmeals.do?reqCode=exportDeptExcel');
+			}
+		}]
 	});
 
 	// 表格实例
@@ -473,7 +329,7 @@ Ext.onReady(function() {
 		// collapsible : true,
 		border : true,
 		// 表格面板标题,默认为粗体，我不喜欢粗体，这里设置样式将其格式为正常字体
-		title : '<span class="commoncss">就餐明细查询</span>',
+		title : '<span class="commoncss">就餐汇总查询</span>',
 		// height : 500,
 		autoScroll : true,
 		frame : true,
@@ -506,5 +362,9 @@ Ext.onReady(function() {
 			params : params
 		});
 	}
+	
+	/**
+	 * 双击查询明细开始
+	 */
 
 });

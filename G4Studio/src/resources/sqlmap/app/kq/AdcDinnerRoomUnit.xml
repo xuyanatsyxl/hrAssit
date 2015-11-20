@@ -79,4 +79,8 @@
 		 	</isNotEmpty>
 		 </dynamic>
 	</select>
+	
+	<delete id="deleteAdcDinnerRoomUnitByRoomIdItems" parameterClass="map">
+	    delete from ADC_DINNER_ROOM_UNIT where ROOM_ID = #room_id#
+	</delete>
 </sqlMap>

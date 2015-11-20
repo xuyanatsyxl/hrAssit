@@ -116,8 +116,8 @@ public class AdcDinnerRoomAction extends BaseAction{
 		Dto inDto = new BaseDto();
 		inDto.put("strChecked", strChecked);
 		if (!isDemoMode(response)) {
-			Dto outDto = adcDinnerRoomService.deleteAdcDinnerRoomItem(inDto);
-			setOkTipMsg(outDto.getAsString("msg"), response);
+			adcDinnerRoomService.deleteAdcDinnerRoomItem(inDto);
+			setOkTipMsg("食堂删除成功！", response);
 		}
 		return mapping.findForward(null);
 	}

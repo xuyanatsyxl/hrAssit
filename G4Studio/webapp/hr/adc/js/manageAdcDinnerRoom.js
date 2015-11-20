@@ -94,12 +94,12 @@ Ext.onReady(function() {
 			}, {
 				header : '食堂名称',
 				dataIndex : 'room_name',
-				width : 130
+				width : 160
 			}, {
 				id : 'deptname',
 				header : '所属部门',
 				dataIndex : 'deptname',
-				width : 130
+				width : 160
 			}, {
 				id : 'remark',
 				header : '备注',
@@ -213,7 +213,7 @@ Ext.onReady(function() {
 							text : '删除',
 							iconCls : 'page_delIcon',
 							handler : function() {
-								deleteUserItems();
+								deleteAdcDinnerRoomItems();
 							}
 						}, '->', new Ext.form.TextField({
 									id : 'queryParam',
@@ -321,64 +321,6 @@ Ext.onReady(function() {
 				// addDeptTree.root.expand(); //只是第一次下拉会加载数据
 				addDeptTree.root.reload(); // 每次下拉都会加载数据
 
-			});
-
-	var sexCombo = new Ext.form.ComboBox({
-				name : 'sex',
-				hiddenName : 'sex',
-				store : SEXStore,
-				mode : 'local',
-				triggerAction : 'all',
-				valueField : 'value',
-				displayField : 'text',
-				value : '0',
-				fieldLabel : '性别',
-				emptyText : '请选择...',
-				labelStyle : micolor,
-				allowBlank : false,
-				forceSelection : true,
-				editable : false,
-				typeAhead : true,
-				anchor : "99%"
-			});
-
-	var usertypeCombo = new Ext.form.ComboBox({
-				name : 'usertype',
-				hiddenName : 'usertype',
-				store : USERTYPEStore,
-				mode : 'local',
-				triggerAction : 'all',
-				valueField : 'value',
-				displayField : 'text',
-				value : '1',
-				fieldLabel : '人员类型',
-				emptyText : '请选择...',
-				allowBlank : false,
-				labelStyle : micolor,
-				forceSelection : true,
-				editable : false,
-				typeAhead : true,
-				readOnly : true,
-				anchor : "99%"
-			});
-
-	var lockedCombo = new Ext.form.ComboBox({
-				name : 'locked',
-				hiddenName : 'locked',
-				store : LOCKEDStore,
-				mode : 'local',
-				triggerAction : 'all',
-				valueField : 'value',
-				displayField : 'text',
-				value : '0',
-				fieldLabel : '人员状态',
-				emptyText : '请选择...',
-				allowBlank : false,
-				labelStyle : micolor,
-				forceSelection : true,
-				editable : false,
-				typeAhead : true,
-				anchor : "99%"
 			});
 
 	var addRoomFormPanel = new Ext.form.FormPanel({
@@ -573,30 +515,20 @@ Ext.onReady(function() {
 	}
 
 	/**
-	 * 删除人员
+	 * 删除
 	 */
-	function deleteUserItems() {
+	function deleteAdcDinnerRoomItems() {
 		var rows = grid.getSelectionModel().getSelections();
-		var fields = '';
-		for (var i = 0; i < rows.length; i++) {
-			if (rows[i].get('usertype') == '3') {
-				fields = fields + rows[i].get('username') + '<br>';
-			}
-		}
-		if (fields != '') {
-			Ext.Msg.alert('提示', '<b>您选中的项目中包含如下系统内置的只读项目</b><br>' + fields
-							+ '<font color=red>系统内置人员不能删除!</font>');
-			return;
-		}
 		if (Ext.isEmpty(rows)) {
 			Ext.Msg.alert('提示', '请先选中要删除的项目!');
 			return;
 		}
-		var strChecked = jsArray2JsString(rows, 'userid');
+		
+		var strChecked = jsArray2JsString(rows, 'room_id');
 		Ext.Msg
 				.confirm(
 						'请确认',
-						'<span style="color:red"><b>提示:</b>删除人员将同时删除和人员相关的权限信息,请慎重.</span><br>继续删除吗?',
+						'<span style="color:red"><b>提示:</b></span><br>继续删除吗?',
 						function(btn, text) {
 							if (btn == 'yes') {
 								if (runMode == '0') {

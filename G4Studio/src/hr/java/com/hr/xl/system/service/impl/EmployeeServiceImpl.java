@@ -142,7 +142,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 					deptDto.put("parentid", deptid);
 				}
 				deptid = IdGenerator.getDeptIdGenerator(deptDto
-						.getAsString("parentid"));
+						.getAsInteger("parentid"));
 				deptDto.put("deptid", deptid);
 				deptDto.put("leaf", new Boolean(false));
 				deptDto.put("sortno",

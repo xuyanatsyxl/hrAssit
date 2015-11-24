@@ -6,14 +6,15 @@
 
 	<select id="queryAdcShiftUploadItemForManage" parameterClass="map"
 		resultClass="dto">
-		SELECT upfileid, deptid, hr_getfulldeptname(deptid) deptname, title,
+		SELECT upfileid, b.deptid, hr_getfulldeptname(deptid) deptname, title,
 		path, filesize, operator,
 		(select username from eauser where userid=operator) operator_name,
 		operate_time, state, remark
-		from adc_shift_upload
-		<dynamic prepend="where">
-			<isNotEmpty prepend="and" property="deptid">
-				deptid like '$deptid$%'
+		from adc_shift_upload a, eadept b
+		where a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="state">
 				state = '$state$'
@@ -24,10 +25,11 @@
 	<select id="queryAdcShiftUploadItemForManageForPageCount" parameterClass="map"
 		resultClass="java.lang.Integer">
 		SELECT count(*) as count
-		from adc_shift_upload
-		<dynamic prepend="where">
-			<isNotEmpty prepend="and" property="deptid">
-				deptid like '$deptid$%'
+		from adc_shift_upload a, eadept b
+		where a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="cascadeid">
+				cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="state">
 				state = '$state$'

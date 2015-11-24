@@ -61,6 +61,8 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCREPORTPERSONMONTH_QUERYDTO", dto);
 
 		List items = g4Reader.queryForPage("AdcReportPersonMonth.queryAdcReportPersonMonthForManage", dto);

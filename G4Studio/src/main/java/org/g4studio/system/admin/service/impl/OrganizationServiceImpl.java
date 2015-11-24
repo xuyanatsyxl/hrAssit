@@ -65,8 +65,8 @@ public class OrganizationServiceImpl extends BaseServiceImpl implements Organiza
 	 * @return
 	 */
 	public synchronized Dto saveDeptItem(Dto pDto) {
-		String deptid = IdGenerator.getDeptIdGenerator(pDto.getAsString("parentid"));
-		pDto.put("deptid", deptid);
+		String deptid = IdGenerator.getDeptIdGenerator(pDto.getAsInteger("parentid"));
+		pDto.put("cascadeid", deptid);
 		pDto.put("leaf", SystemConstants.LEAF_Y);
 		// MYSQL下int类型字段不能插入空字符
 		pDto.put("sortno",
@@ -132,11 +132,14 @@ public class OrganizationServiceImpl extends BaseServiceImpl implements Organiza
 			String[] arrChecked = pDto.getAsString("strChecked").split(",");
 			for (int i = 0; i < arrChecked.length; i++) {
 				dto.put("deptid", arrChecked[i]);
+				dto.put("cascadeid", queryCascadeidByDeptid(Integer.valueOf(arrChecked[i])));
 				deleteDept(dto);
 			}
 		} else {
 			// 部门树右键删除
-			dto.put("deptid", pDto.getAsString("deptid"));
+			String cascadeid = queryCascadeidByDeptid(pDto.getAsInteger("deptid"));
+			dto.put("cascadeid", cascadeid);
+			dto.put("deptid", pDto.getAsInteger("deptid"));
 			deleteDept(dto);
 		}
 		return null;
@@ -216,6 +219,69 @@ public class OrganizationServiceImpl extends BaseServiceImpl implements Organiza
 		g4Dao.update("Organization.saveUserBackground", pDto);
 		outDto.put("success", new Boolean(true));
 		return outDto;
+	}
+
+	/**
+	 * 调整父部门
+	 */
+	public Dto adjustParentDept(Dto pDto) {
+		//先要检查调整后的部门是否是该部门或是该部门的下级部门
+		Dto outDto = new BaseDto();
+		Dto inDto = new BaseDto();
+		inDto.put("deptid", pDto.getAsString("parentid"));	
+		List<Dto> depts = g4Dao.queryForList("Organization.queryDeptItemsForManage", inDto);
+		
+		Dto newParentDept = depts.get(0);
+		String parentCasId = newParentDept.getAsString("cascadeid");
+		
+		String cascadeid_old = pDto.getAsString("cascadeid");
+		if (parentCasId.startsWith(cascadeid_old)){
+			outDto.put("success", false);
+			outDto.put("msg", "不能调整父部门为自身部门或自身子部门！");
+			return outDto;
+		}
+		
+		//先更新自己信息
+		Dto updateDto = new BaseDto();
+		updateDto.put("deptid", pDto.getAsString("deptid"));
+		updateDto.put("parentid", pDto.getAsString("parentid"));
+		updateDto.put("cascadeid", IdGenerator.getDeptIdGenerator(newParentDept.getAsInteger("deptid")));
+		g4Dao.update("Organization.updateDeptItem", updateDto);
+		updateDto.clear();
+		updateDto.put("deptid", pDto.getAsString("parentid"));
+		updateDto.put("leaf", SystemConstants.LEAF_N);
+		g4Dao.update("Organization.updateLeafFieldInEaDept", updateDto);
+		
+		//把子部门的信息取出来，更新cascadeid
+		inDto.clear();
+		inDto.put("cascadeid", pDto.getAsString("cascadeid"));
+		List<Dto> deptDto = g4Dao.queryForList("Organization.queryDeptItemsForManage", inDto);
+		for(Dto d : deptDto){
+			d.put("cascadeid", IdGenerator.getDeptIdGenerator(d.getAsInteger("parentid")));
+			g4Dao.update("Organization.updateDeptItem", d);
+		}
+		outDto.put("success", true);
+		outDto.put("msg", "隶属关系调整成功！");
+		return outDto;
+	}
+
+	/**
+	 * 合并部门
+	 * 只能针对末级和末级合并
+	 */
+	public Dto saveMergeDept(Dto pDto) {
+		Dto outDto = new BaseDto();
+		outDto.put("success", new Boolean(false));
+		outDto.put("message", "还未开放！");
+		return outDto;
+	}
+
+	/**
+	 * 根据DEPTID查询CASCADEID
+	 */
+	public String queryCascadeidByDeptid(Integer deptid) {
+		String cascadeid = (String)g4Dao.queryForObject("Organization.queryCascadeidByDeptid", deptid);
+		return cascadeid;
 	}
 
 }

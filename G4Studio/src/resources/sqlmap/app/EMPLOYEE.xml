@@ -9,8 +9,8 @@
 		select a.EMPID, a.`CODE`, a.`NAME`,a.SEX, a.BIRTHDAY, a.IDCARD,a.HIREDATE,a.REMARK,b.DEPTID, 
 			   (select deptname from eadept where deptid=b.deptid) DEPTNAME,b.ZBZWID,
                b.JOBNAME,(select zwmc from zbzw where zwid=b.zbzwid) dyzbzw, a.DQZT
-        from employee a, deptempl b
-       where a.empid=b.empid
+        from employee a, deptempl b, eadept c
+       where a.empid=b.empid and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="code"> 
 									a.CODE = #code#
@@ -18,8 +18,8 @@
 			<isNotEmpty prepend="AND" property="name"> 
 									a.NAME like '$name$%'
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid"> 
-									b.DEPTID like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid"> 
+									c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="dqzt"> 
 									a.dqzt = '$dqzt$'
@@ -32,8 +32,8 @@
 	
 	<select id="queryEmployeesForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-        from employee a, deptempl b
-       where a.empid=b.empid
+        from employee a, deptempl b, eadept c
+       where a.empid=b.empid and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="code"> 
 									a.CODE = #code#
@@ -41,8 +41,8 @@
 			<isNotEmpty prepend="AND" property="name"> 
 									a.NAME like '$name$%'
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid"> 
-									b.DEPTID like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid"> 
+									c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="dqzt"> 
 									a.dqzt = '$dqzt$'

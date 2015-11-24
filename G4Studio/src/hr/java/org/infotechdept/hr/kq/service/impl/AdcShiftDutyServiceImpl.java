@@ -2,6 +2,7 @@ package org.infotechdept.hr.kq.service.impl;
 
 import java.util.List;
 
+
 import org.g4studio.common.service.impl.BaseServiceImpl;
 import org.g4studio.core.metatype.Dto;
 import org.g4studio.core.metatype.impl.BaseDto;
@@ -10,6 +11,11 @@ import org.infotechdept.hr.kq.service.AdcShiftDutyService;
 
 import com.hr.xl.system.utils.IDHelper;
 
+/**
+ * 值班服务
+ * @author xuyan
+ *
+ */
 public class AdcShiftDutyServiceImpl extends BaseServiceImpl implements AdcShiftDutyService {
 
 	/**

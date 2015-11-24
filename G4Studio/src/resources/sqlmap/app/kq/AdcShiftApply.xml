@@ -13,13 +13,12 @@
 		PATTERN_ID,
 		(select PATTERN_SHIFT_NAME FROM adc_shift_pattern WHERE PATTERN_ID=A.PATTERN_ID)
 		PATTERN_SHIFT_NAME, PRIORITY, ENABLED
-		from
-		ADC_SHIFT_APPLY A LEFT JOIN employee B
-		ON
-		A.EMPID=B.EMPID
+		from ADC_SHIFT_APPLY A 
+		LEFT JOIN employee B ON A.EMPID=B.EMPID
+		INNER JOIN eadept C on C.DEPTID=A.DEPTID
 		<dynamic prepend="where">
-			<isNotEmpty prepend="AND" property="deptid">
-				DEPTID like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				C.CASCADEID like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="pattern_id">
 				pattern_id = $pattern_id$
@@ -36,13 +35,12 @@
 	<select id="queryAdcShiftApplyItemForManageForPageCount" parameterClass="map"
 		resultClass="java.lang.Integer">
 		select count(*) as count
-		from
-		ADC_SHIFT_APPLY A LEFT JOIN employee B
-		ON
-		A.EMPID=B.EMPID
+		from ADC_SHIFT_APPLY A 
+		LEFT JOIN employee B ON A.EMPID=B.EMPID
+		INNER JOIN eadept C on C.DEPTID=A.DEPTID
 		<dynamic prepend="where">
-			<isNotEmpty prepend="AND" property="deptid">
-				DEPTID like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				C.CASCADEID like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="pattern_id">
 				pattern_id = $pattern_id$

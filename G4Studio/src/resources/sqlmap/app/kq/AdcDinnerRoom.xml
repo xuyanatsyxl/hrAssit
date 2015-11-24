@@ -11,8 +11,8 @@
 		  from adc_dinner_room a, eadept b
          where a.DEPTID=b.DEPTID
          <dynamic>
-         	<isNotEmpty prepend="and" property="deptid">
-         		a.deptid like '$deptid$%'
+         	<isNotEmpty prepend="and" property="cascadeid">
+         		b.cascadeid like '$cascadeid$%'
          	</isNotEmpty>
          	<isNotEmpty prepend="and" property="room_name">
          		a.room_name like '%$room_name$%'
@@ -28,8 +28,8 @@
 		  from adc_dinner_room a, eadept b
          where a.DEPTID=b.DEPTID
          <dynamic>
-         	<isNotEmpty prepend="and" property="deptid">
-         		a.deptid like '$deptid$%'
+         	<isNotEmpty prepend="and" property="cascadeid">
+         		b.cascadeid like '$cascadeid$%'
          	</isNotEmpty>
          	<isNotEmpty prepend="and" property="room_name">
          		a.room_name like '%$room_name$%'

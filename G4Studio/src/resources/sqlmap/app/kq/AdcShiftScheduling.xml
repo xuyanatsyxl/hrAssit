@@ -7,8 +7,7 @@
 
 	<select id="queryAdcShiftSchedulingItemForManage"
 		parameterClass="map" resultClass="dto">
-		select ID, SCH_DATE, DEPTID, (select DEPTNAME from EADEPT WHERE
-		DEPTID=a.DEPTID) DEPT_NAME,
+		select ID, SCH_DATE, c.DEPTID, c.deptname,
 		a.EMPID, b.code, b.name as EMPNAME,
 		SHIFT_ID,
 		(select BASIC_SHIFT_NAME from Adc_Shift_Basic
@@ -22,12 +21,11 @@
 		from Adc_Attend_Type where
 		TYPE_ID=ADC_ID) ADC_NAME, a.COUNT
 		from
-		Adc_Shift_Scheduling a, employee b
-		where
-		a.EMPID=b.EMPID
+		Adc_Shift_Scheduling a, employee b, eadept c
+		where a.EMPID=b.EMPID and a.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="AND" property="deptid">
-				DEPTID like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="code">
 				b.code like '$code$%'
@@ -61,12 +59,11 @@
 	<select id="queryAdcShiftSchedulingItemForManageForPageCount"
 		parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-		from Adc_Shift_Scheduling a, employee b
-		where
-		a.EMPID=b.EMPID
+		from Adc_Shift_Scheduling a, employee b, eadept c
+		where a.EMPID=b.EMPID and a.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="AND" property="deptid">
-				DEPTID like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="code">
 				b.code like '$code$%'
@@ -205,16 +202,15 @@
 		ITEM_ID, (SELECT C_SHIFT_NAME FROM
 		adc_shift_detail WHERE ITEM_ID=a.ITEM_ID)
 		C_SHIFT_NAME
-		from
-		adc_shift_apply a where ENABLED="1"
+		from adc_shift_apply a, eadept b 
+		where a.deptid=b.deptid and a.ENABLED="1"
 		<dynamic>
 			<isNotEmpty prepend="and" property="apply_type">
 				a.APPLY_TYPE =
 				'$apply_type$'
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 		</dynamic>
 	</select>
@@ -222,15 +218,15 @@
 	<select id="queryAdcShiftSchedulingItemForMakeForPageCount"
 		parameterClass="map" resultClass="java.lang.Integer">
 		select COUNT(*) AS COUNT
-		from adc_shift_apply a where ENABLED="1"
+		  from adc_shift_apply a, eadept b
+		 where a.deptid=b.deptid and a.ENABLED="1"
 		<dynamic>
 			<isNotEmpty prepend="and" property="apply_type">
 				a.APPLY_TYPE =
 				'$apply_type$'
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 		</dynamic>
 	</select>
@@ -245,30 +241,27 @@
 	<select id="queryDeptemplsForSchedulingByDeptid" parameterClass="map"
 		resultClass="dto">
 		select b.deptid, b.EMPID
-		from employee a, deptempl b
-		where
-		a.EMPID=b.EMPID and a.DQZT='2'
-		and b.deptid like '$deptid$%'
+		from employee a, deptempl b, eadept c
+		where a.EMPID=b.EMPID and b.deptid=c.deptid and a.DQZT='2'
+		and c.cascadeid like '$cascadeid$%'
 	</select>
 
 	<select id="queryDeptemplsForSchedulingByGroupId"
 		parameterClass="map" resultClass="dto">
 		select b.deptid, b.EMPID
-		from employee
-		a, deptempl b, adc_shift_group_empl c
-		where a.EMPID=b.EMPID and
+		from employee a, deptempl b, adc_shift_group_empl c, eadept d
+		where a.EMPID=b.EMPID and b.deptid=d.deptid and 
 		a.DQZT='2' and c.EMPID=a.EMPID
-		and b.deptid like '$deptid$%' and
+		and d.deptid like '$cascadeid$%' and
 		c.GROUP_ID='$group_id$'
 	</select>
 
 	<select id="queryDeptemplsForSchedulingByEmpid" parameterClass="map"
 		resultClass="dto">
 		select b.deptid, b.EMPID
-		from employee a, deptempl b
-		where
-		a.EMPID=b.EMPID and a.DQZT='2'
-		and b.deptid like '$deptid$%' and
+		from employee a, deptempl b, eadept c
+		where a.EMPID=b.EMPID and b.deptid=c.deptid and a.DQZT='2'
+		and c.cascadeid like '$cascadeid$%' and
 		a.EMPID = $empid$
 	</select>
 

@@ -52,7 +52,8 @@ public class AdcShiftUploadAction extends BaseAction {
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
-
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftUpload.queryAdcShiftUploadItemForManage", dto);
 		/*
 		 * for (int i = 0; i < items.size(); i++) { Dto dto2 = (BaseDto)

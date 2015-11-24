@@ -14,8 +14,8 @@
 		from adc_shift_pattern a, eadept b
 		where a.deptid=b.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like '$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="pattern_shift_name">
 				a.pattern_shift_name like '%$pattern_shift_name$%'
@@ -32,8 +32,8 @@
 		from adc_shift_pattern a, eadept b
 		where a.deptid=b.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like '$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="pattern_shift_name">
 				a.pattern_shift_name like '%$pattern_shift_name$%'

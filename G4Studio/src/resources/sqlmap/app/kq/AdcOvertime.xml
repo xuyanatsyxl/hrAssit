@@ -14,9 +14,8 @@
 		a, eadept b
 		where a.deptid=b.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				a.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="rpt_state">
 				a.rpt_state =
@@ -41,9 +40,8 @@
 		where
 		a.deptid=b.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				a.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="rpt_state">
 				a.rpt_state =
@@ -247,14 +245,11 @@
 		sum(b.days_holiday) as
 		days_holiday, sum(b.hours_holiday) as
 		hours_holiday, a.remark
-		from adc_overtime a, adc_overtime_detail b,
-		employee c
-		where a.over_code=b.over_code and b.empid=c.empid and
-		a.rpt_state=2
+		from adc_overtime a, adc_overtime_detail b, employee c, eadept d
+		where a.over_code=b.over_code and b.empid=c.empid and a.deptid=d.deptid and a.rpt_state=2
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				d.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="code">
 				c.code like '$code$%'
@@ -273,15 +268,15 @@
 		</dynamic>
 		group by a.yearmonth, a.deptid, c.code, c.name
 	</select>
+	
 	<select id="queryAdcOvertimeDetailItemForPageCount"
 		parameterClass="map" resultClass="java.lang.Integer">
 		select count(distinct a.yearmonth, a.deptid, c.code, c.name) as count
-		from adc_overtime a, adc_overtime_detail b, employee c
-		where a.over_code=b.over_code and b.empid=c.empid and a.rpt_state=2
+		from adc_overtime a, adc_overtime_detail b, employee c, eadept d
+		where a.over_code=b.over_code and b.empid=c.empid and a.deptid=d.deptid and a.rpt_state=2
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				d.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="code">
 				c.code like '$code$%'
@@ -319,9 +314,8 @@
 		where a.over_code=b.over_code and substr(a.deptid, 1,
 		3 * $lev$)=c.deptid and a.rpt_state=2
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="start_month">
 				a.yearmonth <![CDATA[>=]]>
@@ -342,9 +336,8 @@
 		where a.over_code=b.over_code and substr(a.deptid, 1,
 		3 * $lev$)=c.deptid and a.rpt_state=2
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="start_month">
 				a.yearmonth <![CDATA[>=]]>

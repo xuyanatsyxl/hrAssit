@@ -62,6 +62,8 @@ public class AdcOvertimeAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCOVERTIMEITEM_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcOvertime.queryAdcOvertimeItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcOvertime.queryAdcOvertimeItemForManageForPageCount", dto);
@@ -266,6 +268,8 @@ public class AdcOvertimeAction extends BaseAction {
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCOVERTIMESUM_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcOvertime.queryAdcOvertimeSumItem", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcOvertime.queryAdcOvertimeSumItemForPageCount", dto);
@@ -330,6 +334,8 @@ public class AdcOvertimeAction extends BaseAction {
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCOVERTIMEDETAIL_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcOvertime.queryAdcOvertimeDetailItem", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcOvertime.queryAdcOvertimeDetailItemForPageCount", dto);

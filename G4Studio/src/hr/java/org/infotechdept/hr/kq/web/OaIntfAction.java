@@ -55,7 +55,8 @@ public class OaIntfAction extends BaseAction {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo()
 					.getDeptid());
 		}
-
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("OaIntf.queryOaIntfItemFormManage",
 				dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject(

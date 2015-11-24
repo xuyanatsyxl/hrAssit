@@ -53,6 +53,8 @@ public class AdcShiftApplyAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftApply.queryAdcShiftApplyItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftApply.queryAdcShiftApplyItemForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, null);

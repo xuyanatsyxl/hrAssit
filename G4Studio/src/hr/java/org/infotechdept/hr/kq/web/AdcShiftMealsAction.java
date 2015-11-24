@@ -49,7 +49,9 @@ public class AdcShiftMealsAction extends BaseAction{
 		String deptid = request.getParameter("deptid");
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
-		}
+		}		
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftMeals.queryAdcShiftMealsDetailItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftMeals.queryAdcShiftMealsDetailItemForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, G4Constants.FORMAT_Date);
@@ -85,6 +87,8 @@ public class AdcShiftMealsAction extends BaseAction{
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCSHIFTMEALSITEM_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcShiftMeals.queryAdcShiftMealsItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftMeals.queryAdcShiftMealsItemForManageForPageCount", dto);
@@ -143,7 +147,8 @@ public class AdcShiftMealsAction extends BaseAction{
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
-		
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftMeals.queryAdcMealsLeaveItemForManage", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, null, null);
 		write(jsonString, response);
@@ -178,6 +183,8 @@ public class AdcShiftMealsAction extends BaseAction{
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCSHIFTMEALSBYDEPT_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcShiftMeals.queryAdcShiftMealsByDeptForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftMeals.queryAdcShiftMealsByDeptForManageForPageCount", dto);

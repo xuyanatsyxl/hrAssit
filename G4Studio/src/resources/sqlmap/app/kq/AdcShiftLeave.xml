@@ -6,8 +6,7 @@
 
 	<select id="queryAdcShiftLeaveItemForManage" parameterClass="map"
 		resultClass="dto">
-		select xid, adc_date, deptid, (select deptname from eadept where
-		deptid=a.deptid) as deptname, a.empid, b.code, b.name, a.adc_id,
+		select xid, adc_date, c.deptid, c.deptname, a.empid, b.code, b.name, a.adc_id,
 		(select type_name from adc_attend_type where type_id=a.adc_id)
 		adc_name, aff_days, aff_hours, requestid, source_type,
 		operator,
@@ -16,13 +15,11 @@
 		operator_name,
 		operate_time, a.remark,
 		(select TYPE_TYPE from adc_attend_type where TYPE_ID=a.adc_id) as adc_type
-		from adc_shift_leave a, employee b
-		where
-		a.empid=b.EMPID
+		from adc_shift_leave a, employee b, eadept c
+		where a.empid=b.EMPID and a.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				"$deptid$%"
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="empid">
 				a.empid = $empid$
@@ -54,13 +51,11 @@
 	<select id="queryAdcShiftLeaveItemForManageForPageCount"
 		parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-		from adc_shift_leave a, employee b
-		where
-		a.empid=b.EMPID
+		from adc_shift_leave a, employee b, eadept c
+		where a.empid=b.EMPID and a.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				"$deptid$%"
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="empid">
 				a.empid = $empid$
@@ -159,8 +154,8 @@
 		  from adc_shift_leave a, eadept b, employee c
 		 where a.deptid=b.deptid and a.empid=c.empid
 		 <dynamic>
-          	<isNotEmpty prepend="and" property="deptid">
-          		a.deptid like '$deptid$%'
+          	<isNotEmpty prepend="and" property="cascadeid">
+          		b.cascadeid like '$cascadeid$%'
           	</isNotEmpty>
           	<isNotEmpty prepend="and" property="code">
           		c.code = '$code$'
@@ -185,8 +180,8 @@
 		  from adc_shift_leave a, eadept b, employee c
 		 where a.deptid=b.deptid and a.empid=c.empid
 		 <dynamic>
-          	<isNotEmpty prepend="and" property="deptid">
-          		a.deptid like '$deptid$%'
+          	<isNotEmpty prepend="and" property="cascadeid">
+          		b.cascadeid like '$cascadeid$%'
           	</isNotEmpty>
           	<isNotEmpty prepend="and" property="code">
           		c.code = '$code$'

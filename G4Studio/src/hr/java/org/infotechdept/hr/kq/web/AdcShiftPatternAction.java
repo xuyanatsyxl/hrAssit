@@ -51,6 +51,8 @@ public class AdcShiftPatternAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftPattern.queryAdcShiftPatternItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftPattern.queryAdcShiftPatternItemForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, G4Constants.FORMAT_DateTime);

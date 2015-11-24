@@ -23,9 +23,9 @@
 		a.deptid=b.deptid
 		and a.adc_id=c.type_id
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				"$deptid$%"
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like
+				"$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="basic_shift_name">
 				a.basic_shift_name like
@@ -49,9 +49,9 @@
 		where
 		a.deptid=b.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				"$deptid$%"
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like
+				"$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="basic_shift_name">
 				a.basic_shift_name like
@@ -143,13 +143,13 @@
 		resultClass="dto">
 		select shift_id, basic_shift_name, work_time, off_time, shift_type,
 		adc_id, c.type_name
-		from adc_shift_basic a, adc_attend_type c
+		from adc_shift_basic a, adc_attend_type c, eadept d
 		where
-		a.adc_id=c.type_id
+		a.adc_id=c.type_id and a.deptid=d.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				"$deptid$%"
+			<isNotEmpty prepend="and" property="cascadeid">
+				d.cascadeid like
+				"$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="basic_shift_name">
 				a.basic_shift_name like
@@ -169,12 +169,12 @@
 	<select id="queryAdcShiftBasicItemForListForPageCount"
 		parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-		from adc_shift_basic a, adc_attend_type c
-		where a.adc_id=c.type_id
+		from adc_shift_basic a, adc_attend_type c, eadept d
+		where a.adc_id=c.type_id and a.deptid=d.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				"$deptid$%"
+			<isNotEmpty prepend="and" property="cascadeid">
+				d.cascadeid like
+				"$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="basic_shift_name">
 				a.basic_shift_name like

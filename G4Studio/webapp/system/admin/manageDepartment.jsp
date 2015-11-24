@@ -2,7 +2,8 @@
 <%@ include file="/common/include/taglib.jsp"%>
 <G4Studio:html title="部门管理"  >
 <G4Studio:import src="/system/admin/js/manageDepartment.js"/>
-<G4Studio:ext.codeRender fields="LEAF"/>
+<G4Studio:ext.codeRender fields="LEAF,DEPTTYPE"/>
+<G4Studio:ext.codeStore fields="DEPTTYPE"/>
 <G4Studio:body>
 <G4Studio:div key="deptTreeDiv"></G4Studio:div>
 </G4Studio:body>

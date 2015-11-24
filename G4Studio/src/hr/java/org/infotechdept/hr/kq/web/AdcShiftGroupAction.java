@@ -50,6 +50,8 @@ public class AdcShiftGroupAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftGroup.queryAdcShifGroupForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftGroup.queryAdcShifGroupForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, null);
@@ -70,6 +72,8 @@ public class AdcShiftGroupAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftGroup.queryAdcShiftGroupEmplForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftGroup.queryAdcShiftGroupEmplForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, null);
@@ -136,6 +140,8 @@ public class AdcShiftGroupAction extends BaseAction {
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftGroup.queryUnIntoGroupEmplItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftGroup.queryUnIntoGroupEmplItemForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, null);

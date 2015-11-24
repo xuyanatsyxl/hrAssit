@@ -87,28 +87,32 @@ public class IdGenerator {
      * @param pParentid 菜单编号的参考编号
      * @return
      */
-	public static String getDeptIdGenerator(String pParentid){
-		String maxSubDeptId = (String)g4Dao.queryForObject("IdGenerator.getMaxSubDeptId", pParentid);
-		String deptid = null;
+	public static String getDeptIdGenerator(Integer pParentid){
+		String deptid = (String)g4Dao.queryForObject("Organization.queryCascadeidByDeptid", pParentid);
+		Dto pDto = new BaseDto();
+		pDto.put("parentid", pParentid);
+		pDto.put("cascadeid", deptid);
+		String maxSubDeptId = (String)g4Dao.queryForObject("IdGenerator.getMaxSubDeptIdNew", pDto);
+		String cascadeid = null;
 		if(G4Utils.isEmpty(maxSubDeptId)){
-			deptid = "001";
+			cascadeid = "001";
 		}else{
 			int length = maxSubDeptId.length();
 			String temp = maxSubDeptId.substring(length-3, length);
 			int intDeptId = Integer.valueOf(temp).intValue() + 1;
 			if(intDeptId > 0 && intDeptId < 10){
-				deptid = "00" + String.valueOf(intDeptId);
+				cascadeid = "00" + String.valueOf(intDeptId);
 			}else if(10 <= intDeptId && intDeptId <= 99){
-				deptid = "0" + String.valueOf(intDeptId);
+				cascadeid = "0" + String.valueOf(intDeptId);
 			}else if (100 <= intDeptId && intDeptId <= 999) {
-				deptid = String.valueOf(intDeptId);
+				cascadeid = String.valueOf(intDeptId);
 			}else if(intDeptId >999){
 				log.error(G4Constants.Exception_Head + "生成部门编号越界了.同级兄弟节点编号为[001-999]\n请和您的系统管理员联系!");
 			}else{
 				log.error(G4Constants.Exception_Head + "生成部门编号发生未知错误,请和开发人员联系!");
 			}
 		}
-		return pParentid + deptid;
+		return deptid + cascadeid;
 	}
 	
 	public String getFieldname() {

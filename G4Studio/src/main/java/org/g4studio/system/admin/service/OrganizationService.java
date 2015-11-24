@@ -72,4 +72,18 @@ public interface OrganizationService extends BaseService{
 	 * @param pDto
 	 */
 	public Dto saveUserBackground(Dto pDto);
+	
+	/**
+	 * 调整父部门
+	 * @param pDto
+	 * @return
+	 */
+	public Dto adjustParentDept(Dto pDto);
+	
+	/**
+	 * 部门合并
+	 */
+	public Dto saveMergeDept(Dto pDto);
+	
+	public String queryCascadeidByDeptid(Integer deptid);
 }

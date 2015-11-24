@@ -127,7 +127,8 @@ public class AdcShiftSchedulingAction extends BaseAction {
 		if (G4Utils.isEmpty(deptid) || (deptid.isEmpty())) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
-
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftScheduling.queryAdcShiftSchedulingItemForManage", dto);
 		for (int i = 0; i < items.size(); i++) {
 			Dto dto2 = (BaseDto) items.get(i);
@@ -189,7 +190,8 @@ public class AdcShiftSchedulingAction extends BaseAction {
 		if (G4Utils.isEmpty(deptid)) {
 			inDto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
-
+		inDto.put("cascadeid", organizationService.queryCascadeidByDeptid(inDto.getAsInteger("deptid")));
+		inDto.remove("deptid");
 		inDto.put("kssj", G4Utils.Date2String(inDto.getAsTimestamp("kssj"), "yyyyMMddHHmmss"));
 		inDto.put("jssj", G4Utils.Date2String(inDto.getAsTimestamp("jssj"), "yyyyMMddHHmmss"));
 

@@ -80,6 +80,8 @@ public class OrganizationAction extends BaseAction {
 		}else{
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}		
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List menuList = g4Reader.queryForPage("Organization.queryDeptsForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("Organization.queryDeptsForManageForPageCount", dto);
 		String jsonString = encodeList2PageJson(menuList, pageCount, null);
@@ -156,6 +158,32 @@ public class OrganizationAction extends BaseAction {
 		String deptid = super.getSessionContainer(request).getUserInfo().getDeptid();
 		inDto.put("deptid", deptid);
 		Dto outDto = organizationService.queryDeptinfoByDeptid(inDto);
+		String jsonString = JsonHelper.encodeObject2Json(outDto);
+		write(jsonString, response);
+		return mapping.findForward(null);
+	}
+	
+	/**
+	 * 调整部门隶属关系
+	 */
+	public ActionForward adjustParentid(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		BaseActionForm aForm = (BaseActionForm) form;
+		Dto inDto = aForm.getParamAsDto(request);
+		Dto outDto = organizationService.adjustParentDept(inDto);
+		String jsonString = JsonHelper.encodeObject2Json(outDto);
+		write(jsonString, response);
+		return mapping.findForward(null);
+	}
+	
+	/**
+	 * 合并部门
+	 */
+	public ActionForward mergeDept(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		BaseActionForm aForm = (BaseActionForm) form;
+		Dto inDto = aForm.getParamAsDto(request);
+		Dto outDto = organizationService.saveMergeDept(inDto);
 		String jsonString = JsonHelper.encodeObject2Json(outDto);
 		write(jsonString, response);
 		return mapping.findForward(null);

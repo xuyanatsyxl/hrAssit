@@ -61,6 +61,8 @@ public class AdcShiftExceptionAction extends BaseAction {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo()
 					.getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCSHIFTEXCEPTION_QUERYDTO",
 				dto);
 

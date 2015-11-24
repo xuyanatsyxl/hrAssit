@@ -19,9 +19,8 @@
 		where
 		a.DEPTID=b.deptid and a.EMPID=c.EMPID
 		<dynamic>
-			<isNotEmpty prepend="AND" property="deptid">
-				a.DEPTID like
-				'$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="code">
 				c.CODE = #code#
@@ -62,9 +61,8 @@
 		c
 		where a.DEPTID=b.deptid and a.EMPID=c.EMPID
 		<dynamic>
-			<isNotEmpty prepend="AND" property="deptid">
-				a.DEPTID like
-				'$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="code">
 				c.CODE = #code#

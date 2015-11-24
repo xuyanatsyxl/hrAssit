@@ -5,10 +5,10 @@
 	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
 	
 	<select id="queryDkjlbForManage" parameterClass="map" resultClass="dto">
-	   select DKJID, DKJMC, DEVSN, DEPTID, (select DEPTNAME from eadept where DEPTID=a.DEPTID) DEPTNAME, 
+	   select DKJID, DKJMC, DEVSN, b.cascadeid, a.deptid, b.deptname, 
 	          DKJXH, DKLX, IP, BZ, QYBZ
-	     from DKJLB a
-	    where 1=1
+	     from DKJLB a, eadept b
+	    where a.deptid=b.deptid
 		<dynamic>  
 			<isNotEmpty prepend="AND" property="dkjid">
 	    		DKJID like '$dkjid$%'
@@ -19,8 +19,8 @@
 			<isNotEmpty prepend="AND" property="dkjmc">
 	    		DKJMC like '$dkjmc$%'
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-	    		DEPTID like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+	    		b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="ip">
 	    		IP like '$ip$%'
@@ -36,8 +36,8 @@
 	
 	<select id="queryDkjlbForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 	   select count(*) as count
-	     from DKJLB
-	    where 1=1
+	     from DKJLB a, eadept b
+	    where a.deptid=b.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="dkjid">
 	    		DKJID like '$dkjid$%'
@@ -48,8 +48,8 @@
 			<isNotEmpty prepend="AND" property="dkjmc">
 	    		DKJMC like '$dkjmc$%'
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-	    		DEPTID like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+	    		b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="ip">
 	    		IP like '$ip$%'

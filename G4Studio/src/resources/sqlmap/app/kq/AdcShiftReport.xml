@@ -20,13 +20,11 @@
 		c_shift_name,
 		a.WORK_TIME, a.OFF_TIME,
 		a.ACTUAL_WORK_TIME, a.ACTUAL_OFF_TIME
-		from adc_shift_scheduling a,
-		employee b
-		where a.EMPID=b.EMPID
+		from adc_shift_scheduling a, employee b, eadept c
+		where a.EMPID=b.EMPID and a.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="code">
 				b.code like '$code$%'
@@ -48,14 +46,12 @@
 	<select id="queryAdcShiftSchedulingForReport" parameterClass="map"
 		resultClass="java.lang.Integer">
 		select count(*) as count
-		from adc_shift_scheduling a,
-		employee b
-		where
-		a.EMPID=b.EMPID
+		from adc_shift_scheduling a, employee b, eadept c
+		where a.EMPID=b.EMPID and a.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like
+				'$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="code">
 				b.code like '$code$%'

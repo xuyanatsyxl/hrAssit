@@ -75,6 +75,8 @@ public class AdcShiftDutyAction extends BaseAction{
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "REPORTADCSHIFTDUTY_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcShiftDuty.queryAdcShiftDutyReport", dto);
 		for (int i = 0; i < items.size(); i++) {
@@ -104,6 +106,8 @@ public class AdcShiftDutyAction extends BaseAction{
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCSHIFTDUTYITEM_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcShiftDuty.queryAdcShiftDutyItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftDuty.queryAdcShiftDutyItemForManageForPageCount", dto);
@@ -129,6 +133,8 @@ public class AdcShiftDutyAction extends BaseAction{
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCSHIFTDUTYITEM_QUERYDTO", dto);
 		List items = g4Reader.queryForPage("AdcShiftDuty.queryAdcShiftDutyDetailItemForManage", dto);
 		for (int i = 0; i < items.size(); i++) {
@@ -170,6 +176,8 @@ public class AdcShiftDutyAction extends BaseAction{
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftDuty.queryAdcShiftDutyForCheck", dto);
 		for (int i = 0; i < items.size(); i++) {
 			Dto dto2 = (BaseDto) items.get(i);

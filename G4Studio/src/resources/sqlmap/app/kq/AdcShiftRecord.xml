@@ -26,9 +26,9 @@
 		where
 		a.APPLY_ID=b.APPLY_ID and b.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				b.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like
+				'$cascadeid$%'
 			</isNotEmpty>
 		</dynamic>
 	</select>
@@ -40,9 +40,9 @@
 		eadept c
 		where a.APPLY_ID=b.APPLY_ID and b.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				b.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like
+				'$cascadeid$%'
 			</isNotEmpty>
 		</dynamic>
 	</select>
@@ -100,11 +100,11 @@
 	    select a.id, a.rq, a.rec_id, c.deptid, hr_getfulldeptname(c.deptid) as deptname, c.GROUP_ID, (select group_name from adc_shift_group where group_id=c.group_id) as group_name,
 			c.EMPID, (select NAME FROM EMPLOYEE WHERE EMPID=c.empid) as empname, c.PATTERN_ID, (select PATTERN_SHIFT_NAME from adc_shift_pattern where PATTERN_ID=c.pattern_id) as PATTERN_NAME,
  			a.begin_time, a.end_time, a.state, a.memo
-		 from adc_shift_record_logs a, adc_shift_record b, adc_shift_apply c
-	    where a.rec_id=b.REC_ID and b.APPLY_ID=c.APPLY_ID
+		 from adc_shift_record_logs a, adc_shift_record b, adc_shift_apply c, eadept d
+	    where a.rec_id=b.REC_ID and b.APPLY_ID=c.APPLY_ID and c.deptid=d.deptid
 	    <dynamic>
-	        <isNotEmpty prepend="and" property="deptid">
-	            c.deptid like '$deptid$%'
+	        <isNotEmpty prepend="and" property="cascadeid">
+	            d.cascadeid like '$cascadeid$%'
 	        </isNotEmpty>
 	        <isNotEmpty prepend="and" property="start_date">
 				a.rq <![CDATA[>=]]>	#start_date#
@@ -117,11 +117,11 @@
 	
 	<select id="queryAdcShiftRecordLogsItemForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 	    select count(*) as count
-		 from adc_shift_record_logs a, adc_shift_record b, adc_shift_apply c
-	    where a.rec_id=b.REC_ID and b.APPLY_ID=c.APPLY_ID
+		 from adc_shift_record_logs a, adc_shift_record b, adc_shift_apply c, eadept d
+	    where a.rec_id=b.REC_ID and b.APPLY_ID=c.APPLY_ID and c.deptid=d.deptid
 	    <dynamic>
-	        <isNotEmpty prepend="and" property="deptid">
-	            c.deptid like '$deptid$%'
+	        <isNotEmpty prepend="and" property="cascadeid">
+	            d.cascadeid like '$cascadeid$%'
 	        </isNotEmpty>
 	        <isNotEmpty prepend="and" property="start_date">
 				a.rq <![CDATA[>=]]>	#start_date#

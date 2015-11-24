@@ -11,8 +11,8 @@
 		from adc_shift_duty a, eadept b
 		where a.deptid=b.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like '$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="rpt_state">
 				a.rpt_state = '$rpt_state$'
@@ -34,8 +34,8 @@
 		from adc_shift_duty a, eadept b
 		where a.deptid=b.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like '$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="rpt_state">
 				a.rpt_state = '$rpt_state$'
@@ -151,8 +151,8 @@
          where a.dutyid=b.dutyid and b.deptid=c.deptid and b.empid=d.empid and b.shift_id=e.shift_id
           and a.rpt_state=2
           <dynamic>
-          	<isNotEmpty prepend="and" property="deptid">
-          		b.deptid like '$deptid$%'
+          	<isNotEmpty prepend="and" property="cascadeid">
+          		c.cascadeid like '$cascadeid$%'
           	</isNotEmpty>
           	<isNotEmpty prepend="and" property="code">
           		d.code = '$code$'
@@ -175,8 +175,8 @@
          where a.dutyid=b.dutyid and b.deptid=c.deptid and b.empid=d.empid and b.shift_id=e.shift_id
           and a.rpt_state=2
           <dynamic>
-          	<isNotEmpty prepend="and" property="deptid">
-          		b.deptid like '$deptid$%'
+          	<isNotEmpty prepend="and" property="cascadeid">
+          		c.cascadeid like '$cascadeid$%'
           	</isNotEmpty>
           	<isNotEmpty prepend="and" property="code">
           		d.code = '$code$'
@@ -202,8 +202,8 @@
 		  from adc_shift_duty a, adc_shift_duty_detail b, eadept c
 		where a.dutyid=b.dutyid and a.deptid=c.deptid
 		<dynamic>
-          	<isNotEmpty prepend="and" property="deptid">
-          		a.deptid like '$deptid$%'
+          	<isNotEmpty prepend="and" property="cascadeid">
+          		c.cascadeid like '$cascadeid$%'
           	</isNotEmpty>
           	<isNotEmpty prepend="and" property="dutyid">
           		a.dutyid like '%$dutyid$%'
@@ -225,8 +225,8 @@
 	    select count(*) as count
 	      from adc_shift_duty a
 		<dynamic prepend="where">
-          	<isNotEmpty prepend="and" property="deptid">
-          		a.deptid like '$deptid$%'
+          	<isNotEmpty prepend="and" property="cascadeid">
+          		c.cascadeid like '$cascadeid$%'
           	</isNotEmpty>
           	<isNotEmpty prepend="and" property="dutyid">
           		a.dutyid like '%$dutyid$%'

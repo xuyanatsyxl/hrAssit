@@ -25,9 +25,16 @@
 	</select>
 	
 	<!-- 获取最大部门子节点编号 -->
-	<select id="getMaxSubDeptId" parameterClass="java.lang.String" resultClass="java.lang.String">
+	<select id="getMaxSubDeptId" parameterClass="java.lang.Integer" resultClass="java.lang.String">
 		SELECT MAX(cascadeid)
 		  FROM eadept
 		 WHERE parentid = #parentid#
+	</select>
+	
+	<!-- 获取最大部门子节点编号: 对应新部门架构的方法-->
+	<select id="getMaxSubDeptIdNew" parameterClass="dto" resultClass="java.lang.String">
+		SELECT MAX(cascadeid)
+		  FROM eadept
+		 WHERE parentid = #parentid# and cascadeid like '$cascadeid$%'
 	</select>
 </sqlMap>

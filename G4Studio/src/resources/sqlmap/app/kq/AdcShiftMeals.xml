@@ -34,8 +34,8 @@
 				a.meals_date <![CDATA[<=]]>
 				#end_date#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.room_id in (select room_id from adc_dinner_room where deptid like '$deptid$%')
+			<isNotEmpty prepend="and" property="cascadeid">
+				a.room_id in (select room_id from adc_dinner_room, eadept where adc_dinner_room.deptid=eadept.deptid and eadept.cascadeid like '$cascadeid$%')
 			</isNotEmpty>
 		</dynamic>
 		group by meals_date, a.deptid, b.EMPID, b.code, b.name, a.room_id
@@ -66,8 +66,8 @@
 				a.meals_date <![CDATA[<=]]>
 				#end_date#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.room_id in (select room_id from adc_dinner_room where deptid like '$deptid$%')
+			<isNotEmpty prepend="and" property="cascadeid">
+				a.room_id in (select room_id from adc_dinner_room, eadept where adc_dinner_room.deptid=eadept.deptid and eadept.cascadeid like '$cascadeid$%')
 			</isNotEmpty>
 		</dynamic>
 	</select>
@@ -102,8 +102,8 @@
 			<isNotEmpty prepend="and" property="end_date">
 				a.meals_date <![CDATA[<=]]>	#end_date#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.room_id in (select room_id from adc_dinner_room where deptid like '$deptid$%')
+			<isNotEmpty prepend="and" property="cascadeid">
+				a.room_id in (select room_id from adc_dinner_room, eadept where adc_dinner_room.deptid=eadept.deptid and eadept.cascadeid like '$cascadeid$%')
 			</isNotEmpty>
 		</dynamic>
 		group by a.deptid, b.EMPID, b.code, b.name, a.room_id
@@ -132,8 +132,8 @@
 				a.meals_date <![CDATA[<=]]>
 				#end_date#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.room_id in (select room_id from adc_dinner_room where deptid like '$deptid$%')
+			<isNotEmpty prepend="and" property="cascadeid">
+				a.room_id in (select room_id from adc_dinner_room, eadept where adc_dinner_room.deptid=eadept.deptid and eadept.cascadeid like '$cascadeid$%')
 			</isNotEmpty>
 		</dynamic>
 	</select>
@@ -172,8 +172,8 @@
 			<isNotEmpty prepend="and" property="end_date">
 				a.meals_date <![CDATA[<=]]>	#end_date#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like '$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 		</dynamic>
 		group by a.deptid, b.EMPID, b.code, b.name
@@ -199,8 +199,8 @@
 			<isNotEmpty prepend="and" property="end_date">
 				a.meals_date <![CDATA[<=]]>	#end_date#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like '$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 		</dynamic>
 	</select>

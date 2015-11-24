@@ -63,7 +63,8 @@ public class DkjAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
-
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List dkjList = g4Reader.queryForPage("DKJLB.queryDkjlbForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("DKJLB.queryDkjlbForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(dkjList, pageCount, null);
@@ -163,6 +164,8 @@ public class DkjAction extends BaseAction {
 		} else {
 			inDto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		inDto.put("cascadeid", organizationService.queryCascadeidByDeptid(inDto.getAsInteger("deptid")));
+		inDto.remove("deptid");
 		inDto.put("kssj", G4Utils.Date2String(inDto.getAsTimestamp("kssj"), "yyyyMMddHHmmss"));
 		inDto.put("jssj", G4Utils.Date2String(inDto.getAsTimestamp("jssj"), "yyyyMMddHHmmss"));
 		

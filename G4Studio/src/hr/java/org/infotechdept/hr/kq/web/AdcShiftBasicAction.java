@@ -51,6 +51,8 @@ public class AdcShiftBasicAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List items = g4Reader.queryForPage("AdcShiftBasic.queryAdcShiftBasicItemForManage", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftBasic.queryAdcShiftBasicItemForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, G4Constants.FORMAT_DateTime);
@@ -104,9 +106,10 @@ public class AdcShiftBasicAction extends BaseAction {
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
-
-		if (dto.getAsString("deptid").length() > 9) {
-			dto.put("deptid", dto.getAsString("deptid").substring(0, 9));
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+		if (dto.getAsString("cascadeid").length() > 9) {
+			dto.put("cascadeid", dto.getAsString("cascadeid").substring(0, 9));
 		}
 		List items = g4Reader.queryForPage("AdcShiftBasic.queryAdcShiftBasicItemForList", dto);
 		Integer pageCount = (Integer) g4Reader.queryForObject("AdcShiftBasic.queryAdcShiftBasicItemForListForPageCount", dto);

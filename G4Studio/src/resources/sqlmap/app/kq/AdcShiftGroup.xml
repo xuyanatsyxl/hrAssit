@@ -9,10 +9,11 @@
 		resultClass="dto">
 		select GROUP_ID, GROUP_NAME, DEPTID, (select deptname from eadept
 		where DEPTID=a.DEPTID) DEPTNAME, ENABLED, REMARK
-		from Adc_Shift_Group a
-		<dynamic prepend="where">
-			<isNotEmpty prepend="AND" property="deptid">
-				DEPTID like '$deptid$%'
+		from Adc_Shift_Group a, eadept b
+		where a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="enabled">
 				ENABLED = '$enabled$'
@@ -23,10 +24,11 @@
 	<select id="queryAdcShifGroupForManageForPageCount"
 		parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-		from Adc_Shift_Group a
-		<dynamic prepend="where">
-			<isNotEmpty prepend="AND" property="deptid">
-				DEPTID like '$deptid$%'
+		from Adc_Shift_Group a, eadept b
+		where a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="AND" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="enabled">
 				ENABLED = '$enabled$'
@@ -126,13 +128,11 @@
 	<select id="queryUnIntoGroupEmplItemForManage" parameterClass="map"
 		resultClass="dto">
 		select a.empid, a.code, a.name, b.DEPTNAME , b.JOBNAME
-		from employee a,
-		deptempl b
-		where a.EMPID=b.EMPID
+		from employee a, deptempl b, eadept c
+		where a.EMPID=b.EMPID and b.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				b.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="code">
 				a.code like '$code$%'
@@ -148,12 +148,11 @@
 	<select id="queryUnIntoGroupEmplItemForManageForPageCount" parameterClass="map"
 		resultClass="java.lang.Integer">
 		select count(*) as count
-		  from employee a, deptempl b
-		 where a.EMPID=b.EMPID 
+		  from employee a, deptempl b, eadept c
+		 where a.EMPID=b.EMPID and b.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				b.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="code">
 				a.code like '$code$%'

@@ -10,12 +10,11 @@
 		(SELECT BZ FROM dkjlb WHERE DKJID=A.DKJID) DKWZ, A.DKLX,
 		(select DEPTNAME FROM EADEPT WHERE DEPTID=A.DEPTID) DKQY
 		from DKJL A,
-		EMPLOYEE B, deptempl C
-		where a.EMPID=b.EMPID and b.EMPID=C.EMPID
+		EMPLOYEE B, deptempl C, eadept d
+		where a.EMPID=b.EMPID and b.EMPID=C.EMPID and a.deptid=d.deptid
 		<dynamic>
-			<isNotEmpty prepend="AND" property="deptid">
-				c.DEPTID LIKE
-				'$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				d.cascadeid LIKE '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="code">
 				CODE = '$code$'
@@ -56,9 +55,8 @@
 		where
 		a.EMPID=b.EMPID and b.EMPID=C.EMPID
 		<dynamic>
-			<isNotEmpty prepend="AND" property="deptid">
-				c.DEPTID LIKE
-				'$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid">
+				d.cascadeid LIKE '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="code">
 				CODE = '$code$'

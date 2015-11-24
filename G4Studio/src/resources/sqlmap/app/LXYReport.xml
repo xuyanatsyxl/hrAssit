@@ -263,7 +263,7 @@
 	
 	
 	<select id="querydeptid" parameterClass="map" resultClass="dto">
-		select deptid from eadept where parentid=#deptid# or deptid=#deptid# order by deptid desc		
+		select deptid, cascadeid from eadept where parentid=#deptid# or deptid=#deptid# order by deptid desc		
 	</select>
 	                     
 	<select id="querylxyxxhzForManage" parameterClass="map" resultClass="dto">
@@ -281,7 +281,7 @@
 	</select>
 	
 	<select id="querylxyxxhzForsum" parameterClass="map" resultClass="dto">
-		select count(if(a.XB=1, 1, null)) as man, count(if(a.XB=2, 1, null)) as man, count(*) as rycount, count(if(a.HYZK=1, 1, null)) as wh,
+		select count(if(a.XB=1, 1, null)) as man, count(if(a.XB=2, 1, null)) as women, count(*) as rycount, count(if(a.HYZK=1, 1, null)) as wh,
 				count(if(a.HYZK=2, 1, null)) as yh, count(if(a.HYZK=3, 1, null)) as ly, count(if(a.HYZK=4, 1, null)) as so, count(if(a.HYZK=5, 1, null)) as qt,
 				count(if(a.HKXZ=1, 1, null)) as ny, count(if(a.HKXZ=2, 1, null)) as fny, count(if(a.XLXZ=1, 1, null)) as tz, count(if(a.XLXZ=2, 1, null)) as zk,
 				count(if(a.XLXZ=3, 1, null)) as qtxl, count(if(b.YGXJ=0, 1, null)) as lxj, count(if(b.YGXJ=1, 1, null)) as yxj, count(if(b.YGXJ=2, 1, null)) as exj,

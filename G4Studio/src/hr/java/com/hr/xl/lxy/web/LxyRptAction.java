@@ -106,8 +106,6 @@ public class LxyRptAction extends BaseAction {
 		BaseActionForm aForm = (BaseActionForm) form;
 		Dto dto = aForm.getParamAsDto(request);
 		List deptid = g4Reader.queryForList("LXYReport.querydeptid", dto);
-		// Integer leaf = (Integer)
-		// g4Reader.queryForObject("LXYReport.querydeptSortNo", dto);
 		List fieldsList = new ArrayList<Dto>();
 		for (int i = 0; i < deptid.size(); i++) {
 			Dto deptidto = (Dto) deptid.get(i);

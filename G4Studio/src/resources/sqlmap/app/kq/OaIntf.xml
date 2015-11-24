@@ -62,8 +62,7 @@
 	<select id="queryOaIntfItemFormManageForPageCount"
 		parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-		from oa_intf a, employee
-		b, deptempl c, eadept d
+		from oa_intf a, employee b, deptempl c, eadept d
 		where
 		a.WORKCODE=b.CODE and
 		b.EMPID=c.EMPID and c.deptid=d.deptid
@@ -73,7 +72,7 @@
 				"$requestid$""
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="cascadeid">
-				c.cascadeid like
+				d.cascadeid like
 				"$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="cllx">

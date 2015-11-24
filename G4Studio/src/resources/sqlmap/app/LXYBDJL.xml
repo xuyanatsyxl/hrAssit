@@ -52,12 +52,11 @@
 	<select id="queryLxybdjlForManageForPageCount" parameterClass="map"
 		resultClass="java.lang.Integer">
 		select count(*) as count
-		from LXYBDJL a, LXYBMSQB b EADEPT c
+		from LXYBDJL a, LXYBMSQB b, EADEPT c
 		where a.RYID=b.RYID and a.DEPTID=c.DEPTID
 		<dynamic>
 			<isNotEmpty prepend="AND" property="ryid">
 				a.ryid=#ryid#
-
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="rybh">
 				b.RYBH like '%$rybh$%'

@@ -15,6 +15,7 @@ import org.g4studio.core.metatype.impl.BaseDto;
 import org.g4studio.core.orm.xibatis.sqlmap.client.SqlMapExecutor;
 import org.g4studio.core.orm.xibatis.support.SqlMapClientCallback;
 import org.g4studio.core.util.G4Utils;
+import org.g4studio.system.admin.service.OrganizationService;
 import org.infotechdept.hr.kq.service.AdcShiftSchedulingService;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
@@ -22,6 +23,17 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import com.hr.xl.system.utils.HRUtils;
 
 public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements AdcShiftSchedulingService {
+	
+	
+	private OrganizationService organizationService;
+
+	public OrganizationService getOrganizationService() {
+		return organizationService;
+	}
+
+	public void setOrganizationService(OrganizationService organizationService) {
+		this.organizationService = organizationService;
+	}
 
 	private Dto getActualTime(Dto pDto) {
 		Dto outDto = new BaseDto();
@@ -224,6 +236,8 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 
 		final Dto dateDto = getWorkAndOffTimeByShiftId(adcShiftDetailDto.getAsString("shift_id"), pDate, holiable);
 		String record_type = recDto.getAsString("record_type");
+		String cascadeid = organizationService.queryCascadeidByDeptid(recDto.getAsInteger("deptid"));
+		recDto.put("cascadeid", cascadeid);
 		if (record_type.equalsIgnoreCase("1")) {
 			recDto.remove("empid");
 			recDto.remove("group_id");

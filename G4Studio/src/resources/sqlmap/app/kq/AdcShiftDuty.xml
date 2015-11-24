@@ -223,10 +223,11 @@
 	
 	<select id="queryAdcShiftDutyForCheckForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 	    select count(*) as count
-	      from adc_shift_duty a
-		<dynamic prepend="where">
+	      from adc_shift_duty a, eadept b
+	      where a.deptid=b.deptid
+		<dynamic>
           	<isNotEmpty prepend="and" property="cascadeid">
-          		c.cascadeid like '$cascadeid$%'
+          		b.cascadeid like '$cascadeid$%'
           	</isNotEmpty>
           	<isNotEmpty prepend="and" property="dutyid">
           		a.dutyid like '%$dutyid$%'

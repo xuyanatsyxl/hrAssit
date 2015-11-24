@@ -169,7 +169,7 @@ public class AdcOvertimeAction extends BaseAction {
 		BaseActionForm actionForm = (BaseActionForm) form;
 		Dto dto = (BaseDto) super.getSessionAttribute(request, "QUERYADCOVERTIMEITEM_QUERYDTO");
 
-		String deptid = dto.getAsString("deptid");
+		String deptid = dto.getAsString("cascadeid");
 		List empls = g4Reader.queryForList("Deptempl.queryDeptemplItemForManage", dto);
 
 		Dto parametersDto = new BaseDto();

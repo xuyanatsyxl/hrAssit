@@ -15,7 +15,7 @@
 		where a.deptid=b.deptid
 		<dynamic>
 			<isNotEmpty prepend="and" property="cascadeid">
-				a.cascadeid like '$cascadeid$%'
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="rpt_state">
 				a.rpt_state =
@@ -41,7 +41,7 @@
 		a.deptid=b.deptid
 		<dynamic>
 			<isNotEmpty prepend="and" property="cascadeid">
-				a.cascadeid like '$cascadeid$%'
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="rpt_state">
 				a.rpt_state =
@@ -191,13 +191,13 @@
 	</insert>
 
 	<select id="queryAdcOvertimeItemForCheck" parameterClass="map" resultClass="dto">
-		select a.over_code, a.yearmonth, a.deptid, (select deptname from eadept where deptid=a.deptid) as deptname, a.rpt_state, sum(b.days_normal) as days_normal, sum(b.hours_normal) as hours_normal, sum(b.days_weekend) as days_weekend,
+		select a.over_code, a.yearmonth, a.deptid, c.deptname, a.rpt_state, sum(b.days_normal) as days_normal, sum(b.hours_normal) as hours_normal, sum(b.days_weekend) as days_weekend,
 				sum(b.hours_weekend) as hours_weekend, sum(b.days_holiday) as days_holiday, sum(b.hours_holiday) as hours_holiday, a.remark
-		 from adc_overtime a, adc_overtime_detail b
-		where a.over_code=b.over_code
+		 from adc_overtime a, adc_overtime_detail b, eadept c
+		where a.over_code=b.over_code and a.deptid=c.deptid
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like '$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="rpt_state">
 				a.rpt_state = '$rpt_state$'
@@ -214,10 +214,11 @@
 	
 	<select id="queryAdcOvertimeItemForCheckForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-		 from adc_overtime
-		<dynamic prepend="where">
-			<isNotEmpty prepend="and" property="deptid">
-				deptid like '$deptid$%'
+		 from adc_overtime a, eadept b
+		 where a.deptid=b.deptid
+		<dynamic>
+			<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="rpt_state">
 				rpt_state = '$rpt_state$'

@@ -167,8 +167,10 @@
 			<bean
 				class="org.infotechdept.hr.kq.service.impl.AdcShiftSchedulingServiceImpl">
 				<property name="g4Dao" ref="g4Dao" />
+				<property name="organizationService" ref="organizationService"/>
 			</bean>
 		</property>
+
 	</bean>
 
 	<!-- 分组 -->

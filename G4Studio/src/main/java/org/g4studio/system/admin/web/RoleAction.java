@@ -86,6 +86,8 @@ public class RoleAction extends BaseAction{
 		}else{
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		dto.put("roletype", SystemConstants.ROLETYPE_ADMIN);
 		UserInfoVo userInfoVo = getSessionContainer(request).getUserInfo();
 		if (WebUtils.getParamValue("DEFAULT_ADMIN_ACCOUNT", request).equals(userInfoVo.getAccount())) {

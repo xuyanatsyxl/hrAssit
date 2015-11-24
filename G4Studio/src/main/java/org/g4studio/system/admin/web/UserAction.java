@@ -89,6 +89,8 @@ public class UserAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}	
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		dto.put("usertype", SystemConstants.USERTYPE_ADMIN);
 		UserInfoVo userInfoVo = getSessionContainer(request).getUserInfo();
 		if (WebUtils.getParamValue("DEFAULT_ADMIN_ACCOUNT", request).equals(userInfoVo.getAccount())) {

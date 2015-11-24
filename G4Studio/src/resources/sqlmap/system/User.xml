@@ -6,11 +6,10 @@
 	
 	<!-- 用户管理与授权-用户列表 -->
 	<select id="queryUsersForManage" parameterClass="map" resultClass="dto">
-		 SELECT userid, username, deptid, ACCOUNT, usertype,
-		       (SELECT deptname
-		          FROM eadept
-		         WHERE deptid = a.deptid) AS deptname, sex, LOCKED, remark
-		  FROM eauser a WHERE a.usertype != '3' and enabled = '1'
+		 SELECT userid, username, a.deptid, ACCOUNT, usertype,
+		       b.deptname, sex, a.LOCKED, a.remark
+		  FROM eauser a, eadept b
+		  WHERE a.deptid=b.deptid and a.usertype != '3' and a.enabled = '1'
 		<dynamic>
 			<isNotEmpty prepend="AND" property="usertype"> 
 									a.usertype != #usertype#
@@ -18,8 +17,8 @@
 			<isNotEmpty prepend="AND" property="userid"> 
 									a.userid like '$userid$%'
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid"> 
-									a.deptid like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid"> 
+									b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="rolename"> 
 									a.username like '%$username$%'
@@ -33,13 +32,14 @@
 	<!-- 用户管理与授权-用户列表 -->
 	<select id="queryUsersForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT count(*) as count
-		  FROM eauser a WHERE a.usertype != '3' and enabled = '1'
+		  FROM eauser a, eadept b
+		 WHERE a.deptid=b.deptid and a.usertype != '3' and a.enabled = '1'
 		<dynamic>
 			<isNotEmpty prepend="AND" property="userid"> 
 									a.userid like '$userid$%'
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid"> 
-									a.deptid like '$deptid$%'
+			<isNotEmpty prepend="AND" property="cascadeid"> 
+									b.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="rolename"> 
 									a.username like '%$username$%'

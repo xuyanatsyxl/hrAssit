@@ -51,14 +51,6 @@ public class LxycshAction extends BaseAction {
 		dto.put("bdlx", "4");
 		List lxyList = g4Reader.queryForPage("LXYBDJL.queryLxybdjlForManage",
 				dto);
-		/*
-		 * select HR_EVENTID, a.BDLX, DEPTID, (select DEPTNAME from eadept where
-		 * DEPTID=a.DEPTID) DEPTNAME, a.RYID, b.RYBH, b.XM, b.XB, b.SFZH,
-		 * (select USERNAME from eauser where USERID=a.CZY) CZY, CZSJ, a.BZ,
-		 * a.BDZT
-		 * ,a.PP,a.GHDW,a.JLDATE,a.YGXJ,a.XYGXJ,a.XHQXJRQ,a.YHQXJRQ,a.XJJSRQ
-		 * ,a.GW,a.JKZRQ
-		 */
 		for (int i = 0; i < lxyList.size(); i++) {
 			Dto dto2 = (BaseDto) lxyList.get(i);
 			dto2.put("xhqxjrq", G4Utils.stringToDate(

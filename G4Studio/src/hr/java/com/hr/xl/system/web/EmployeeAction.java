@@ -58,7 +58,8 @@ public class EmployeeAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
-
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		List emplList = g4Reader.queryForPage(
 				"EMPLOYEE.queryEmployeesForManage", dto);
 		for (int i = 0; i < emplList.size(); i++) {

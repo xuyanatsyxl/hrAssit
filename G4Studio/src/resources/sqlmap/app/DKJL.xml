@@ -11,7 +11,7 @@
 		(select DEPTNAME FROM EADEPT WHERE DEPTID=A.DEPTID) DKQY
 		from DKJL A,
 		EMPLOYEE B, deptempl C, eadept d
-		where a.EMPID=b.EMPID and b.EMPID=C.EMPID and a.deptid=d.deptid
+		where a.EMPID=b.EMPID and b.EMPID=C.EMPID and c.deptid=d.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="cascadeid">
 				d.cascadeid LIKE '$cascadeid$%'
@@ -51,9 +51,9 @@
 	<select id="queryDkjlForManageForPageCount" parameterClass="map"
 		resultClass="java.lang.Integer">
 		SELECT count(*) as count
-		from DKJL A, EMPLOYEE B, deptempl C
+		from DKJL A, EMPLOYEE B, deptempl C, EADEPT D
 		where
-		a.EMPID=b.EMPID and b.EMPID=C.EMPID
+		a.EMPID=b.EMPID and b.EMPID=C.EMPID and C.DEPTID=D.DEPTID
 		<dynamic>
 			<isNotEmpty prepend="AND" property="cascadeid">
 				d.cascadeid LIKE '$cascadeid$%'

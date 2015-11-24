@@ -36,6 +36,9 @@ public class LxyRptAction extends BaseAction {
 		if (G4Utils.isEmpty(dto.getAsString("deptid"))) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+
 		super.setSessionAttribute(request, "QUERYLXYXX_QUERYDTO", dto);
 		List lxyList = g4Reader.queryForPage("LXYReport.queryLxyxxForManager", dto);
 
@@ -124,12 +127,6 @@ public class LxyRptAction extends BaseAction {
 		parametersDto.put("jbr", super.getSessionContainer(request).getUserInfo().getUsername());
 		parametersDto.put("jbsj", G4Utils.getCurrentTime());
 		List fieldsList = (List) super.getSessionAttribute(request, "QUERYBMLXYXXHZ");
-		// inDto.put("rownum", "500");
-
-		/*
-		 * int toIndex = 7; System.out.println(fieldsList.size() + "aa合计条数！！");
-		 * if (fieldsList.size() <= toIndex) { toIndex = fieldsList.size(); }
-		 */
 		List subList = fieldsList.subList(0, fieldsList.size());
 		System.out.println(subList.size() + "合计条数！！");
 		parametersDto.put("countXmid", new Integer(subList.size()));// 合计条数
@@ -182,6 +179,9 @@ public class LxyRptAction extends BaseAction {
 		if (G4Utils.isEmpty(dto.getAsString("deptid"))) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+		
 		dto.put("dqzt", "2");
 		super.setSessionAttribute(request, "QUERYBMLXYXX_QUERYDTO", dto);
 

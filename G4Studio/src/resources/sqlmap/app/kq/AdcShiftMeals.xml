@@ -6,7 +6,7 @@
 
 	<select id="queryAdcShiftMealsDetailItemForManage"
 		parameterClass="map" resultClass="dto">
-		select meals_date, hr_getfulldeptname(a.deptid) deptname, b.EMPID,
+		select meals_date, hr_getfulldeptname(c.cascadeid) deptname, b.EMPID,
 		b.code, b.name, sum(if(meals_type='1', meals_times, null)) zc,
 		sum(if(meals_type='2', meals_times, null)) wc,
 		sum(if(meals_type='3', meals_times, null)) wac,
@@ -75,7 +75,7 @@
 
 	<select id="queryAdcShiftMealsItemForManage" parameterClass="map"
 		resultClass="dto">
-		select a.deptid, hr_getfulldeptname(a.deptid) deptname, b.EMPID,
+		select a.deptid, hr_getfulldeptname(c.cascadeid) deptname, b.EMPID,
 		b.code, b.name, sum(if(meals_type='1', meals_times, null)) zc,
 		sum(if(meals_type='2', meals_times, null)) wc,
 		sum(if(meals_type='3', meals_times, null)) wac, 
@@ -154,7 +154,7 @@
 	
 	<!-- 分部门综合查询：汇总表 -->
 	<select id="queryAdcShiftMealsByDeptForManage" parameterClass="map" resultClass="dto">
-		select a.deptid, hr_getfulldeptname(a.deptid) deptname, b.EMPID, b.code, b.name, sum(if(meals_type='1', meals_times, null)) zc,
+		select a.deptid, hr_getfulldeptname(c.cascadeid) deptname, b.EMPID, b.code, b.name, sum(if(meals_type='1', meals_times, null)) zc,
 			   sum(if(meals_type='2', meals_times, null)) wc, sum(if(meals_type='3', meals_times, null)) wac, sum(if(meals_type='4', meals_times, null)) jsfj,
 			   sum(if(meals_type='5', meals_times, null)) bjsfj
 		 from adc_shift_meals a, employee b, eadept c

@@ -8,12 +8,11 @@
 		resultClass="dto">
 		select A.EMPID, B.CODE, B.NAME, A.DEPTID, A.DEPTNAME, A.JOBNAME
 		from DEPTEMPL A,
-		EMPLOYEE B
-		where A.EMPID=B.EMPID and DQZT='2'
+		EMPLOYEE B, eadept C
+		where A.EMPID=B.EMPID AND A.DEPTID=C.DEPTID and DQZT='2'
 		<dynamic>
-			<isNotEmpty prepend="and" property="deptid">
-				A.DEPTID like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				C.CASCADEID like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="empid">
 				A.EMPID = $empid$
@@ -55,14 +54,14 @@
 			<isNotEmpty prepend="and" property="deptname">
 				deptname = #deptname#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				DEPTID like '$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="parentid">
 				PARENTID = '$parentid$'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="level">
-				char_length(deptid) = $level$
+				char_length(cascadeid) = $level$
 			</isNotEmpty>
 		</dynamic>
 	</select>

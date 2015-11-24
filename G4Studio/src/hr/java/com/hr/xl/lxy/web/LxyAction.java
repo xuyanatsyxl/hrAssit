@@ -260,6 +260,9 @@ public class LxyAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		if (!G4Utils.isEmpty(dto.getAsString("ksrq"))) {
 			dto.put("ksrq", G4Utils.Date2String(dto.getAsDate("ksrq"), "yyyyMMddHHmmss"));
 		}
@@ -269,12 +272,6 @@ public class LxyAction extends BaseAction {
 		}
 		super.setSessionAttribute(request, "QUERYLXYBDJL_QUERYDTO", dto);
 		List lxyList = g4Reader.queryForPage("LXYBDJL.queryLxybdjlForManage", dto);
-		/*
-		 * a.RYID, b.RYBH, b.XM, b.XB, b.SFZH, (select USERNAME from eauser
-		 * where USERID=a.CZY) CZY, CZSJ, a.BZ,
-		 * a.BDZT,a.PP,a.GHDW,a.JLDATE,a.YGXJ
-		 * ,a.XYGXJ,a.XHQXJRQ,a.YHQXJRQ,a.XJJSRQ,a.GW,a.JKZRQ
-		 */
 		for (int i = 0; i < lxyList.size(); i++) {
 			Dto dto2 = (BaseDto) lxyList.get(i);
 			dto2.put("czsj", G4Utils.stringToDate(dto2.getAsString("czsj"), "yyyyMMddHHmmss", "yyyy-MM-dd HH-mm-ss"));
@@ -310,6 +307,8 @@ public class LxyAction extends BaseAction {
 		if (G4Utils.isNotEmpty(deptid)) {
 			setSessionAttribute(request, "deptid", deptid);
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		if (!G4Utils.isEmpty(request.getParameter("firstload"))) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		} else {
@@ -341,11 +340,6 @@ public class LxyAction extends BaseAction {
 		Dto inDto = (BaseDto) super.getSessionAttribute(request, "QUERYLXYBDJL_QUERYDTO");
 		inDto.put("rownum", "500");
 		List fieldsList = g4Reader.queryForList("LXYBDJL.queryLxybdjlExcel", inDto);
-		/*
-		 * int toIndex = 80; if (fieldsList.size() <= toIndex) { toIndex =
-		 * fieldsList.size() - 1; }
-		 */
-
 		for (int i = 0; i < fieldsList.size(); i++) {
 			Dto dto2 = (BaseDto) fieldsList.get(i);
 			dto2.put("czsj", G4Utils.Date2String(G4Utils.stringToDate(dto2.getAsString("czsj"), "yyyyMMddHHmmss", "yyyy-MM-dd HH-mm-ss"),
@@ -449,6 +443,8 @@ public class LxyAction extends BaseAction {
 		if (G4Utils.isEmpty(deptid)) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
 		
 		if (!G4Utils.isEmpty(dto.getAsString("xjjsrqstart"))) {
 			dto.put("xjjsrqstart", G4Utils.Date2String(dto.getAsDate("xjjsrqstart"), "yyyyMMdd"));

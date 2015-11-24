@@ -7,8 +7,7 @@
 
 	<select id="queryAdcShifGroupForManage" parameterClass="map"
 		resultClass="dto">
-		select GROUP_ID, GROUP_NAME, DEPTID, (select deptname from eadept
-		where DEPTID=a.DEPTID) DEPTNAME, ENABLED, REMARK
+		select GROUP_ID, GROUP_NAME, a.DEPTID, b.DEPTNAME, a.ENABLED, a.REMARK
 		from Adc_Shift_Group a, eadept b
 		where a.deptid=b.deptid
 		<dynamic>
@@ -152,7 +151,7 @@
 		 where a.EMPID=b.EMPID and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="cascadeid">
-				b.cascadeid like '$cascadeid$%'
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="code">
 				a.code like '$code$%'

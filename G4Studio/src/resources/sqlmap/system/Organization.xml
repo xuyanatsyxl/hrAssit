@@ -76,7 +76,7 @@
 	
 	<!-- 部门管理-部门列表 -->
 	<select id="queryDeptsForManage" parameterClass="map" resultClass="dto">
-	   SELECT   deptid, deptname, customid, cascadeid,
+	   SELECT   deptid, deptname, customid, cascadeid, depttype,
 	         (SELECT deptname
 	            FROM eadept
 	           WHERE deptid = a.parentid) AS parentdeptname,

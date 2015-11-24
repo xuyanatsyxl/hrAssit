@@ -183,7 +183,7 @@ Ext.onReady(function() {
 				width : 80
 			}, {
 				header : '部门名称',
-				dataIndex : 'dept_name',
+				dataIndex : 'deptname',
 				sortable : true,
 				width : 120
 			}, {
@@ -243,7 +243,7 @@ Ext.onReady(function() {
 						}, {
 							name : 'deptid'
 						}, {
-							name : 'dept_name'
+							name : 'deptname'
 						}, {
 							name : 'empid'
 						}, {

@@ -6,14 +6,14 @@
 
 	<select id="queryLxybdjlForManage" parameterClass="map"
 		resultClass="dto">
-		select HR_EVENTID, a.BDLX, DEPTID, (select DEPTNAME from eadept where
-		DEPTID=a.DEPTID) DEPTNAME,
+		select HR_EVENTID, a.BDLX, A.DEPTID, C.DEPTNAME,
 		a.RYID, b.RYBH, b.XM, b.XB, b.SFZH, (select
 		USERNAME from eauser where
 		USERID=a.CZY) CZY, CZSJ,
 		a.BZ, a.BZ2,
 		a.BDZT,a.PP,a.GHDW,a.JLDATE,a.YGXJ,a.XYGXJ,a.XHQXJRQ,a.YHQXJRQ,a.XJJSRQ,a.GW,a.JKZRQ
-		from LXYBDJL a, LXYBMSQB b where a.RYID=b.RYID
+		 from LXYBDJL a, LXYBMSQB b, EADEPT C 
+		where a.RYID=b.RYID AND A.DEPTID=C.DEPTID
 		<dynamic>
 			<isNotEmpty prepend="AND" property="ryid">
 				a.ryid=#ryid#
@@ -40,9 +40,8 @@
 			<isNotEmpty prepend="and" property="bdlx">
 				a.BDLX = #bdlx#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="bdzt">
 				a.BDZT = #bdzt#
@@ -53,7 +52,8 @@
 	<select id="queryLxybdjlForManageForPageCount" parameterClass="map"
 		resultClass="java.lang.Integer">
 		select count(*) as count
-		from LXYBDJL a, LXYBMSQB b where a.RYID=b.RYID
+		from LXYBDJL a, LXYBMSQB b EADEPT c
+		where a.RYID=b.RYID and a.DEPTID=c.DEPTID
 		<dynamic>
 			<isNotEmpty prepend="AND" property="ryid">
 				a.ryid=#ryid#
@@ -79,9 +79,8 @@
 			<isNotEmpty prepend="and" property="bdlx">
 				a.BDLX = #bdlx#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like '$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="bdzt">
 				a.BDZT = #bdzt#
@@ -93,8 +92,7 @@
 		select HR_EVENTID, ( CASE a.BDLX WHEN 1 then '入职' when 2 then '调出'
 		when '3' then '调入' when 4 then '星级' when '5' then '离职' when '6' then
 		'黑名单' end) BDLX,
-		DEPTID, (select DEPTNAME from eadept where
-		DEPTID=a.DEPTID) DEPTNAME,
+		a.DEPTID, c.DEPTNAME,
 		( CASE a.ygxj WHEN 0 THEN '无星级' WHEN 1 THEN
 		'一星级' WHEN 2 THEN '二星级'
 		WHEN 3 THEN '三星级' WHEN 4 THEN '四星级' WHEN 5 THEN
@@ -118,8 +116,8 @@
 		THEN '证章到期' END ) as
 		BZ , a.BZ2,
 		a.BDZT,a.PP,a.GHDW,a.JLDATE,a.YGXJ,a.XHQXJRQ,a.XJJSRQ
-		from LXYBDJL a,
-		LXYBMSQB b where a.RYID=b.RYID
+		from LXYBDJL a,	LXYBMSQB b, EADEPT c
+		where a.RYID=b.RYID and a.DEPTID=c.DEPTID
 		<dynamic>
 			<isNotEmpty prepend="AND" property="rybh">
 				b.RYBH like '%$rybh$%'
@@ -141,9 +139,9 @@
 			<isNotEmpty prepend="and" property="bdlx">
 				a.BDLX = #bdlx#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="deptid">
-				a.deptid like
-				'$deptid$%'
+			<isNotEmpty prepend="and" property="cascadeid">
+				c.cascadeid like
+				'$cascadeid$%'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="bdzt">
 				a.BDZT = #bdzt#

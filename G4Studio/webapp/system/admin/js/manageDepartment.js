@@ -671,13 +671,6 @@ Ext
 										}
 									}
 								}, {
-									text : '重置',
-									id : 'btnReset',
-									iconCls : 'tbar_synchronizeIcon',
-									handler : function() {
-										clearForm(adjustFormPanel.getForm());
-									}
-								}, {
 									text : '关闭',
 									iconCls : 'deleteIcon',
 									handler : function() {

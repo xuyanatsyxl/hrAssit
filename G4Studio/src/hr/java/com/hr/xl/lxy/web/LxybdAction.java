@@ -258,6 +258,9 @@ public class LxybdAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+		
 		List lxylzList = g4Reader.queryForPage("LXYBD.queryLxylzForManage", dto);
 		/*
 		 * SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID)
@@ -287,6 +290,9 @@ public class LxybdAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+		
 		List lxyddlist = g4Reader.queryForPage("LXYBD.queryLxyddForManage", dto);
 		for (int i = 0; i < lxyddlist.size(); i++) {
 			Dto dto2 = (BaseDto) lxyddlist.get(i);
@@ -342,6 +348,9 @@ public class LxybdAction extends BaseAction {
 		if (G4Utils.isEmpty(dto.getAsString("deptid"))) {
 			dto.put("deptid", super.getSessionContainer(request).getUserInfo().getDeptid());
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+		
 		List lxyhmdList = g4Reader.queryForPage("LXYBD.queryLxyhmdForManage", dto);
 		/*
 		 * SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID)
@@ -385,6 +394,9 @@ public class LxybdAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+		
 		List lxylzList = g4Reader.queryForPage("LXYBD.querybmLxyxxwhForManage", dto);
 
 		/*
@@ -422,7 +434,9 @@ public class LxybdAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
-
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+		
 		if (!G4Utils.isEmpty(dto.getAsString("jkzrqstart"))) {
 			dto.put("jkzrqstart", G4Utils.Date2String(dto.getAsDate("jkzrqstart"), "yyyyMMdd"));
 
@@ -477,7 +491,9 @@ public class LxybdAction extends BaseAction {
 		} else {
 			dto.put("deptid", super.getSessionAttribute(request, "deptid"));
 		}
-
+		dto.put("cascadeid", organizationService.queryCascadeidByDeptid(dto.getAsInteger("deptid")));
+		dto.remove("deptid");
+		
 		List lxylzList = g4Reader.queryForList("BMLXY.queryBmlxyItemForManage", dto);
 		for (int i = 0; i < lxylzList.size(); i++) {
 			Dto dto2 = (BaseDto) lxylzList.get(i);

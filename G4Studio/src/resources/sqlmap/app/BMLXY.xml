@@ -107,10 +107,10 @@
 	
 	
 	<select id="queryLxyxjForManage" parameterClass="map" resultClass="dto">
-		SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, 
+		SELECT b.DEPTID, c.deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, 
        		   b.GHDW, b.PP, b.YDRQ, a.SFZH,b.HQXJRQ,B.XJJSRQ,b.GW, b.jkzrq
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 			<isNotEmpty prepend="AND" property="rybh">
          		a.RYBH like "$rybh$%"
@@ -127,8 +127,8 @@
 			<isNotEmpty prepend="AND" property="ghdw">
 				b.GHDW like "%$ghdw$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 		    <isNotEmpty prepend="and" property="xjjsrqstart">
 			b.xjjsrq  <![CDATA[>=]]> #xjjsrqstart#
@@ -144,8 +144,8 @@
 	
 	<select id="queryLxyxjForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT count(*) as count
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 			<isNotEmpty prepend="AND" property="rybh">
          		a.RYBH like "$rybh$%"
@@ -162,8 +162,8 @@
 			<isNotEmpty prepend="AND" property="ghdw">
 				b.GHDW like "%$ghdw$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 		    <isNotEmpty prepend="and" property="xjjsrqstart">
 			b.xjjsrq  <![CDATA[>=]]> #xjjsrqstart#

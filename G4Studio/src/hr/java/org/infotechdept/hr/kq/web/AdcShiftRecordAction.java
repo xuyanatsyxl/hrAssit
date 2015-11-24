@@ -68,7 +68,7 @@ public class AdcShiftRecordAction extends BaseAction {
 		inDto.put("operate_time", G4Utils.getCurrentTime());
 		inDto.put("operator", getSessionContainer(request).getUserInfo().getUserid());
 		Dto outDto = adcShiftRecordService.saveAdcShiftRecordItem(inDto);
-		setOkTipMsg("排班成功，后台生成排班表需要一段时间，请稍侯！", response);
+		setOkTipMsg("初始化记录生成成功！", response);
 		return mapping.findForward(null);
 	}
 

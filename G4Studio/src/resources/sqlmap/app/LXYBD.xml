@@ -140,8 +140,8 @@
 	<select id="queryLxylzForManage" parameterClass="map" resultClass="dto">
 		SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, 
        		   b.GHDW, b.PP, b.YDRQ,a.DQZT,a.SFZH,b.GW,b.hqxjrq,b.xjjsrq,b.jkzrq
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 			<isNotEmpty prepend="AND" property="sfzh">
          		a.SFZH like "%$sfzh$%"
@@ -155,8 +155,8 @@
 			<isNotEmpty prepend="AND" property="pp">
          		b.PP like "%$pp$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="gw">
 				b.GW=#gw#
@@ -167,8 +167,8 @@
 	
 	<select id="queryLxylzForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT count(*) as count
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and a.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 			<isNotEmpty prepend="AND" property="sfzh">
          		a.SFZH like "%$sfzh$%"
@@ -182,8 +182,8 @@
 			<isNotEmpty prepend="AND" property="pp">
          		b.PP like "%$pp$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="gw">
 				b.GW=#gw#
@@ -194,8 +194,8 @@
 	
 	<select id="queryLxyhmdForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT count(*) as count
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 			
 			<isNotEmpty prepend="AND" property="sfzh">
@@ -210,8 +210,8 @@
 			<isNotEmpty prepend="AND" property="xm">
          		a.XM like "%$xm$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 		</dynamic> 
 	</select>
@@ -219,8 +219,8 @@
 	<select id="queryLxyhmdForManage" parameterClass="map" resultClass="dto">
 		SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, a.SFZH,
        		   b.GHDW, b.PP, b.YDRQ,b.YGXJ
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 			<isNotEmpty prepend="AND" property="sfzh">
          		a.SFZH like "%$sfzh$%"
@@ -234,8 +234,8 @@
 			<isNotEmpty prepend="AND" property="pp">
          		b.PP like "%$pp$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 		</dynamic> 
 	</select>
@@ -259,9 +259,9 @@
 		SELECT A.RYID,	A.RYBH, A.XM, A.FULLNAME,	A.XB,	A.CSRQ,	A.SG,	A.MZ,	A.YWBS,	A.TZ,	A.CSD, A.ZJXY,
 	    	   A.HKSZD, A.HKXZ, A.SFZH, A.ZZMM, A.HYZK, A.ZGXL, A.XLXZ, A.JZFS,A.LXSJ, A.LXZD, A.JZMJ, A.XZJ,	A.LT, A.JJLXR,	A.JJLXRZD,A.JDRQ,
 	       	   A.JJLXRSJ, A.BZ,	A.DQZT,	A.JDR,  (SELECT USERNAME FROM EAUSER WHERE USERID=A.JDR) JDRM,b.ghdw,b.pp,
-	       	   (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname,b.DEPTID ,b.GW,b.ydrq
-     	 FROM LXYBMSQB A ,BMLXY b
-        where A.ryid=b.ryid 
+	       	   c.deptname,b.DEPTID ,b.GW,b.ydrq
+     	 FROM LXYBMSQB A ,BMLXY b, eadept c
+        where A.ryid=b.ryid  and b.deptid=c.deptid
 		<dynamic> 
 			
 			<isNotEmpty prepend="AND" property="xm"> 
@@ -276,8 +276,8 @@
 			<isNotEmpty prepend="AND" property="queryParam"> 
 				                    A.XM like '%$queryParam$%' 
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="ghdw">
          		b.GHDW like "%$ghdw$%"
@@ -292,8 +292,8 @@
 	
 	<select id="querybmLxyxxwhForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT COUNT(*) AS COUNT
-     	 FROM LXYBMSQB A,BMLXY b
-        where A.RYID=b.RYID 
+     	 FROM LXYBMSQB A,BMLXY b, eadept c
+        where A.RYID=b.RYID  and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="xm"> 
 									A.XM like '%$xm$%'
@@ -307,8 +307,8 @@
 			<isNotEmpty prepend="AND" property="queryParam"> 
 				                    A.XM like '%$queryParam$%' 
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="ghdw">
          		b.GHDW like "%$ghdw$%"
@@ -321,18 +321,18 @@
 	
 	
 <select id="queryLxyjkzForManage" parameterClass="map" resultClass="dto">
-		SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, 
+		SELECT b.DEPTID, c.deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, 
        		   b.GHDW, b.PP, b.YDRQ, a.SFZH,b.HQXJRQ,B.XJJSRQ, b.JKZRQ
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 		
 			<isNotEmpty prepend="AND" property="xm">
          		a.XM like "%$xm$%"
 			</isNotEmpty>
 			
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 		    <isNotEmpty prepend="and" property="jkzrqstart">
 			b.jkzrq  <![CDATA[>=]]> #jkzrqstart#
@@ -347,15 +347,15 @@
 	</select>
 	<select id="queryLxyjkzForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT count(*) as count
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 				<isNotEmpty prepend="AND" property="xm">
          		a.XM like "%$xm$%"
 			</isNotEmpty>
 			
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 		    <isNotEmpty prepend="and" property="jkzrqstart">
 			b.jkzrq  <![CDATA[>=]]> #jkzrqstart#

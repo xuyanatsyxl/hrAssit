@@ -5,13 +5,12 @@
 	<typeAlias alias="dto"  type="org.g4studio.core.metatype.impl.BaseDto" />
 	<select id="queryLxyxxForManager" parameterClass="map" resultClass="dto">
 
-		select b.DEPTID,  hr_getfulldeptname(b.deptid) as deptname, a.ryid, a.rybh, a.xm, a.XB, a.CSRQ, a.SFZH, a.HYZK, a.ZGXL,
+		select b.DEPTID,  hr_getfulldeptname(c.cascadeid) as deptname, a.ryid, a.rybh, a.xm, a.XB, a.CSRQ, a.SFZH, a.HYZK, a.ZGXL,
  			   a.JZFS,a.LXSJ,a.JJLXR,a.JJLXRSJ,a.XLXZ,  a.SG,a.MZ,a.YWBS,a.TZ,a.CSD,a.ZJXY,a.HKSZD,a.HKXZ,a.LT,a.DQZT,a.LXZD,a.JZMJ,a.XZJ,a.JJLXRZD,
  			   b.GHDW, b.PP, b.YDRQ, b.YGXJ, b.GW, DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 as age
-          from lxybmsqb a, bmlxy b
-         where a.ryid=b.ryid
-		<dynamic>
-			
+          from lxybmsqb a, bmlxy b, eadept c
+         where a.ryid=b.ryid and b.deptid=c.deptid
+		<dynamic>		
 			<isNotEmpty prepend="AND" property="xm">
          		a.XM like "%$xm$%"
 			</isNotEmpty>
@@ -29,12 +28,12 @@
 	</select>
 	
 	<select id="queryLxyxxForExcel" parameterClass="map" resultClass="dto">
-	    select distinct deptid, hr_getfulldeptname(deptid) as deptname, a.RYID, a.RYBH, a.XM, (select CODEDESC from eacode where field='XB' and code=a.XB) as XB,
+	    select distinct b.deptid, hr_getfulldeptname(c.cascadeid) as deptname, a.RYID, a.RYBH, a.XM, (select CODEDESC from eacode where field='XB' and code=a.XB) as XB,
 	           a.CSRQ,a.SFZH,  (select CODEDESC from eacode where field='HYZK' and code=a.HYZK) as HYZK, a.ZGXL, 
 	           (select CODEDESC from eacode where field='JZFS' and code=a.JZFS) AS JZFS, a.LXSJ,a.JJLXR,a.JJLXRSJ, A.XLXZ, b.YGXJ, a.SG,a.MZ,a.YWBS,a.TZ,a.CSD,a.ZJXY,a.HKSZD,
                DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 as age,A.HKXZ, a.LT, b.GW, b.GHDW, b.PP, b.YDRQ
-         from lxybmsqb a, bmlxy b
-        where a.RYID=b.ryid
+         from lxybmsqb a, bmlxy b, eadept c
+        where a.RYID=b.ryid and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="xm">
          		a.XM like "%$xm$%"
@@ -78,11 +77,11 @@
 	<select id="querybmLxyxxForManager" parameterClass="map" resultClass="dto">
 	  
          
-         SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname, a.RYID, a.RYBH, a.XM, a.XB,a.CSRQ,a.SFZH,a.HYZK,a.ZGXL,
+         SELECT b.DEPTID, c.deptname, a.RYID, a.RYBH, a.XM, a.XB,a.CSRQ,a.SFZH,a.HYZK,a.ZGXL,
 	  a.JZFS,a.LXSJ,a.JJLXR,a.JJLXRSJ,a.XLXZ, b.YGXJ, b.XJJSRQ, a.SG,a.MZ,a.YWBS,a.TZ,a.CSD,a.ZJXY,a.HKSZD,a.HKXZ,a.LT,a.DQZT,a.LXZD,a.JZMJ,a.XZJ,a.JJLXRZD,
        		   b.GHDW, b.PP, b.YDRQ, DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 AS AGE,b.GW
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="rybh">
          		a.RYBH like "%$rybh$%"
@@ -96,8 +95,8 @@
 			<isNotEmpty prepend="AND" property="pp">
          		b.PP like "%$pp$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="sfzh">
          		a.SFZH like "%$sfzh$%"
@@ -126,7 +125,7 @@
 	</select>
 	
 	<select id="querybmLxyxxForExcel" parameterClass="map" resultClass="dto">
-		select distinct deptid, hr_getfulldeptname(deptid) as deptname, a.RYID, a.RYBH, a.XM, 
+		select distinct b.deptid, hr_getfulldeptname(c.cascadeid) as deptname, a.RYID, a.RYBH, a.XM, 
 				(select CODEDESC from eacode where field='XB' and code=a.XB) AS XB, a.CSRQ, a.SFZH,
 				(select CODEDESC from eacode where field='HYZK' and code=a.HYZK) as HYZK, a.ZGXL, 
 				(select CODEDESC from eacode where field='JZFS' and code=a.JZFS) as JZFS, a.LXSJ,a.JJLXR,a.JJLXRSJ, 
@@ -135,8 +134,8 @@
 				DATE_FORMAT(FROM_DAYS(TO_DAYS(now())-TO_DAYS(a.csrq)),'%Y')+0 as age,
 				(select CODEDESC from eacode where field='HKXZ' and code=a.HKXZ) AS HKXZ, a.LT, 
 				(select CODEDESC from eacode where field='GW' and code=b.GW) AS GW, b.GHDW, b.PP, b.YDRQ
-		 from lxybmsqb a, bmlxy b
-		where a.RYID=b.ryid
+		 from lxybmsqb a, bmlxy b, eadept c
+		where a.RYID=b.ryid and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="rybh">
          		a.RYBH like "%$rybh$%"
@@ -150,8 +149,8 @@
 			<isNotEmpty prepend="AND" property="pp">
          		b.PP like "%$pp$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="sfzh">
          		a.SFZH like "%$sfzh$%"
@@ -176,8 +175,8 @@
 	
 	<select id="querybmLxyxxForExcelForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		select count(*) as count
-		 from lxybmsqb a, bmlxy b
-		where a.RYID=b.ryid
+		 from lxybmsqb a, bmlxy b, eadept c
+		where a.RYID=b.ryid and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="rybh">
          		a.RYBH like "%$rybh$%"
@@ -191,8 +190,8 @@
 			<isNotEmpty prepend="AND" property="pp">
          		b.PP like "%$pp$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="sfzh">
          		a.SFZH like "%$sfzh$%"
@@ -217,8 +216,8 @@
 	
 	<select id="querybmLxyxxForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT count(*) as count
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid
 		<dynamic>
 			<isNotEmpty prepend="AND" property="rybh">
          		a.RYBH like "$rybh$%"
@@ -232,8 +231,8 @@
 			<isNotEmpty prepend="AND" property="pp">
          		b.PP like "%$pp$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="sfzh">
          		a.SFZH like "%$sfzh$%"
@@ -276,11 +275,10 @@
 				count(if(b.gw=1, 1, null)) as gwlxy, count(if(b.gw=2, 1, null)) as gwdz, count(if(b.gw=3, 1, null)) as gwlscxy, count(if(b.gw=4, 1, null)) as gwxsg,
         		(SELECT DEPTID FROM eadept WHERE DEPTID=#deptid#) AS deptid,	
 				(SELECT DEPTNAME FROM eadept WHERE DEPTID=#deptid#) AS deptname	
-		 from lxybmsqb a, bmlxy b 
+		 from lxybmsqb a, bmlxy b
 	    where a.ryid=b.ryid and a.dqzt='2'
 		  and b.deptid = #deptid#
 	</select>
-	
 	
 	<select id="querylxyxxhzForsum" parameterClass="map" resultClass="dto">
 		select count(if(a.XB=1, 1, null)) as man, count(if(a.XB=2, 1, null)) as man, count(*) as rycount, count(if(a.HYZK=1, 1, null)) as wh,
@@ -291,9 +289,9 @@
 				count(if(b.gw=1, 1, null)) as gwlxy, count(if(b.gw=2, 1, null)) as gwdz, count(if(b.gw=3, 1, null)) as gwlscxy, count(if(b.gw=4, 1, null)) as gwxsg,
         		(SELECT DEPTID FROM eadept WHERE DEPTID=#deptid#) AS deptid,	
 				(SELECT DEPTNAME FROM eadept WHERE DEPTID=#deptid#) AS deptname	
-		 from lxybmsqb a, bmlxy b 
-	    where a.ryid=b.ryid and a.dqzt='2'
-		  and b.deptid like  '$deptid$%'
+		 from lxybmsqb a, bmlxy b, eadept c
+	    where a.ryid=b.ryid and a.dqzt='2' and b.deptid=c.deptid
+		  and c.cascadeid like '$cascadeid$%'
 	</select>
 	
 	<select  id="querydeptSortNo" parameterClass="dto" resultClass="java.lang.Integer">

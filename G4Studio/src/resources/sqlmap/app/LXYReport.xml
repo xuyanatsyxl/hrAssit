@@ -263,7 +263,7 @@
 	
 	
 	<select id="querydeptid" parameterClass="map" resultClass="dto">
-		select deptid, cascadeid from eadept where parentid=#deptid# or deptid=#deptid# order by deptid desc		
+		select deptid, cascadeid from eadept where (parentid=#deptid# or deptid=#deptid#) and enabled='1' order by deptid desc		
 	</select>
 	                     
 	<select id="querylxyxxhzForManage" parameterClass="map" resultClass="dto">

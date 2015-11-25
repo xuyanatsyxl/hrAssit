@@ -114,6 +114,6 @@
 	</select>
 	
 	<select id="queryEadeptItemByDeptid" parameterClass="java.lang.String" resultClass="dto">
-		select deptid, deptname from eadept where deptid=#deptid#
+		select deptid, deptname from eadept where cascadeid=#deptid#
 	</select>
 </sqlMap>

@@ -168,7 +168,7 @@
 	<select id="queryLxylzForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT count(*) as count
           FROM lxybmsqb a, bmlxy b, eadept c
-         where a.RYID=b.RYID and a.deptid=c.deptid and a.DQZT in ("2")
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
 			<isNotEmpty prepend="AND" property="sfzh">
          		a.SFZH like "%$sfzh$%"
@@ -397,7 +397,9 @@
 		</dynamic> 
 	</select>
 	<select id="queryLxyddForManageForPageCount" parameterClass="map"  resultClass="java.lang.Integer">
-		select count(*) as count from lxybmsqb a ,bmlxy b where a.RYID=b.RYID AND a.DQZT in ("2")
+		select count(*) as count 
+		  from lxybmsqb a ,bmlxy b, eadept c
+		  where a.RYID=b.RYID and b.deptid=c.deptid AND a.DQZT in ("2")
 		<dynamic>
 			<isNotEmpty prepend="AND" property="xm">
          		a.XM like "%$xm$%"
@@ -409,8 +411,8 @@
 			<isNotEmpty prepend="AND" property="sfzh">
 				a.SFZH like "%$sfzh$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 		    
 			

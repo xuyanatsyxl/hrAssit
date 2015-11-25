@@ -80,12 +80,12 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		Dto inDto = (BaseDto) getSessionAttribute(request, "QUERYADCREPORTPERSONMONTH_QUERYDTO");
 		Dto dto = new BaseDto();
 		String strYm = inDto.getAsString("yearmonth");
-		String deptid = inDto.getAsString("deptid");
+		String cascadeid = inDto.getAsString("cascadeid");
 		dto.put("reportTitle", strYm.substring(0, 4) + "年" + strYm.substring(4, 6) + "月考勤表");
 		dto.put("jbr", getSessionContainer(request).getUserInfo().getUsername());
 		dto.put("jbsj", G4Utils.getCurrentTime());
 		dto.put("yearmonth", inDto.getAsString("yearmonth"));
-		dto.put("deptname", getfullDeptName(deptid));
+		dto.put("deptname", getfullDeptName(cascadeid));
 		List catalogList = g4Reader.queryForList("AdcReportPersonMonth.queryAdcShiftReportPersonalMonthForPrint", inDto);
 		for (int i = 0; i < catalogList.size(); i++) {
 			Dto dto2 = (BaseDto) catalogList.get(i);

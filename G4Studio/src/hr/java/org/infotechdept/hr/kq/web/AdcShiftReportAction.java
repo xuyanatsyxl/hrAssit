@@ -46,6 +46,8 @@ public class AdcShiftReportAction extends BaseAction {
 		Dto inDto = aForm.getParamAsDto(request);
 		inDto.put("operate_time", G4Utils.getCurrentTime());
 		inDto.put("operator", getSessionContainer(request).getUserInfo().getUserid());
+		inDto.put("cascadeid", organizationService.queryCascadeidByDeptid(inDto.getAsInteger("deptid")));
+		inDto.remove("deptid");
 		Dto outDto = adcShiftReportService.makeAdcShiftReport(inDto);
 		if (outDto.getAsBoolean("success")) {
 			setOkTipMsg(outDto.getAsString("msg"), response);

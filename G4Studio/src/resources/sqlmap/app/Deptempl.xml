@@ -48,9 +48,9 @@
 	</delete>
 
 	<select id="queryDeptItem" parameterClass="map" resultClass="dto">
-		SELECT deptid, deptname
-		FROM eadept
-		<dynamic prepend="where">
+		SELECT deptid, deptname, cascadeid
+		FROM eadept where enabled="1"
+		<dynamic>
 			<isNotEmpty prepend="and" property="deptname">
 				deptname = #deptname#
 			</isNotEmpty>

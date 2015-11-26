@@ -374,12 +374,11 @@
 	</update>
 	
 	<select id="queryLxyddForManage" parameterClass="map"  resultClass="dto">
-		SELECT b.DEPTID, (SELECT DEPTNAME from eadept where DEPTID=b.DEPTID) as deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, 
+		SELECT b.DEPTID, c.deptname, a.RYID, a.RYBH, a.XM, a.XB, b.YGXJ, 
        		   b.GHDW, b.PP, b.YDRQ, a.SFZH,b.GW
-          FROM lxybmsqb a, bmlxy b
-         where a.RYID=b.RYID and a.DQZT in ("2")
+          FROM lxybmsqb a, bmlxy b, eadept c
+         where a.RYID=b.RYID and b.deptid=c.deptid and a.DQZT in ("2")
 		<dynamic>
-			
 			<isNotEmpty prepend="AND" property="xm">
          		a.XM like "%$xm$%"
 			</isNotEmpty>
@@ -390,12 +389,13 @@
 			<isNotEmpty prepend="AND" property="sfzh">
 				a.SFZH like "%$sfzh$%"
 			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="deptid">
-         		b.DEPTID like "$deptid$%"
+			<isNotEmpty prepend="AND" property="cascadeid">
+         		c.cascadeid like "$cascadeid$%"
 			</isNotEmpty>
 		    
 		</dynamic> 
 	</select>
+	
 	<select id="queryLxyddForManageForPageCount" parameterClass="map"  resultClass="java.lang.Integer">
 		select count(*) as count 
 		  from lxybmsqb a ,bmlxy b, eadept c

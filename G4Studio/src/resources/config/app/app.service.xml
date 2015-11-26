@@ -86,6 +86,7 @@
 		<property name="target">
 			<bean class="com.hr.xl.system.service.impl.EmployeeServiceImpl">
 				<property name="g4Dao" ref="g4Dao" />
+				<property name="organizationService" ref="organizationService"/>
 			</bean>
 		</property>
 	</bean>

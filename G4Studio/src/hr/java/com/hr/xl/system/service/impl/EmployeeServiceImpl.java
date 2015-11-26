@@ -7,6 +7,7 @@ import org.g4studio.common.service.impl.BaseServiceImpl;
 import org.g4studio.core.metatype.Dto;
 import org.g4studio.core.metatype.impl.BaseDto;
 import org.g4studio.core.util.G4Utils;
+import org.g4studio.system.admin.service.OrganizationService;
 import org.g4studio.system.common.util.idgenerator.IdGenerator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,6 +16,18 @@ import com.hr.xl.system.service.EmployeeService;
 
 public class EmployeeServiceImpl extends BaseServiceImpl implements
 		EmployeeService {
+	
+	private OrganizationService organizationService;
+	
+	
+	public OrganizationService getOrganizationService() {
+		return organizationService;
+	}
+
+	public void setOrganizationService(OrganizationService organizationService) {
+		this.organizationService = organizationService;
+	}
+
 	public Dto saveEmployeeItem(Dto pDto) {
 		// TODO Auto-generated method stub
 		return null;
@@ -96,8 +109,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 			if (G4Utils.isNotEmpty(newInfoDto)) {
 				// 取得岗位信息
 				String jobName = newInfoDto.getAsString("c_jobname");
-				String deptid = getDeptidByDeptName(newInfoDto
-						.getAsString("c_unitname"));
+				Integer deptid = getDeptidByDeptName(newInfoDto.getAsString("c_unitname"));
 				int zwid = getZbzwid(newInfoDto.getAsString("c_dyzbzw"));
 				Dto upDto = new BaseDto();
 				upDto.put("deptid", deptid);
@@ -119,15 +131,20 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 		return outDto;
 	}
 
-	private String getDeptidByDeptName(String fullDeptName) {
+	/**
+	 * 根据HR传过来的UNITNAME查找组织架构
+	 * @param fullDeptName
+	 * @return
+	 */
+	private Integer getDeptidByDeptName(String fullDeptName) {
 		String[] dList = fullDeptName.split("-");
-		String deptid = null;
+		String cascadeid = null;
 		int i = 0;
 		for (String dept : dList) {
 			Dto paramDto = new BaseDto();
 			paramDto.put("deptname", dept);
 			if (i > 0) {
-				paramDto.put("deptid", deptid);
+				paramDto.put("cascadeid", cascadeid);
 			}
 			paramDto.put("level", (i + 2) * 3);
 			List<Dto> deptList = g4Dao.queryForList("Deptempl.queryDeptItem",
@@ -137,23 +154,24 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 				Dto deptDto = new BaseDto();
 				deptDto.put("deptname", dept);
 				if (i == 0) {
-					deptDto.put("parentid", "001");
+					deptDto.put("cascadeid", "001");
 				} else {
-					deptDto.put("parentid", deptid);
+					deptDto.put("cascadeid", cascadeid);
 				}
-				deptid = IdGenerator.getDeptIdGenerator(deptDto
+				cascadeid = IdGenerator.getDeptIdGenerator(deptDto
 						.getAsInteger("parentid"));
-				deptDto.put("deptid", deptid);
+				deptDto.put("cascadeid", cascadeid);
 				deptDto.put("leaf", new Boolean(false));
 				deptDto.put("sortno",
-						deptid.substring(deptid.length() - 3, deptid.length()));
+						cascadeid.substring(cascadeid.length() - 3, cascadeid.length()));
 				deptDto.put("enabled", new Boolean(true));
 				g4Dao.insert("Organization.saveDeptItem", deptDto);
 			} else {
-				deptid = deptList.get(0).getAsString("deptid");
+				cascadeid = deptList.get(0).getAsString("cascadeid");
 			}
 			i++;
 		}
+		Integer deptid = organizationService.queryDeptidByCascadeid(cascadeid);
 		return deptid;
 	}
 

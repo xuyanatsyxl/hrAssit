@@ -280,4 +280,9 @@
 	<select id="queryCascadeidByDeptid" parameterClass="java.lang.Integer" resultClass="java.lang.String">
 		select cascadeid from eadept where deptid = #deptid#
 	</select>
+	
+	<!-- 根据cascadeid查询deptid -->
+	<select id="queryDeptidByCascadeid" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select deptid from eadept where cascadeid = #cascadeid#
+	</select>	
 </sqlMap>

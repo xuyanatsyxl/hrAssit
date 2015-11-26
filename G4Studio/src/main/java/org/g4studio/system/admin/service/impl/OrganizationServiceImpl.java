@@ -283,5 +283,13 @@ public class OrganizationServiceImpl extends BaseServiceImpl implements Organiza
 		String cascadeid = (String)g4Dao.queryForObject("Organization.queryCascadeidByDeptid", deptid);
 		return cascadeid;
 	}
+	
+	/**
+	 * 根据cascadeid查询deptid
+	 */
+	public Integer queryDeptidByCascadeid(String cascadeid) {
+		Integer deptid = (Integer)g4Dao.queryForObject("Organization.queryDeptidByCascadeid", cascadeid);
+		return deptid;
+	}
 
 }

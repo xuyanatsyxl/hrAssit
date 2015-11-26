@@ -86,4 +86,6 @@ public interface OrganizationService extends BaseService{
 	public Dto saveMergeDept(Dto pDto);
 	
 	public String queryCascadeidByDeptid(Integer deptid);
+	
+	public Integer queryDeptidByCascadeid(String cascadeid);
 }

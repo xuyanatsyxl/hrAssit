@@ -252,7 +252,7 @@
 		from employee a, deptempl b, adc_shift_group_empl c, eadept d
 		where a.EMPID=b.EMPID and b.deptid=d.deptid and 
 		a.DQZT='2' and c.EMPID=a.EMPID
-		and d.deptid like '$cascadeid$%' and
+		and d.cascadeid like '$cascadeid$%' and
 		c.GROUP_ID='$group_id$'
 	</select>
 

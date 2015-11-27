@@ -5,14 +5,25 @@
 	<display-name>G4Studio</display-name>
 	<description>G4Studio行业应用二次快速开发平台</description>
 
-	<!-- 配置RPC.Webservice <context-param> <param-name>contextConfigLocation</param-name> 
-		<param-value>classpath:rpc/webservice/server/server.xml</param-value> </context-param> 
-		<listener> <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
-		</listener> <servlet> <servlet-name>CXFServlet</servlet-name> <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class> 
-		<load-on-startup>1</load-on-startup> </servlet> <servlet-mapping> <servlet-name>CXFServlet</servlet-name> 
-		<url-pattern>/rpc/webservice/*</url-pattern> </servlet-mapping> -->
+	<!-- 配置RPC.Webservice -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:rpc/webservice/server/server.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/rpc/webservice/*</url-pattern>
+	</servlet-mapping>
 
-	<!-- 配置RPC.Httpinvoker
+	<!-- 配置RPC.Httpinvoker 
 	<servlet>
 		<servlet-name>httpinvokerServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -26,7 +37,7 @@
 		<servlet-name>httpinvokerServlet</servlet-name>
 		<url-pattern>/rpc/httpinvoker/*</url-pattern>
 	</servlet-mapping>
- 	-->
+	-->
 	<!-- 演示使用客户端Applet[RunAsApplet.java]调用服务器端Servlet -->
 	<servlet>
 		<servlet-name>myServlet</servlet-name>

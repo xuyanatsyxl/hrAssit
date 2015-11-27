@@ -23,6 +23,7 @@ import org.g4studio.core.tplengine.TemplateEngineFactory;
 import org.g4studio.core.tplengine.TemplateType;
 import org.g4studio.core.util.G4Constants;
 import org.g4studio.core.web.taglib.util.TagHelper;
+import org.g4studio.system.admin.service.OrganizationService;
 import org.g4studio.system.admin.web.tag.vo.DeptVo;
 import org.g4studio.system.admin.web.tag.vo.RoleVo;
 
@@ -40,11 +41,14 @@ public class ArmSelectRoleTreeTag extends TagSupport {
 	 */
 	public int doStartTag() throws JspException{
 		Dao g4Dao = (Dao)SpringBeanLoader.getSpringBean("g4Dao");
+		OrganizationService organizationService = (OrganizationService)SpringBeanLoader.getSpringBean("organizationService");
 		HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
 		String deptid = request.getParameter("deptid");
+		String cascadeid = organizationService.queryCascadeidByDeptid(Integer.valueOf(deptid));
 		String usertype = request.getParameter("usertype");
 		Dto deptDto = new BaseDto();
 		deptDto.put("deptid", deptid);
+		deptDto.put("cascadeid", cascadeid);
 		List deptList = g4Dao.queryForList("ArmTagSupport.queryDeptsForUserGrant", deptDto);
 		List roleList = new ArrayList();
 		Dto roleDto = new BaseDto();

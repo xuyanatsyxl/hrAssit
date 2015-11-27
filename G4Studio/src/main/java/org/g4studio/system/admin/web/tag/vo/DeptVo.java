@@ -13,6 +13,14 @@ public class DeptVo extends BaseVo{
 	private String parentid;
 	private String icon;
 	private String isroot;
+	private String cascadeid;
+	
+	public String getCascadeid() {
+		return cascadeid;
+	}
+	public void setCascadeid(String cascadeid) {
+		this.cascadeid = cascadeid;
+	}
 	public String getDeptid() {
 		return deptid;
 	}

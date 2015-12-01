@@ -109,7 +109,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 			if (G4Utils.isNotEmpty(newInfoDto)) {
 				// 取得岗位信息
 				String jobName = newInfoDto.getAsString("c_jobname");
-				Integer deptid = getDeptidByDeptName(newInfoDto.getAsString("c_unitname"));
+				Long deptid = getDeptidByDeptName(newInfoDto.getAsString("c_unitname"));
 				int zwid = getZbzwid(newInfoDto.getAsString("c_dyzbzw"));
 				Dto upDto = new BaseDto();
 				upDto.put("deptid", deptid);
@@ -136,8 +136,9 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 	 * @param fullDeptName
 	 * @return
 	 */
-	private Integer getDeptidByDeptName(String fullDeptName) {
+	private Long getDeptidByDeptName(String fullDeptName) {
 		String[] dList = fullDeptName.split("-");
+		Long deptid = null;
 		String cascadeid = null;
 		int i = 0;
 		for (String dept : dList) {
@@ -149,14 +150,15 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 			paramDto.put("level", (i + 2) * 3);
 			List<Dto> deptList = g4Dao.queryForList("Deptempl.queryDeptItem",
 					paramDto);
+			Long tmpDeptid = null;
 			if (deptList.size() == 0) {
 				// 新部门
 				Dto deptDto = new BaseDto();
 				deptDto.put("deptname", dept);
 				if (i == 0) {
-					deptDto.put("cascadeid", "001");
+					deptDto.put("parentid", Long.valueOf("1"));
 				} else {
-					deptDto.put("cascadeid", cascadeid);
+					deptDto.put("parentid", deptid);
 				}
 				cascadeid = IdGenerator.getDeptIdGenerator(deptDto
 						.getAsInteger("parentid"));
@@ -164,14 +166,17 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 				deptDto.put("leaf", new Boolean(false));
 				deptDto.put("sortno",
 						cascadeid.substring(cascadeid.length() - 3, cascadeid.length()));
-				deptDto.put("enabled", new Boolean(true));
+				deptDto.put("enabled", "1");
+				deptDto.put("deptid", null);
 				g4Dao.insert("Organization.saveDeptItem", deptDto);
+				deptid = deptDto.getAsLong("deptid");
 			} else {
+				tmpDeptid = deptList.get(0).getAsLong("deptid");
+				deptid = tmpDeptid;
 				cascadeid = deptList.get(0).getAsString("cascadeid");
 			}
 			i++;
 		}
-		Integer deptid = organizationService.queryDeptidByCascadeid(cascadeid);
 		return deptid;
 	}
 

@@ -125,12 +125,17 @@
 	</select>
 	
 	<!-- 插入一条部门记录 -->
-	<insert id="saveDeptItem" parameterClass="dto">
+	<insert id="saveDeptItem" parameterClass="dto" >
 		INSERT INTO eadept (
 		   cascadeid, deptname, parentid, depttype,
 		   customid,leaf, sortno, remark, enabled) 
 		VALUES (#cascadeid#, #deptname#, #parentid#, #depttype#,
 		    #customid#, #leaf#, #sortno#, #remark#, #enabled#)
+		<selectKey keyProperty="deptid" resultClass="java.lang.Integer">
+        	<![CDATA[
+        		SELECT LAST_INSERT_ID() AS deptid
+        	]]>
+</selectKey>
 	</insert>
     
 	<!-- 更新叶子节点 -->

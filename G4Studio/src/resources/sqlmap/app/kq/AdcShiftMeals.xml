@@ -138,18 +138,24 @@
 		</dynamic>
 	</select>
 	
+	<!-- 查询每日请假汇总 -->
 	<select id="queryAdcMealsLeaveItemForManage" parameterClass="map"
 		resultClass="dto">
-		select count(if(meals_type='4', 1, null)) jsfj, count(if(meals_type='5', 1, null)) bjsfj
-	      from adc_shift_meals
-		<dynamic prepend="where">
+		select c.room_id, c.room_name, count(if(meals_type='4', 1, null)) jsfj, count(if(meals_type='5', 1, null)) bjsfj
+	      from adc_shift_meals a, eadept b, adc_dinner_room c
+	     where a.deptid=b.deptid and a.room_id=c.room_id
+		<dynamic>
+		   	<isNotEmpty prepend="and" property="cascadeid">
+				b.cascadeid like '$cascadeid$%'
+			</isNotEmpty>
 			<isNotEmpty prepend="and" property="room_id">
-				room_id = '$room_id$'
+				c.room_id = '$room_id$'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="start_date">
 				meals_date = #start_date#
 			</isNotEmpty>
 		</dynamic>
+		group by c.room_id, c.room_name
 	</select>
 	
 	<!-- 分部门综合查询：汇总表 -->

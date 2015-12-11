@@ -4,11 +4,11 @@ Ext.onReady(function() {
 		id : 'batchform',
 		name : 'batchform',
 		frame : true,
-       // width:"500",
-		// columnWidth : .5,
+		region : 'north',
 		fileUpload : true,
 		labelAlign : 'right',
 		buttonAlign : 'center',
+		height : 100,
 		bodyStyle : 'padding:10 100 10 50', // 表单元素和表单面板的边距
 		labelWidth : 99,
 		items : [ {
@@ -26,13 +26,21 @@ Ext.onReady(function() {
 			iconCls : 'acceptIcon',
 			handler : function() {
 				savabatch();
-
 			}
 		} ]
 	});
 
+	var memo = new Ext.form.TextArea({
+		id : 'memo',
+		margins : '3 3 3 3',
+		readOnly : true,
+		region : 'center'
+	});
+	
 	function savabatch() {
 
+		memo.reset();
+		
 		var theFile = Ext.getCmp('batchFormFile').getValue();
 		if (Ext.isEmpty(theFile)) {
 			Ext.Msg.alert('提示', '请先选择您要导入的xls文件...');
@@ -48,15 +56,11 @@ Ext.onReady(function() {
 			method : 'POST',
 			waitMsg : '正在处理数据,请稍候...',
 			success : function(form, action) {
-				// Ext.Msg.alert('提示', '导入成功');
-				Ext.MessageBox.alert('提示', action.result.msg);
-				batchform.form.reset();
-
+				memo.setValue(action.result.msg);
 			},
 			failure : function(form, action) {
 				var msg = action.result.msg;
-				Ext.MessageBox.alert('提示', msg);
-
+				memo.setValue(msg);
 			}
 		});
 
@@ -64,15 +68,8 @@ Ext.onReady(function() {
 
 	// 布局
 	var viewport = new Ext.Viewport({
-		// layout : 'fit',
-		width : '60%',
-		items : [ {
-			region : 'center',
-
-			border : false,
-			margins : '3 3 3 3',
-			items : [ batchform ]
-		} ]
+		layout : 'border',
+		items : [ batchform,  memo]
 	});
 
 });

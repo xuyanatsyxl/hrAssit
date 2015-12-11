@@ -25,4 +25,6 @@ public interface LxyService extends BaseService {
 	public Dto saveLxybmsqbJJItem(Dto pDto);
 
 	public Dto deleteLxybmsqbJJItem(Dto pDto);
+	
+	public Dto importFromExcel(Dto pDto);
 }

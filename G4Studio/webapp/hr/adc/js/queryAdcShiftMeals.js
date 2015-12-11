@@ -362,7 +362,7 @@ Ext.onReady(function() {
 		width : 80		
 	}, {
 		header : '不及时饭假',
-		dataIndex : 'bjsfs',
+		dataIndex : 'bjsfj',
 		sortable : true,
 		width : 80
 	}, {

@@ -21,6 +21,7 @@ import org.g4studio.core.mvc.xstruts.upload.FormFile;
 import org.g4studio.core.util.G4Constants;
 import org.g4studio.core.util.G4Utils;
 import org.g4studio.core.web.report.excel.ExcelExporter;
+import org.g4studio.core.web.report.excel.ExcelReader;
 import org.g4studio.system.admin.service.OrganizationService;
 import org.g4studio.system.common.dao.vo.UserInfoVo;
 
@@ -155,6 +156,29 @@ public class LxyAction extends BaseAction {
 		System.out.println(outDto.get("success") + "===========" + outDto.get("msg"));
 		String jsonString = JsonHelper.encodeObject2Json(outDto);
 		write(jsonString, response);
+		return mapping.findForward(null);
+	}
+	
+	/**
+	 * Excel批量导入
+	 */
+	public ActionForward importExcel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		BaseActionForm actionForm = (BaseActionForm) form;
+		Dto dto = actionForm.getParamAsDto(request);
+		FormFile theFile = actionForm.getTheFile();
+		String metaData = "xm,sfzh,pp,deptid,gw,ygxj,hyzk,mz,zzmm,hkxz,xzj,zgxl,byyx,xlzy,ydrq,jkzrq,lxsj,jjlxr,jjlxrsj";
+		ExcelReader excelReader = new ExcelReader(metaData, theFile.getInputStream());
+		List list = excelReader.read(3, 0);
+		dto.setDefaultAList(list);
+		dto.put("jdr", getSessionContainer(request).getUserInfo().getUserid());
+		dto.put("jdrq", G4Utils.getCurrentTimeAsNumber());
+		Dto outDto = lxyService.importFromExcel(dto);
+		if (outDto.getAsBoolean("success")) {
+			setOkTipMsg("导入成功!", response);
+		} else {
+			setErrTipMsg(outDto.getAsString("msg"), response);
+		}
 		return mapping.findForward(null);
 	}
 

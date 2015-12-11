@@ -25,6 +25,9 @@ import com.hr.xl.system.utils.IDHelper;
 public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 
 	private String excelmsg;
+	private int isuccess;
+	private int ierror;
+	private int icount;
 
 	public Dto saveLxybmsqbItem(Dto pDto) {
 		Dto outDto = new BaseDto();
@@ -83,7 +86,7 @@ public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 		Dto outDto = new BaseDto();
 		Integer temp = (Integer) g4Dao.queryForObject("LXYBMSQB.checkIDCardUpdate", pDto);
 		if (temp.intValue() != 0) {
-			outDto.put("msg", "身份证[" + pDto.getAsString("SFZH") + "]已被存在,请检查!");
+			outDto.put("msg", "身份证[" + pDto.getAsString("sfzh") + "]已被存在,请检查!");
 			outDto.put("success", new Boolean(false));
 			return outDto;
 		}
@@ -175,7 +178,10 @@ public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 	}
 
 	public Dto saveLxybmsqbBatch(final Dto pDto) {
-		excelmsg = "";
+		excelmsg = "开始导入..............";
+		isuccess = 0;
+		ierror = 0;
+		icount = 0;
 		final String metaData = "xm,sfzh,pp,deptid,gw,ygxj,hyzk,mz,zzmm,hkxz,xzj,zgxl,byyx,xlzy,ydrq,jkzrq,lxsj,jjlxr,jjlxrsj";
 		final Dto outdto = new BaseDto();
 		g4Dao.getSqlMapClientTpl().execute(new SqlMapClientCallback() {
@@ -211,17 +217,11 @@ public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 						batchsave(list);
 					}
 
-					// System.out.println(pDto.getAsString("filepath") +
-					// "cccccc"
-					// + rows);
-					if (excelmsg.isEmpty()) {
-						outdto.put("msg", "全部导入成功");
-						outdto.put("success", new Boolean(true));
-
-					} else {
-						outdto.put("msg", excelmsg);
-						outdto.put("success", new Boolean(true));
-					}
+					icount = isuccess + ierror;
+					excelmsg = excelmsg + "\r\n" + "导入结束，导入成功：" + String.valueOf(isuccess) + "人 ；导入失败：" + String.valueOf(ierror) + "人，一共" + String.valueOf(icount) + "人。";
+					
+					outdto.put("msg", excelmsg);
+					outdto.put("success", new Boolean(true));
 
 				} catch (Exception e) {
 					outdto.put("msg", "导入失败");
@@ -267,50 +267,46 @@ public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 
 	// 验证身份证号和部门编码
 	private Dto checkIDcard(Dto dto) throws Exception {
-
+		String xm = dto.getAsString("xm");
 		Dto outDto = new BaseDto();
-
-		dto.put("ydrq", G4Utils.Date2String(G4Utils.stringToDate(dto.getAsString("ydrq"), "yyyy/MM/dd", "yyyyMMdd"), "yyyyMMdd"));
-		System.out.println("ydrq:" + dto.getAsString("ydrq"));
-
-		String jkzrq = G4Utils.Date2String(G4Utils.stringToDate(dto.getAsString("jkzrq"), "yyyy/MM/dd", "yyyyMMdd"), "yyyyMMdd");
-		System.out.println("jkzrq:" + jkzrq);
-		dto.put("jkzrq", jkzrq);
-		System.out.println("jkzrq:" + dto.getAsString("jkzrq"));
-		if (dto.getAsString("jkzrq").length() != 8 || dto.getAsString("ydrq").length() != 8) {
-			dto.put("success", new Boolean(false));
-			dto.put("msg", "入企日期或是健康证日期错误");
-			return dto;
+		try{
+			String ydrq = G4Utils.Date2String(dto.getAsDate("ydrq"), "yyyyMMdd");
+			String jkzrq = G4Utils.Date2String(dto.getAsDate("jkzrq"), "yyyyMMdd");
+			dto.put("ydrq", ydrq);
+			dto.put("jkzrq", jkzrq);
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new Exception(xm + "导入失败：入企日期或是健康证日期错误!");
 		}
+
+		/**
+		 * 身份证号校验：号码校验+重复校验
+		 */
 		String sfzh = dto.getAsString("sfzh");
-		Integer IDCount = (Integer) g4Dao.queryForObject("LXYBMSQB.checkIDCardUpdate", dto);
-		Integer deptCount = (Integer) g4Dao.queryForObject("LXYBMSQB.deptCount", dto);
-		if (IDCount > 0) {
-			dto.put("success", new Boolean(false));
-			dto.put("msg", "身份证号重复！");
-		} else {
-			if (deptCount == 0) {
-				dto.put("success", new Boolean(false));
-				dto.put("msg", "部门编码不正确！");
-			} else {
-
-				if (G4Utils.isIdentity(sfzh)) {
-					dto.put("csrq", G4Utils.Date2String(G4Utils.getBirthdayFromPersonIDCode(sfzh), "yyyyMMdd"));
-					dto.put("xb", G4Utils.getGenderFromPersonIDCode(sfzh));
-					dto.put("success", new Boolean(true));
-				} else {
-					dto.put("success", new Boolean(false));
-					dto.put("msg", "无效的身份证号！");
-				}
-			}
+		if (!G4Utils.isIdentity(sfzh)){
+			throw new Exception(xm + "导入失败：身份证号[" + sfzh + "]非法！");
 		}
-
+		Integer IDCount = (Integer) g4Dao.queryForObject("LXYBMSQB.checkIDCardUpdate", dto);
+		if (IDCount > 0) {
+			throw new Exception(xm + "导入失败：身份证号[" + sfzh + "]重复！");
+		}
+		
+		/**
+		 * 部门编码校验
+		 */
+		Integer deptCount = (Integer) g4Dao.queryForObject("LXYBMSQB.deptCount", dto);
+		if (deptCount.intValue() == 0){
+			throw new Exception(xm + "导入失败：指定的部门编码" + dto.getAsString("deptid") + "不存在！");
+		}
+		
+		dto.put("csrq", G4Utils.Date2String(G4Utils.getBirthdayFromPersonIDCode(sfzh), "yyyyMMdd"));
+		dto.put("xb", G4Utils.getGenderFromPersonIDCode(sfzh));		
+	
 		return dto;
-
 	}
 
 	public void batchsave(List list) throws Exception {
-
+	
 		for (int i = 0; i < list.size(); i++) {
 			Dto dto = new BaseDto();
 			dto = (Dto) list.get(i);
@@ -336,8 +332,9 @@ public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 			 * System.out.println("jkzrq:" + jkzrq); dto.put("jkzrq", jkzrq);
 			 * System.out.println("jkzrq:" + dto.getAsString("jkzrq"));
 			 */
-			Dto outdto = checkIDcard(dto);
-			if (outdto.getAsBoolean("success")) {
+			Dto outdto = new BaseDto();
+			try{
+				outdto = checkIDcard(dto);
 				String LxyID = IDHelper.getLxyID();
 				dto.put("rybh", LxyID);
 				dto.put("ryid", Integer.valueOf(LxyID));
@@ -345,11 +342,13 @@ public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 				dto.put("xb", outdto.getAsString("xb"));
 				g4Dao.insert("LXYBMSQB.saveLxybmsqbItem", dto);
 				g4Dao.insert("BMLXY.saveLxybmItem", dto);
-			} else {
-				// System.out.println(outdto.getAsString("msg"));
-				excelmsg = excelmsg + outdto.getAsString("xm") + ":" + outdto.getAsString("sfzh") + outdto.getAsString("msg");
+				excelmsg = excelmsg + dto.getAsString("xm") + "导入成功！";
+				isuccess++;
+			}catch(Exception e) {
+				excelmsg = excelmsg + "\r\n" + outdto.getAsString("xm") + outdto.getAsString("sfzh") + e.getMessage();
+				ierror++;
+				continue;
 			}
-
 		}
 	}
 
@@ -372,6 +371,27 @@ public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 		for (int i = 0; i < arrChecked.length; i++) {
 			dto.put("oid", arrChecked[i]);
 			g4Dao.delete("LXYBMSQB.deleteLxybmsqbJJItem", dto);
+		}
+		return null;
+	}
+
+	/**
+	 * Excel批量导入，替代原先的方法
+	 * @author xuyan
+	 */
+	public Dto importFromExcel(Dto pDto) {
+		Dto outDto = new BaseDto();
+		List<Dto> aList = pDto.getDefaultAList();
+		
+		String jdr = pDto.getAsString("jdr");
+		Long jdrq = pDto.getAsLong("jdrq");
+		for(Dto dto : aList){
+			String lxyId = IDHelper.getLxyID();
+			dto.put("jdr", jdr);
+			dto.put("jdrq", jdrq);
+			dto.put("rybh", lxyId);
+			dto.put("ryid", Integer.valueOf(lxyId));
+			g4Dao.insert("LXYBMSQB.saveLxybmsqbItem", dto);
 		}
 		return null;
 	}

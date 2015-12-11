@@ -10,6 +10,9 @@ import org.infotechdept.hr.kq.service.AdcShiftExceptionService;
 
 public class AdcShiftExceptionServiceImpl extends BaseServiceImpl implements AdcShiftExceptionService {
 
+	/**
+	 * 异常处理
+	 */
 	public Dto updateAdcShiftExceptionItem(Dto pDto) {
 		String adc_id = pDto.getAsString("adc_id");
 		List exception_ids = new ArrayList<String>();

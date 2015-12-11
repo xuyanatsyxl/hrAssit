@@ -105,7 +105,7 @@ public class AdcShiftMealsAction extends BaseAction{
 		BaseActionForm actionForm = (BaseActionForm) form;
 		Dto dto = (BaseDto) super.getSessionAttribute(request, "QUERYADCSHIFTMEALSITEM_QUERYDTO");
 		List empls = g4Reader.queryForList("AdcShiftMeals.queryAdcShiftMealsItemForManage", dto);
-		String deptid = dto.getAsString("deptid");
+		String deptid = dto.getAsString("cascadeid");
 		Dto parametersDto = new BaseDto();
 		parametersDto.put("reportTitle", "食堂统计汇总表");
 		parametersDto.put("jbr", super.getSessionContainer(request).getUserInfo().getUsername());
@@ -201,7 +201,7 @@ public class AdcShiftMealsAction extends BaseAction{
 		BaseActionForm actionForm = (BaseActionForm) form;
 		Dto dto = (BaseDto) super.getSessionAttribute(request, "QUERYADCSHIFTMEALSBYDEPT_QUERYDTO");
 		List empls = g4Reader.queryForList("AdcShiftMeals.queryAdcShiftMealsByDeptForManage", dto);
-		String deptid = dto.getAsString("deptid");
+		String deptid = dto.getAsString("cascadeid");
 		Dto parametersDto = new BaseDto();
 		parametersDto.put("reportTitle", "部门就餐统计汇总表");
 		parametersDto.put("jbr", super.getSessionContainer(request).getUserInfo().getUsername());

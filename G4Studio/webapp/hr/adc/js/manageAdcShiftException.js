@@ -213,7 +213,7 @@ Ext
 							xtype : 'datefield', // 设置为数字输入框类型
 							format : 'Y-m-d',
 							anchor : '100%'
-						} ]
+						}]
 					} ]
 				} ]
 			});
@@ -538,8 +538,7 @@ Ext
 				}
 
 				var strChecked = jsArray2JsString(rows, 'id');
-				Ext.getCmp('procDataForm').findById('strChecked').setValue(
-						strChecked);
+				Ext.getCmp('procDataForm').findById('strChecked').setValue(strChecked);
 				procDataWindow.show();
 			}
 
@@ -560,6 +559,10 @@ Ext
 				}, {
 					id : 'strChecked',
 					name : 'strChecked',
+					hidden : true
+				}, {
+					id : 'dirtydata',
+					name : 'dirtydata',
 					hidden : true
 				} ]
 			});

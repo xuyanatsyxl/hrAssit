@@ -3,7 +3,68 @@
 <!-- 手工映射SQL语句 -->
 <sqlMap namespace="AdcReportPersonMonth">
 	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
-
+	
+	<!-- 新版的查询，替代原有的查询方式 -->
+	<select id="queryAdcShiftMonthReportForManage" parameterClass="map" resultClass="dto">
+	    select a.id, a.yearmonth, a.deptid, c.CASCADEID, c.DEPTNAME, a.empid, b.code, b.name,  a.jobname, a.day1, a.day2, a.day3, a.day4, a.day5, a.day6, a.day7, a.day8, a.day9, a.day10, a.day11, a.day12,
+			   a.day13, a.day14, a.day15, a.day16, a.day17, a.day18, a.day19, a.day20, a.day21, a.day22, a.day23, a.day24, a.day25, a.day26, a.day27,
+               a.day28, a.day29, a.day30, a.day31, WORK_DAYS, NOTWORK_DAYS, (WORK_DAYS-NOTWORK_DAYS) ACTUAL_WORK_DAYS, REST_DAYS, SICK_LEAVE_DAYS,
+		PERSONAL_LEAVE_DAYS,
+		ABSENTEEISM_DAYS, HOUR_LEAVE_HOURS,
+		FUNERAL_LEAVE_DAYS, DUTY_DAYS,
+		NIGHT_SHIFT_DAYS,
+		HOLIDAY_DAYS, CARE_DAYS, BIRTH_CONTROL_DAYS, INJURY_LEAVE_DAYS, NIGHT_SHIFT_LEAVE_DAYS,
+		OFFICIAL_AWAY_DAYS, ANNUAL_LEAVE_DAYS, DUTY_DAYS, NIGHT_SHIFT_DAYS, HOLIDAY_DAYS, 
+		OVERTIME_HOURS, a.REMARK
+		from adc_shift_month_report a, employee b, eadept c
+        where a.deptid=c.deptid and a.empid=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="cascadeid">
+				c.cascadeid like "$cascadeid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="start_month">
+				a.YEARMONTH  <![CDATA[>=]]>	$start_month$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="end_month">
+				a.YEARMONTH  <![CDATA[<=]]>	$end_month$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				b.CODE like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				b.NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="yearmonth">
+				a.YEARMONTH = $yearmonth$
+			</isNotEmpty>
+		</dynamic>        
+	</select>
+	<select id="queryAdcShiftMonthReportForManageForPageCount" parameterClass="map" resultClass="java.lang.Integer">
+	    select count(*) as count
+		from adc_shift_month_report a, employee b, eadept c
+        where a.deptid=c.deptid and a.empid=b.EMPID
+		<dynamic>
+			<isNotEmpty prepend="AND" property="cascadeid">
+				c.cascadeid like "$cascadeid$%"
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="start_month">
+				a.YEARMONTH  <![CDATA[>=]]>	$start_month$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="end_month">
+				a.YEARMONTH  <![CDATA[<=]]>	$end_month$
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="code">
+				b.CODE like '$code$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				b.NAME like '%$name$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="yearmonth">
+				a.YEARMONTH = $yearmonth$
+			</isNotEmpty>
+		</dynamic>        
+	</select>
+	
 	<select id="queryAdcReportPersonMonthForManage" parameterClass="map"
 		resultClass="dto">
 		SELECT ID,YEARMONTH, a.DEPTID, b.cascadeid, b.DEPTNAME, a.EMPID, c.CODE, c.NAME,

@@ -283,10 +283,10 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 						empDto.put("priority", recDto.getAsString("priority"));
 						if (d.getAsBigDecimal("aff_days").doubleValue() == 0.5){
 							empDto.put("shift_id", dateDto.getAsString("shift_id"));
-							empDto.put("off_time", dateDto.getAsTimestamp("dateOff"));					
+							empDto.put("work_time", dateDto.getAsTimestamp("dateWork"));					
 						}else if (d.getAsBigDecimal("aff_days").doubleValue() == -0.5){
 							empDto.put("shift_id", dateDto.getAsString("shift_id"));
-							empDto.put("work_time", dateDto.getAsTimestamp("dateWork"));							
+							empDto.put("off_time", dateDto.getAsTimestamp("dateOff"));							
 						}else if (d.getAsBigDecimal("aff_days").doubleValue() == 1){
 							
 						}

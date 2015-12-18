@@ -190,6 +190,161 @@ Ext
 				dataIndex : 'name',
 				sortable : true
 			}, {
+				header : '1',
+				dataIndex : 'day1',
+				width : 40,
+				sortable : true
+			},{
+				header : '2',
+				dataIndex : 'day2',
+				width : 40,
+				sortable : true
+			},{
+				header : '3',
+				dataIndex : 'day3',
+				width : 40,
+				sortable : true
+			},{
+				header : '4',
+				dataIndex : 'day4',
+				width : 40,
+				sortable : true
+			},{
+				header : '5',
+				dataIndex : 'day5',
+				width : 40,
+				sortable : true
+			},{
+				header : '6',
+				dataIndex : 'day6',
+				width : 40,
+				sortable : true
+			},{
+				header : '7',
+				dataIndex : 'day7',
+				width : 40,
+				sortable : true
+			},{
+				header : '8',
+				dataIndex : 'day8',
+				width : 40,
+				sortable : true
+			},{
+				header : '9',
+				dataIndex : 'day9',
+				width : 40,
+				sortable : true
+			},{
+				header : '10',
+				dataIndex : 'day10',
+				width : 40,
+				sortable : true
+			},{
+				header : '11',
+				dataIndex : 'day11',
+				width : 40,
+				sortable : true
+			},{
+				header : '12',
+				dataIndex : 'day12',
+				width : 40,
+				sortable : true
+			},{
+				header : '13',
+				dataIndex : 'day13',
+				width : 40,
+				sortable : true
+			},{
+				header : '14',
+				dataIndex : 'day14',
+				width : 40,
+				sortable : true
+			},{
+				header : '15',
+				dataIndex : 'day15',
+				width : 40,
+				sortable : true
+			},{
+				header : '16',
+				dataIndex : 'day16',
+				width : 40,
+				sortable : true
+			},{
+				header : '17',
+				dataIndex : 'day17',
+				width : 40,
+				sortable : true
+			},{
+				header : '18',
+				dataIndex : 'day18',
+				width : 40,
+				sortable : true
+			},{
+				header : '19',
+				dataIndex : 'day19',
+				width : 40,
+				sortable : true
+			},{
+				header : '20',
+				dataIndex : 'day20',
+				width : 40,
+				sortable : true
+			},{
+				header : '21',
+				dataIndex : 'day21',
+				width : 40,
+				sortable : true
+			},{
+				header : '22',
+				dataIndex : 'day22',
+				width : 40,
+				sortable : true
+			},{
+				header : '23',
+				dataIndex : 'day23',
+				width : 40,
+				sortable : true
+			},{
+				header : '24',
+				dataIndex : 'day24',
+				width : 40,
+				sortable : true
+			},{
+				header : '25',
+				dataIndex : 'day25',
+				width : 40,
+				sortable : true
+			},{
+				header : '26',
+				dataIndex : 'day26',
+				width : 40,
+				sortable : true
+			},{
+				header : '27',
+				dataIndex : 'day27',
+				width : 40,
+				sortable : true
+			},{
+				header : '28',
+				dataIndex : 'day28',
+				width : 40,
+				sortable : true
+			}, {
+				header : '29',
+				dataIndex : 'day29',
+				width : 40,
+				sortable : true
+			}, {
+				header : '30',
+				dataIndex : 'day30',
+				width : 40,
+				sortable : true
+			}, {
+				header : '31',
+				dataIndex : 'day31',
+				width : 40,
+				sortable : true
+			}, {
 				header : '出勤天数',
 				dataIndex : 'actual_work_days',
 				sortable : true
@@ -330,7 +485,69 @@ Ext
 							name : 'overtime_hours'
 						}, {
 							name : 'remark'
-						} ])
+						}, {
+							name : 'day1'
+						}, {
+							name : 'day2'
+						} , {
+							name : 'day3'
+						} , {
+							name : 'day4'
+						} , {
+							name : 'day5'
+						} , {
+							name : 'day6'
+						} , {
+							name : 'day7'
+						} , {
+							name : 'day8'
+						} , {
+							name : 'day9'
+						} , {
+							name : 'day10'
+						} , {
+							name : 'day11'
+						} , {
+							name : 'day12'
+						} , {
+							name : 'day13'
+						} , {
+							name : 'day14'
+						} , {
+							name : 'day15'
+						} , {
+							name : 'day16'
+						} , {
+							name : 'day17'
+						} , {
+							name : 'day18'
+						} , {
+							name : 'day19'
+						} , {
+							name : 'day20'
+						} , {
+							name : 'day21'
+						} , {
+							name : 'day22'
+						} , {
+							name : 'day23'
+						} , {
+							name : 'day24'
+						} , {
+							name : 'day25'
+						} , {
+							name : 'day26'
+						}, {
+							name : 'day27'
+						}, {
+							name : 'day28'
+						}, {
+							name : 'day29'
+						} , {
+							name : 'day30'
+						} , {
+							name : 'day31'
+						}])
 					});
 
 			// 翻页排序时带上查询条件
@@ -396,7 +613,7 @@ Ext
 					text : '导出',
 					iconCls : 'arrow_refreshIcon',
 					handler : function() {
-						store.reload();
+						exportExcel('adcreport.do?reqCode=exportExcel');
 					}
 				}, {
 					text : '打印考勤表',

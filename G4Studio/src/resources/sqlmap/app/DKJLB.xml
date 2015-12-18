@@ -29,7 +29,7 @@
 	    		DKLX = '$dklx$'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="queryParam"> 
-				IP like '$queryParam$%' or DEVSN like '%$queryParam$%' 
+				(IP like '$queryParam$%' or DEVSN like '%$queryParam$%') 
 			</isNotEmpty>
 		</dynamic>
 	</select>
@@ -58,7 +58,7 @@
 	    		DKLX = '$dklx$'
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="queryParam"> 
-				IP like '$queryParam$%' or DEVSN like '%$queryParam$%' 
+				(IP like '$queryParam$%' or DEVSN like '%$queryParam$%') 
 			</isNotEmpty>
 		</dynamic>
 	</select>

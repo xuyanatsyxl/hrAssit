@@ -14,6 +14,7 @@ import org.g4studio.core.mvc.xstruts.action.ActionForm;
 import org.g4studio.core.mvc.xstruts.action.ActionForward;
 import org.g4studio.core.mvc.xstruts.action.ActionMapping;
 import org.g4studio.core.util.G4Utils;
+import org.g4studio.core.web.report.excel.ExcelExporter;
 import org.g4studio.core.web.report.jasper.ReportData;
 import org.g4studio.system.admin.service.OrganizationService;
 import org.g4studio.system.common.dao.vo.UserInfoVo;
@@ -65,8 +66,8 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		dto.remove("deptid");
 		super.setSessionAttribute(request, "QUERYADCREPORTPERSONMONTH_QUERYDTO", dto);
 
-		List items = g4Reader.queryForPage("AdcReportPersonMonth.queryAdcReportPersonMonthForManage", dto);
-		Integer pageCount = (Integer) g4Reader.queryForObject("AdcReportPersonMonth.queryAdcReportPersonMonthForManageForPageCount", dto);
+		List items = g4Reader.queryForPage("AdcReportPersonMonth.queryAdcShiftMonthReportForManage", dto);
+		Integer pageCount = (Integer) g4Reader.queryForObject("AdcReportPersonMonth.queryAdcShiftMonthReportForManageForPageCount", dto);
 		String jsonString = JsonHelper.encodeList2PageJson(items, pageCount, null);
 		write(jsonString, response);
 		return mapping.findForward(null);
@@ -86,33 +87,10 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		dto.put("jbsj", G4Utils.getCurrentTime());
 		dto.put("yearmonth", inDto.getAsString("yearmonth"));
 		dto.put("deptname", getfullDeptName(cascadeid));
-		List catalogList = g4Reader.queryForList("AdcReportPersonMonth.queryAdcShiftReportPersonalMonthForPrint", inDto);
+		List catalogList = g4Reader.queryForList("AdcReportPersonMonth.queryAdcShiftMonthReportForManage", inDto);
 		for (int i = 0; i < catalogList.size(); i++) {
 			Dto dto2 = (BaseDto) catalogList.get(i);
 			dto2.put("sortno", (i + 1));
-			dto2.put("yearmonth", inDto.getAsString("yearmonth"));
-			Dto cfDto = (BaseDto) g4Reader.queryForObject("AdcReportPersonMonth.queryAdcReportPersonMonthForManage", dto2);
-			if (G4Utils.isNotEmpty(cfDto)) {
-				dto2.put("jobname", cfDto.getAsString("jobname"));
-				dto2.put("rest_days", cfDto.getAsString("rest_days"));
-				dto2.put("hour_leave_hours", cfDto.getAsString("hour_leave_hours"));
-				dto2.put("sick_leave_days", cfDto.getAsString("sick_leave_days"));
-				dto2.put("personal_leave_days", cfDto.getAsString("personal_leave_days"));
-				dto2.put("absenteeism_days", cfDto.getAsString("absenteeism_days"));
-				dto2.put("funeral_leave_days", cfDto.getAsString("funeral_leave_days"));
-				dto2.put("duty_days", cfDto.getAsString("duty_days"));
-				dto2.put("night_shift_days", cfDto.getAsString("night_shift_days"));
-				dto2.put("holiday_days", cfDto.getAsString("holiday_days"));
-				dto2.put("care_days", cfDto.getAsString("care_days"));
-				dto2.put("actual_work_days", cfDto.getAsString("actual_work_days"));
-				
-				dto2.put("birth_control_days", cfDto.getAsString("birth_control_days"));
-				dto2.put("injury_leave_days", cfDto.getAsString("injury_leave_days"));
-				dto2.put("night_shift_leave_days", cfDto.getAsString("night_shift_leave_days"));
-				dto2.put("official_away_days", cfDto.getAsString("official_away_days"));				
-				dto2.put("annual_leave_days", cfDto.getAsString("annual_leave_days"));
-			}
-			dto2.put("zfbl", dto2.getAsBigDecimal("zfbl"));
 		}
 		ReportData reportData = new ReportData();
 		reportData.setParametersDto(dto);
@@ -121,4 +99,34 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		getSessionContainer(request).setReportData("adcShiftReportMonth", reportData);
 		return mapping.findForward(null);
 	}
+	
+	/**
+	 * Excel导出
+	 */
+	public ActionForward exportExcel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		Dto inDto = (BaseDto) getSessionAttribute(request, "QUERYADCREPORTPERSONMONTH_QUERYDTO");
+		Dto dto = new BaseDto();
+		String strYm = inDto.getAsString("yearmonth");
+		String cascadeid = inDto.getAsString("cascadeid");
+		dto.put("yearmonth", inDto.getAsString("yearmonth"));
+		List catalogList = g4Reader.queryForList("AdcReportPersonMonth.queryAdcShiftMonthReportForManage", inDto);
+		for (int i = 0; i < catalogList.size(); i++) {
+			Dto dto2 = (BaseDto) catalogList.get(i);
+			dto2.put("sortno", (i + 1));
+		}
+
+		Dto parametersDto = new BaseDto();
+		parametersDto.put("reportTitle", strYm.substring(0, 4) + "年" + strYm.substring(4, 6) + "月考勤表");
+		parametersDto.put("jbr", super.getSessionContainer(request).getUserInfo().getUsername());
+		parametersDto.put("jbsj", G4Utils.getCurrentTime());
+		parametersDto.put("deptname", "部门：" + getfullDeptName(cascadeid));
+		
+		ExcelExporter excelExporter = new ExcelExporter();
+		excelExporter.setTemplatePath("/report/excel/hr/adc/adcShiftMonthReport.xls");
+		excelExporter.setData(parametersDto, catalogList);
+		excelExporter.setFilename(cascadeid + ".xls");
+		excelExporter.export(request, response);
+		return mapping.findForward(null);
+	}	
 }

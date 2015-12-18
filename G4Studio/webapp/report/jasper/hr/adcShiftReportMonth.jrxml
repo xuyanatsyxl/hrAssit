@@ -7,57 +7,57 @@
 	<parameter name="yearmonth" class="java.lang.String"/>
 	<field name="deptname" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
-	<field name="field1" class="java.lang.String"/>
-	<field name="field2" class="java.lang.String"/>
-	<field name="field3" class="java.lang.String"/>
-	<field name="field4" class="java.lang.String"/>
-	<field name="field5" class="java.lang.String"/>
-	<field name="field6" class="java.lang.String"/>
-	<field name="field7" class="java.lang.String"/>
-	<field name="field8" class="java.lang.String"/>
-	<field name="field9" class="java.lang.String"/>
-	<field name="field10" class="java.lang.String"/>
-	<field name="field11" class="java.lang.String"/>
-	<field name="field12" class="java.lang.String"/>
-	<field name="field13" class="java.lang.String"/>
-	<field name="field14" class="java.lang.String"/>
-	<field name="field15" class="java.lang.String"/>
-	<field name="field16" class="java.lang.String"/>
-	<field name="field17" class="java.lang.String"/>
-	<field name="field18" class="java.lang.String"/>
-	<field name="field19" class="java.lang.String"/>
-	<field name="field20" class="java.lang.String"/>
-	<field name="field21" class="java.lang.String"/>
-	<field name="field22" class="java.lang.String"/>
-	<field name="field23" class="java.lang.String"/>
-	<field name="field24" class="java.lang.String"/>
-	<field name="field25" class="java.lang.String"/>
-	<field name="field26" class="java.lang.String"/>
-	<field name="field27" class="java.lang.String"/>
-	<field name="field28" class="java.lang.String"/>
-	<field name="field29" class="java.lang.String"/>
-	<field name="field30" class="java.lang.String"/>
-	<field name="field31" class="java.lang.String"/>
+	<field name="day1" class="java.lang.String"/>
+	<field name="day2" class="java.lang.String"/>
+	<field name="day3" class="java.lang.String"/>
+	<field name="day4" class="java.lang.String"/>
+	<field name="day5" class="java.lang.String"/>
+	<field name="day6" class="java.lang.String"/>
+	<field name="day7" class="java.lang.String"/>
+	<field name="day8" class="java.lang.String"/>
+	<field name="day9" class="java.lang.String"/>
+	<field name="day10" class="java.lang.String"/>
+	<field name="day11" class="java.lang.String"/>
+	<field name="day12" class="java.lang.String"/>
+	<field name="day13" class="java.lang.String"/>
+	<field name="day14" class="java.lang.String"/>
+	<field name="day15" class="java.lang.String"/>
+	<field name="day16" class="java.lang.String"/>
+	<field name="day17" class="java.lang.String"/>
+	<field name="day18" class="java.lang.String"/>
+	<field name="day19" class="java.lang.String"/>
+	<field name="day20" class="java.lang.String"/>
+	<field name="day21" class="java.lang.String"/>
+	<field name="day22" class="java.lang.String"/>
+	<field name="day23" class="java.lang.String"/>
+	<field name="day24" class="java.lang.String"/>
+	<field name="day25" class="java.lang.String"/>
+	<field name="day26" class="java.lang.String"/>
+	<field name="day27" class="java.lang.String"/>
+	<field name="day28" class="java.lang.String"/>
+	<field name="day29" class="java.lang.String"/>
+	<field name="day30" class="java.lang.String"/>
+	<field name="day31" class="java.lang.String"/>
 	<field name="jobname" class="java.lang.String"/>
-	<field name="work_days" class="java.lang.String"/>
-	<field name="rest_days" class="java.lang.String"/>
-	<field name="sick_leave_days" class="java.lang.String"/>
-	<field name="personal_leave_days" class="java.lang.String"/>
-	<field name="absenteeism_days" class="java.lang.String"/>
-	<field name="hour_leave_hours" class="java.lang.String"/>
-	<field name="funeral_leave_days" class="java.lang.String"/>
-	<field name="duty_days" class="java.lang.String"/>
-	<field name="night_shift_days" class="java.lang.String"/>
-	<field name="holiday_days" class="java.lang.String"/>
-	<field name="overtime_hours" class="java.lang.String"/>
-	<field name="care_days" class="java.lang.String"/>
+	<field name="work_days" class="java.lang.Double"/>
+	<field name="rest_days" class="java.lang.Double"/>
+	<field name="sick_leave_days" class="java.lang.Double"/>
+	<field name="personal_leave_days" class="java.lang.Double"/>
+	<field name="absenteeism_days" class="java.lang.Double"/>
+	<field name="hour_leave_hours" class="java.lang.Double"/>
+	<field name="funeral_leave_days" class="java.lang.Double"/>
+	<field name="duty_days" class="java.lang.Double"/>
+	<field name="night_shift_days" class="java.lang.Double"/>
+	<field name="holiday_days" class="java.lang.Double"/>
+	<field name="overtime_hours" class="java.lang.Double"/>
+	<field name="care_days" class="java.lang.Double"/>
 	<field name="sortno" class="java.lang.Integer"/>
-	<field name="actual_work_days" class="java.lang.String"/>
-	<field name="birth_control_days" class="java.lang.String"/>
-	<field name="injury_leave_days" class="java.lang.String"/>
-	<field name="night_shift_leave_days" class="java.lang.String"/>
-	<field name="official_away_days" class="java.lang.String"/>
-	<field name="annual_leave_days" class="java.lang.String"/>
+	<field name="actual_work_days" class="java.lang.Double"/>
+	<field name="birth_control_days" class="java.lang.Double"/>
+	<field name="injury_leave_days" class="java.lang.Double"/>
+	<field name="night_shift_leave_days" class="java.lang.Double"/>
+	<field name="official_away_days" class="java.lang.Double"/>
+	<field name="annual_leave_days" class="java.lang.Double"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -1071,7 +1071,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="188" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="b6cd90d1-e452-43a7-bd8f-f8a2071ed877">
@@ -1088,7 +1088,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day2}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="200" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="29fcec20-e1a6-4fde-8ae7-5d659ae14acd">
@@ -1105,7 +1105,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day3}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="212" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="40f8e64e-0816-4bb3-8969-e67d542b09f3">
@@ -1122,7 +1122,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field4}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day4}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="224" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="cd30bc09-33fa-427f-a97f-5cbe1fbd633d">
@@ -1139,7 +1139,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field5}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day5}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="236" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="8d69986c-2c01-4be5-987e-f8b19dff87f7">
@@ -1156,7 +1156,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field6}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day6}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement key="" stretchType="RelativeToBandHeight" mode="Transparent" x="248" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="bf139335-a201-4842-8c5b-c2a837a118e0">
@@ -1174,7 +1174,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field7}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day7}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="272" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="b7d03395-cf51-4c81-91cd-ae8e48e7685e">
@@ -1191,7 +1191,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field9}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day9}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="260" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="dbc7d1d4-cda2-41a3-8b5a-81633c89c036">
@@ -1208,7 +1208,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field8}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day8}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="284" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="31a47311-2c00-4a43-9513-5467cb33aaec">
@@ -1225,7 +1225,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field10}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day10}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="296" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="1ab4aace-00b5-484d-a681-242d0ce46966">
@@ -1242,7 +1242,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field11}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day11}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="308" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="ffc0591e-ff71-43fe-b607-65f4299ea1ed">
@@ -1259,7 +1259,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field12}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day12}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="320" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="58c59385-3711-4fae-b8a4-3286e16245df">
@@ -1276,7 +1276,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field13}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day13}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="332" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="20353231-95e4-4688-a3fc-92f16db591e2">
@@ -1293,7 +1293,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field14}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day14}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="344" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="69d60689-3867-4c74-94c6-20741c2aeaf7">
@@ -1310,7 +1310,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field15}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day15}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="356" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="5ea9f2b1-6ecf-4852-92a6-c2644c5cf4f1">
@@ -1327,7 +1327,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field16}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day16}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="368" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="475c6018-df37-419b-8f10-cb20fe02eff2">
@@ -1344,7 +1344,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field17}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day17}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="380" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="77cd719a-198a-43e3-bf81-b991ca73883e">
@@ -1361,7 +1361,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field18}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day18}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="392" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="3cdb967f-98c9-4cf4-b618-fa9db022f0d4">
@@ -1378,7 +1378,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field19}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day19}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="404" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="9dd5c8cf-8192-491a-ab44-bd4e5bfcf0cb">
@@ -1395,7 +1395,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field20}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day20}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="416" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="9c3fd2d9-c1f3-44f5-b109-28bc73119986">
@@ -1412,7 +1412,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field21}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day21}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="428" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="8f15695e-5e85-4c22-a1f5-e4a7019905f6">
@@ -1429,7 +1429,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field22}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day22}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="440" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="874275f2-8560-475f-a8d4-32ce1e3bfab4">
@@ -1446,7 +1446,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field23}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day23}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="452" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="7ed8a696-4845-48c6-8c28-e107b99c205e">
@@ -1463,7 +1463,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field24}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day24}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="464" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="d374ece5-3011-495c-974e-0408d3573fa3">
@@ -1480,7 +1480,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field25}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day25}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="476" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="b2b177fa-77ca-401b-adec-d4ba2eb492a0">
@@ -1497,7 +1497,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field26}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day26}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="488" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="3115e86a-b4a8-4554-a185-1b0c276dd751">
@@ -1514,7 +1514,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field27}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day27}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="500" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="6a140ebe-91d4-45c9-a8dc-878aff445363">
@@ -1531,7 +1531,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field28}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day28}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="512" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="bafff381-1153-4985-9eee-2e72d39831c0">
@@ -1548,7 +1548,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field29}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day29}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="524" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="2ca47af8-9a98-443c-b2b7-3eeec960ba62">
@@ -1565,7 +1565,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field30}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day30}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="536" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="0a709e2a-aed0-4ede-8fae-f0ff2d51232d">
@@ -1582,7 +1582,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field31}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{day31}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="763" y="0" width="36" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="b3cbeb86-94ee-474a-b513-84d70589c100">
@@ -1635,7 +1635,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{actual_work_days}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{actual_work_days}.toString()]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="562" y="0" width="14" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="ecbb7f27-8431-4686-afcb-8b58bf1a24ba"/>
@@ -1875,7 +1875,7 @@
 					<font fontName="华文仿宋" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[DOUBLE_VALUE($F{sick_leave_days})+DOUBLE_VALUE($F{personal_leave_days})+DOUBLE_VALUE($F{absenteeism_days})+DOUBLE_VALUE($F{funeral_leave_days})+DOUBLE_VALUE($F{care_days})+DOUBLE_VALUE($F{birth_control_days})+DOUBLE_VALUE($F{injury_leave_days})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sick_leave_days}+$F{personal_leave_days}+$F{absenteeism_days}+$F{funeral_leave_days}+$F{care_days}+$F{birth_control_days}+$F{injury_leave_days}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="727" y="0" width="12" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="06e3b60f-87e0-48e3-8878-66e1ab692be2">

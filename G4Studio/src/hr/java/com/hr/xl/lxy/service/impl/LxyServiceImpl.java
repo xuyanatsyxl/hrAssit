@@ -342,7 +342,7 @@ public class LxyServiceImpl extends BaseServiceImpl implements LxyService {
 				dto.put("xb", outdto.getAsString("xb"));
 				g4Dao.insert("LXYBMSQB.saveLxybmsqbItem", dto);
 				g4Dao.insert("BMLXY.saveLxybmItem", dto);
-				excelmsg = excelmsg + dto.getAsString("xm") + "导入成功！";
+				excelmsg = excelmsg + "\r\n" + dto.getAsString("xm") + "导入成功！" ;
 				isuccess++;
 			}catch(Exception e) {
 				excelmsg = excelmsg + "\r\n" + outdto.getAsString("xm") + outdto.getAsString("sfzh") + e.getMessage();

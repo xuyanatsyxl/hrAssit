@@ -3,6 +3,9 @@ package com.hr.xl.system.utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.g4studio.core.util.G4Utils;
 
@@ -37,7 +40,8 @@ public class HRUtils {
 		if (G4Utils.isEmpty(intDate)) {
 			return null;
 		}
-		Date date = G4Utils.stringToDate(intDate, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm:ss");
+		Date date = G4Utils.stringToDate(intDate, "yyyyMMddHHmmss",
+				"yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String resultStr = f.format(date);
 		return resultStr;
@@ -48,7 +52,8 @@ public class HRUtils {
 			return null;
 		}
 		String resultStr = null;
-		Date date = G4Utils.stringToDate(intDate, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm:ss");
+		Date date = G4Utils.stringToDate(intDate, "yyyyMMddHHmmss",
+				"yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat f = new SimpleDateFormat("HH:mm:ss");
 		resultStr = f.format(date);
 		return resultStr;
@@ -71,12 +76,29 @@ public class HRUtils {
 			dayOfWeek = 0;
 		return dayNames[dayOfWeek];
 	}
-	
+
 	public static int getIntervalDays(Date startDate, Date endDate) {
 		long startdate = startDate.getTime();
 		long enddate = endDate.getTime();
 		long interval = enddate - startdate;
 		int intervalday = (int) (interval / (1000 * 60 * 60 * 24));
 		return intervalday;
+	}
+
+	public Date parseDate(String dateStr) {
+		Map<String, String> dateRegFormat = new HashMap<String, String>();
+		dateRegFormat.put("", "yyyy-MM-dd");
+		dateRegFormat.put("", "yyyy/MM/dd");
+		dateRegFormat.put("", "yyyy.MM.dd");
+		dateRegFormat.put("", "yyyyMMdd");
+		for (String key : dateRegFormat.keySet()) {
+			if (Pattern.compile(key).matcher(dateStr).matches()){
+				SimpleDateFormat formatter = new SimpleDateFormat();
+				//formatter.parse(dateStr);
+				
+				break;
+			}
+		}
+		return null;
 	}
 }

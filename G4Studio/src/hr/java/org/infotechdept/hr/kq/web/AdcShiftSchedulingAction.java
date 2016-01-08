@@ -166,4 +166,16 @@ public class AdcShiftSchedulingAction extends BaseAction {
 		write(jsonString, response);
 		return mapping.findForward(null);
 	}
+	
+	/**
+	 * 考勤计画
+	 */
+	public ActionForward updateAdcShiftSchedulingFromPaint(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		BaseActionForm aForm = (BaseActionForm) form;
+		Dto pDto = aForm.getParamAsDto(request);
+		adcShiftSchedulingService.updateAdcShiftSchedulingFromPaint(pDto);
+		setOkTipMsg("考勤计画成功！", response);
+		return mapping.findForward(null);
+	}	
 }

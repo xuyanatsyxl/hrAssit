@@ -15,7 +15,7 @@
 		a.operate_time,
 		interval_start_time, interval_end_time,
 		adc_id,
-		c.type_name
+		c.type_name, c.symbol
 		from
 		adc_shift_basic a, adc_attend_type c,
 		eadept b
@@ -142,7 +142,7 @@
 	<select id="queryAdcShiftBasicItemForList" parameterClass="map"
 		resultClass="dto">
 		select shift_id, basic_shift_name, work_time, off_time, shift_type,
-		adc_id, c.type_name
+		adc_id, c.type_name, c.symbol
 		from adc_shift_basic a, adc_attend_type c, eadept d
 		where
 		a.adc_id=c.type_id and a.deptid=d.deptid

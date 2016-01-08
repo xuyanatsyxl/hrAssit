@@ -80,8 +80,9 @@
 	<!-- Adc_Holiday_Detail -->
 	<select id="queryAdcHolidayDetailItemForManage" parameterClass="map"
 		resultClass="dto">
-		select ID, H_CODE, H_DATE, STRING_DATE, ADC_ID, (select TYPE_NAME from
-		Adc_Attend_Type where TYPE_ID=ADC_ID) as ADC_NAME
+		select ID, H_CODE, H_DATE, STRING_DATE, ADC_ID, 
+		(select TYPE_NAME from Adc_Attend_Type where TYPE_ID=ADC_ID) as ADC_NAME,
+		(select SYMBOL from Adc_Attend_Type where TYPE_ID=ADC_ID) as SYMBOL
 		from
 		Adc_Holiday_Detail
 		<dynamic prepend="where">

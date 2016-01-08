@@ -4,7 +4,8 @@
  * @author xuyan
  * @since 2015-04-03
  */
-Ext.onReady(function() {
+Ext
+		.onReady(function() {
 
 			var jsonArray = [];
 
@@ -13,7 +14,7 @@ Ext.onReady(function() {
 				expanded : true,
 				id : root_deptid
 			});
-			
+
 			var addDeptTree = new Ext.tree.TreePanel({
 				loader : new Ext.tree.TreeLoader({
 					baseAttrs : {},
@@ -47,15 +48,15 @@ Ext.onReady(function() {
 						allowBlank : false,
 						onSelect : Ext.emptyFn
 					});
-					
+
 			// 监听下拉树的节点单击事件
 			addDeptTree.on('click', function(node) {
 				comboxWithTree.setValue(node.text);
 				Ext.getCmp("qForm").findById('deptid').setValue(
 						node.attributes.id);
 				comboxWithTree.collapse();
-			});		
-					
+			});
+
 			// 监听下拉框的下拉展开事件
 			comboxWithTree.on('expand', function() {
 				// 将UI树挂到treeDiv容器
@@ -157,7 +158,7 @@ Ext.onReady(function() {
 					}
 				} ]
 			});
-			
+
 			qWindow.show(); // 显示窗口
 
 			// 定义自动当前页行号
@@ -176,47 +177,75 @@ Ext.onReady(function() {
 			}, {
 				header : '星期',
 				dataIndex : 'weeks',
-				width : 80
+				width : 80,
+				sortable : true
 			}, {
 				header : '出勤类型',
 				dataIndex : 'adc_name',
-				width : 80
+				width : 80,
+				sortable : true
+			}, {
+				header : '考勤符号',
+				dataIndex : 'shift_symbol',
+				width : 80,
+				sortable : true
 			}, {
 				header : '部门名称',
 				dataIndex : 'deptname',
 				sortable : true,
-				width : 120
+				width : 120,
+				sortable : true
 			}, {
 				header : '员工编码',
 				dataIndex : 'code',
-				width : 80
+				width : 80,
+				sortable : true
 			}, {
 				header : '姓名',
 				dataIndex : 'empname',
-				width : 100
+				width : 100,
+				sortable : true
 			}, {
-				header : '基本班次',
+				header : '参考班次',
 				dataIndex : 'shift_name',
-				width : 180
+				width : 180,
+				sortable : true
 			}, {
-				header : '应上班时间',
+				header : '参考上班时间',
 				dataIndex : 'work_time',
-				width : 100
+				width : 100,
+				sortable : true
 			}, {
-				header : '应下班时间',
+				header : '参考下班时间',
 				dataIndex : 'off_time',
-				width : 100
+				width : 100,
+				sortable : true
 			}, {
 				header : '实上班时间',
 				dataIndex : 'actual_work_time',
-				width : 100
+				width : 100,
+				sortable : true
 			}, {
 				header : '实下班时间',
 				dataIndex : 'actual_off_time',
-				width : 100
+				width : 100,
+				sortable : true
+			}, {
+				header : '上班打卡地点',
+				dataIndex : 'deptname_work',
+				width : 100,
+				sortable : true
+			}, {
+				header : '下班打卡地点',
+				dataIndex :  'deptname_off',
+				width : 100,
+				sortable : true
 			}, {
 				header : '出勤类型',
 				dataIndex : 'adc_id',
+				hidden : true
+			}, {
+				dataIndex : 'id',
 				hidden : true
 			} ]);
 
@@ -266,6 +295,12 @@ Ext.onReady(function() {
 							name : 'adc_id'
 						}, {
 							name : 'adc_name'
+						}, {
+							name : 'shift_symbol'
+						}, {
+							name : 'deptname_work'
+						}, {
+							name : 'deptname_off'
 						} ])
 					});
 
@@ -333,9 +368,9 @@ Ext.onReady(function() {
 					handler : function(item) {
 						setWeekEnd('0203');
 					}
-				}]
+				} ]
 			});
-			
+
 			var contextmenu_other = new Ext.menu.Menu({
 				items : [ {
 					text : '调出',
@@ -349,9 +384,9 @@ Ext.onReady(function() {
 					handler : function(item) {
 						setWeekEnd('0314')
 					}
-				}]
+				} ]
 			});
-	
+
 			// 表格工具栏
 			var tbar = new Ext.Toolbar({
 				items : [ {
@@ -367,33 +402,14 @@ Ext.onReady(function() {
 						store.reload();
 					}
 				}, '-', {
-					text : '修改班次',
+					text : '考勤计画',
 					iconCls : 'wrenchIcon',
 					handler : function() {
-						jsonArray = [];
-						var rows = grid.getSelectionModel().getSelections();
-						if (Ext.isEmpty(rows)) {
-							Ext.Msg.alert('提示', '请先选中要做标记的项目!');
-							return;
-						}
-						// 将record数组对象转换为简单Json数组对象
-						Ext.each(rows, function(item) {
-							jsonArray.push(item.data);
-						});
-
-						dutyWindow.show();
+						editInit();
 					}
-				}, '-', {
-					text : '设置休息',
-					iconCls : 'arrow_refreshIcon',
-					menu : contextmenu
-				}, '-', {
-					text : '其它情况',
-					iconCls : 'folder_wrenchIcon',
-					menu : contextmenu_other					
 				} ]
 			});
-			
+
 			// 表格实例
 			var grid = new Ext.grid.GridPanel({
 				region : 'center', // 和VIEWPORT布局模型对应，充当center区域布局
@@ -413,7 +429,7 @@ Ext.onReady(function() {
 				bbar : bbar,// 分页工具栏
 				viewConfig : {
 					// 不产横向生滚动条, 各列自动扩展自动压缩, 适用于列数比较少的情况
-					forceFit : true
+					forceFit : false
 				},
 				loadMask : {
 					msg : '正在加载表格数据,请稍等...'
@@ -435,7 +451,7 @@ Ext.onReady(function() {
 					params : params
 				});
 			}
-			
+
 			var sm_basic = new Ext.grid.CheckboxSelectionModel({
 				singleSelect : true
 			});
@@ -503,11 +519,11 @@ Ext.onReady(function() {
 			// 翻页排序时带上查询条件
 			store_basic.on('beforeload', function() {
 				this.baseParams = {
-						
+
 				// queryParam : Ext.getCmp('queryParam').getValue()
 				};
 			});
-			
+
 			var pagesize_combo_basic = new Ext.form.ComboBox({
 				name : 'pagesize_basic',
 				hiddenName : 'pagesize_basic',
@@ -527,7 +543,7 @@ Ext.onReady(function() {
 				editable : false,
 				width : 85
 			});
-			
+
 			var number_basic = parseInt(pagesize_combo_basic.getValue());
 			pagesize_combo_basic.on("select", function(comboBox) {
 				bbar_basic.pageSize = parseInt(comboBox.getValue());
@@ -576,7 +592,6 @@ Ext.onReady(function() {
 				}
 			});
 
-			
 			grid_basic.on('rowdblclick', function(grid, rowIndex, event) {
 				var store = grid.getStore();
 				var count = store.getCount();
@@ -596,7 +611,7 @@ Ext.onReady(function() {
 					}
 				}
 			});
-			
+
 			var comboxDetail = new Ext.form.ComboBox(
 					{
 						id : 'detailname',
@@ -667,88 +682,31 @@ Ext.onReady(function() {
 					hidden : false
 				} ]
 			});
-			
-			
-			//设置周休节休
-			function setWeekEnd(value){
+
+			// 设置周休节休
+			function setWeekEnd(value) {
 				var rows = grid.getSelectionModel().getSelections();
 				if (Ext.isEmpty(rows)) {
 					Ext.Msg.alert('提示', '请先选中要修改的项目!');
 					return;
 				}
 				var strChecked = jsArray2JsString(rows, 'id');
-				Ext.Msg.confirm(
-						'请确认',
-						'<span style="color:red"><b>提示:</b>您确定修改这些项目吗.</span>?',
-						function(btn, text) {
-							if (btn == 'yes') {
-								if (runMode == '0') {
-									Ext.Msg
-											.alert('提示',
-													'系统正处于演示模式下运行,您的操作被取消!该模式下只能进行查询操作!');
-									return;
-								}
-								showWaitMsg();
-								Ext.Ajax.request({
-									url : './adcshiftscheduling.do?reqCode=updateAdcShiftSchedulingForWeekEnd',
-									success : function(response) {
-										var resultArray = Ext.util.JSON
-												.decode(response.responseText);
-										store.reload();
-										Ext.Msg.alert('提示', resultArray.msg);
-									},
-									failure : function(response) {
-										var resultArray = Ext.util.JSON
-												.decode(response.responseText);
-										Ext.Msg.alert('提示', resultArray.msg);
-									},
-									params : {
-										strChecked : strChecked,
-										adc_id : value
-									}
-								});
-							}
-						});
-			}
-
-			var dutyWindow = new Ext.Window(
-					{
-						title : '<span class="commoncss">班次修改</span>', // 窗口标题
-						layout : 'fit', // 设置窗口布局模式
-						width : 600, // 窗口宽度
-						height : 400, // 窗口高度
-						closable : false, // 是否可关闭
-						closeAction : 'hide', // 关闭策略
-						collapsible : true, // 是否可收缩
-						maximizable : false, // 设置是否可以最大化
-						border : true, // 边框线设置
-						constrain : true,
-						titleCollapse : true,
-						animateTarget : Ext.getBody(),
-						pageY : 30, // 页面定位Y坐标
-						pageX : document.body.clientWidth / 2 - 400 / 2, // 页面定位X坐标
-						// 设置窗口是否可以溢出父容器
-						buttonAlign : 'right',
-						items : [ grid_basic ],
-						buttons : [
-								{
-									text : '确定',
-									iconCls : 'previewIcon',
-									handler : function() {
-										var record = grid_basic
-												.getSelectionModel()
-												.getSelected();
-										if (Ext.isEmpty(record)) {
-											Ext.MessageBox.alert('提示',
-													'请选择要更改的基本班次!');
+				Ext.Msg
+						.confirm(
+								'请确认',
+								'<span style="color:red"><b>提示:</b>您确定修改这些项目吗.</span>?',
+								function(btn, text) {
+									if (btn == 'yes') {
+										if (runMode == '0') {
+											Ext.Msg
+													.alert('提示',
+															'系统正处于演示模式下运行,您的操作被取消!该模式下只能进行查询操作!');
 											return;
 										}
-										// 提交后台处理
 										showWaitMsg();
-										var shift_id = record.get('shift_id');
 										Ext.Ajax
 												.request({
-													url : './adcshiftscheduling.do?reqCode=updateAdcShiftSchedulingItems',
+													url : './adcshiftscheduling.do?reqCode=updateAdcShiftSchedulingForWeekEnd',
 													success : function(response) {
 														var resultArray = Ext.util.JSON
 																.decode(response.responseText);
@@ -767,12 +725,229 @@ Ext.onReady(function() {
 																		resultArray.msg);
 													},
 													params : {
-														shift_id : shift_id,
-														dirtydata : Ext
-																.encode(jsonArray)
+														strChecked : strChecked,
+														adc_id : value
 													}
 												});
-										dutyWindow.hide();
+									}
+								});
+			}
+			
+			var countCombo = new Ext.form.ComboBox({
+				name : 'count',
+				hiddenName : 'count',
+				store : COUNTStore,
+				mode : 'local',
+				triggerAction : 'all',
+				valueField : 'value',
+				displayField : 'text',
+				value : '0',
+				fieldLabel : '影响范围',
+				emptyText : '请选择...',
+				labelStyle : micolor,
+				allowBlank : false,
+				forceSelection : true,
+				editable : false,
+				typeAhead : true,
+				anchor : "99%"
+			});
+
+			var firstStore = new Ext.data.Store(
+					{
+						proxy : new Ext.data.HttpProxy(
+								{
+									url : './adcattendtype.do?reqCode=queryAdcAttendTypeItemsForCombox'
+								}),
+						reader : new Ext.data.JsonReader({}, [ {
+							name : 'type_id'
+						}, {
+							name : 'type_name'
+						} ]),
+						baseParams : {
+							level : '1'
+						}
+					});
+			firstStore.load();
+
+			var firstCombo = new Ext.form.ComboBox({
+				hiddenName : 'first',
+				fieldLabel : '选择类型',
+				emptyText : '请选择...',
+				triggerAction : 'all',
+				store : firstStore,
+				displayField : 'type_name',
+				valueField : 'type_id',
+				loadingText : '正在加载数据...',
+				mode : 'local', // 数据会自动读取,如果设置为local又调用了store.load()则会读取2次；也可以将其设置为local，然后通过store.load()方法来读取
+				forceSelection : true,
+				allowBlank : false,
+				typeAhead : true,
+				resizable : true,
+				editable : false,
+				labelStyle : micolor,
+				anchor : '100%'
+			});
+
+			firstCombo.on('select', function() {
+				secondCombo.reset();
+				var value = firstCombo.getValue();
+				secondStore.load({
+					params : {
+						type_id : value
+					}
+				});
+			});
+					
+
+			/**
+			 * 自动更换考勤符号
+			 */
+			function changeShiftSymbol(){
+				var value = secondCombo.getValue();
+				Ext.Ajax.request({
+					url : './adcattendtype.do?reqCode=queryAdcAttendTypeSymbolForPaint',
+					success : function(response) {
+						var resultArray = Ext.util.JSON.decode(response.responseText);
+						var symbol = resultArray[0].symbol;
+						
+						var affect = countCombo.getValue();
+						if (affect == '-0.5'){
+							symbol = symbol + '/';
+						}else if (affect == '0.5'){
+							symbol = '/' + symbol;
+						}
+						Ext.getCmp('shift_symbol').setValue(symbol);
+					},
+					failure : function(response) {
+						var resultArray = Ext.util.JSON.decode(response.responseText);
+						Ext.Msg.alert('提示', resultArray.msg);
+					},
+					params : {
+						adc_id : value
+					}
+				});
+			}
+			
+			var secondStore = new Ext.data.Store(
+					{
+						proxy : new Ext.data.HttpProxy(
+								{
+									url : './adcattendtype.do?reqCode=queryAdcAttendTypeItemsForCombox'
+								}),
+						reader : new Ext.data.JsonReader({}, [ {
+							name : 'type_id'
+						}, {
+							name : 'type_name'
+						} ]),
+						baseParams : {
+							level : '2'
+						}
+					});
+
+			var secondCombo = new Ext.form.ComboBox({
+				name : 'adc_id',
+				hiddenName : 'adc_id',
+				fieldLabel : '具体原因',
+				emptyText : '请选择...',
+				triggerAction : 'all',
+				store : secondStore,
+				displayField : 'type_name',
+				valueField : 'type_id',
+				loadingText : '正在加载数据...',
+				mode : 'local', // 数据会自动读取,如果设置为local又调用了store.load()则会读取2次；也可以将其设置为local，然后通过store.load()方法来读取
+				forceSelection : true,
+				typeAhead : true,
+				allowBlank : false,
+				resizable : true,
+				editable : false,
+				labelStyle : micolor,
+				anchor : '100%'
+			});
+
+			var modifyPanel = new Ext.form.FormPanel({
+				id : 'modifyPanel',
+				name : 'modifyPanel',
+				border : false,
+				labelWidth : 60, // 标签宽度
+				labelAlign : 'right', // 标签对齐方式
+				bodyStyle : 'padding:3 5 0', // 表单元素和表单面板的边距
+				buttonAlign : 'center',
+				height : 120,
+				items : [  {
+					layout : 'column',
+					border : false,
+					items : [ {
+						columnWidth : .5,
+						layout : 'form',
+						labelWidth : 60, // 标签宽度
+						defaultType : 'textfield',
+						border : false,
+						items : [firstCombo ]
+					}, {
+						columnWidth : .5,
+						layout : 'form',
+						labelWidth : 60, // 标签宽度
+						defaultType : 'textfield',
+						border : false,
+						items : [ secondCombo ]
+					} ]
+				}, countCombo, {
+					id : 'shift_symbol',
+					fieldLabel : '计画符号',
+					name : 'shift_symbol',
+					maxLength : 20,
+					xtype : 'textfield',
+					labelStyle : micolor,
+					allowBlank : false,
+					anchor : '99%'
+				}, {
+					id : 'strChecked',
+					name : 'strChecked',
+					xtype : 'textfield',
+					hidden : true
+				}]
+			});
+
+			var dutyWindow = new Ext.Window(
+					{
+						title : '<span class="commoncss">考勤计画</span>', // 窗口标题
+						layout : 'fit', // 设置窗口布局模式
+						width : 400, // 窗口宽度
+						height : 160, // 窗口高度
+						closable : false, // 是否可关闭
+						closeAction : 'hide', // 关闭策略
+						collapsible : true, // 是否可收缩
+						maximizable : false, // 设置是否可以最大化
+						border : true, // 边框线设置
+						constrain : true,
+						titleCollapse : true,
+						animateTarget : Ext.getBody(),
+						pageY : 30, // 页面定位Y坐标
+						pageX : document.body.clientWidth / 2 - 400 / 2, // 页面定位X坐标
+						// 设置窗口是否可以溢出父容器
+						buttonAlign : 'right',
+						items : [ modifyPanel ],
+						buttons : [
+								{
+									text : '确定',
+									iconCls : 'previewIcon',
+									handler : function() {
+										modifyPanel.form.submit({
+											url : './adcshiftscheduling.do?reqCode=updateAdcShiftSchedulingFromPaint',
+											waitTitle : '提示',
+											method : 'POST',
+											waitMsg : '正在处理数据,请稍候...',
+											success : function(form, action) {
+												dutyWindow.hide();
+												store.reload();
+												form.reset();
+												Ext.MessageBox.alert('提示', action.result.msg);
+											},
+											failure : function(form, action) {
+												var msg = action.result.msg;
+												Ext.MessageBox.alert('提示', '考勤计画失败:<br>' + msg);
+											}
+										});
 									}
 								}, {
 									text : '关闭',
@@ -782,5 +957,28 @@ Ext.onReady(function() {
 									}
 								} ]
 					});
+			
+			/**
+			 * 考勤计画初始化
+			 */
+			function editInit() {
+				var rows = grid.getSelectionModel().getSelections();
+				if (Ext.isEmpty(rows)) {
+					Ext.Msg.alert('提示', '请先选中计画考勤的项目!');
+					return;
+				}
+				var strChecked = jsArray2JsString(rows, 'id');
+				Ext.getCmp('strChecked').setValue(strChecked);
+				dutyWindow.show();
+				dutyWindow.setTitle('<span class="commoncss">考勤计画</span>');
+				countCombo.setValue('1');				
+			}
+			
+			secondCombo.on('select', function(){
+				changeShiftSymbol();
+			});
+			countCombo.on('select', function(){
+				changeShiftSymbol();	
+			});
 
 		});

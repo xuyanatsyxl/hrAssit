@@ -27,5 +27,10 @@ public interface AdcShiftSchedulingService {
 
 	public Dto savePointDataAsync(Dto inDto);
 	
+	/**
+	 * 考勤计画
+	 */
+	public Dto updateAdcShiftSchedulingFromPaint(Dto pDto);
+	
 }
 

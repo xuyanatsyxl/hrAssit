@@ -19,7 +19,9 @@
 		ACTUAL_OFF_TIME,
 		ADC_ID, (select TYPE_NAME
 		from Adc_Attend_Type where
-		TYPE_ID=ADC_ID) ADC_NAME, a.COUNT
+		TYPE_ID=ADC_ID) ADC_NAME, a.COUNT, a.SHIFT_SYMBOL,
+		a.DEPTID_WORK, (select deptname from eadept where deptid=a.DEPTID_WORK) as deptname_work,
+		a.DEPTID_OFF, (select deptname from eadept where deptid=a.DEPTID_OFF) as deptname_off
 		from
 		Adc_Shift_Scheduling a, employee b, eadept c
 		where a.EMPID=b.EMPID and a.deptid=c.deptid
@@ -99,7 +101,7 @@
 		into Adc_Shift_Scheduling (SCH_DATE, DEPTID, EMPID, SHIFT_ID, REC_ID,
 		WORK_TIME,
 		ACTUAL_WORK_TIME, OFF_TIME, ACTUAL_OFF_TIME, ADC_ID,
-		RECORD_TYPE, priority, count)
+		RECORD_TYPE, priority, count, SHIFT_SYMBOL)
 		values(#sch_date#,
 		#deptid#,
 		#empid#, #shift_id#,
@@ -108,7 +110,7 @@
 		#actual_work_time#,
 		#off_time#, #actual_off_time#,
 		#adc_id#,
-		#record_type#, #priority#, #count#)
+		#record_type#, #priority#, #count#, #shift_symbol#)
 	</insert>
 
 	<update id="updateAdcShiftSchedulingItem" parameterClass="dto">
@@ -155,6 +157,9 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="," property="priority">
 				priority = #priority#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shift_symbol">
+				shift_symbol = #shift_symbol#
 			</isNotEmpty>
 		</dynamic>
 		where ID = #id#
@@ -280,6 +285,15 @@
 		<parameter property="errMsg" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT" /> <!-- 出错信息 -->
 	</parameterMap>
 	<procedure id="f_proc_dkjl" parameterMap="prcdto_cur">{call f_proc_dkjl(?, ?, ?, ?)}</procedure>
+	
+	<!-- 收集打卡记录的存储过程  2016新改-->
+	<parameterMap id="prcdkjl_cur" class="map">
+		<parameter property="p_rq" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="prm_cascadeid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="appCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT" /> <!-- 执行代码 -->
+		<parameter property="errMsg" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT" /> <!-- 出错信息 -->
+	</parameterMap>
+	<procedure id="hr_make_kq_report" parameterMap="prcdkjl_cur">{call hr_make_kq_report(?, ?, ?, ?)}</procedure>
 
 	<!-- 根据ID号取日期最大日期最小日期 -->
 	<select id="queryMaxAndMinDate" parameterClass="java.util.ArrayList"

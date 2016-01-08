@@ -140,8 +140,6 @@
 				a.name like '%$name$%'
 			</isNotEmpty>
 		</dynamic>
-		 and not exists (select null from
-		adc_shift_group_empl where empid=a.empid)
 	</select>
 
 	<select id="queryUnIntoGroupEmplItemForManageForPageCount" parameterClass="map"
@@ -160,7 +158,5 @@
 				a.name like '%$name$%'
 			</isNotEmpty>
 		</dynamic>
-		 and not exists (select null from
-		adc_shift_group_empl where empid=a.empid)
 	</select>
 </sqlMap>

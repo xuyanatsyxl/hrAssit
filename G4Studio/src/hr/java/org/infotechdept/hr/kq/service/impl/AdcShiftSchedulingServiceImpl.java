@@ -179,6 +179,7 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 				outDto.put("dateOff", null);
 				outDto.put("adc_id", dto.getAsString("adc_id"));
 				outDto.put("shift_id", null);
+				outDto.put("symbol", dto.getAsString("symbol"));
 				return outDto;
 			}
 		}
@@ -188,6 +189,7 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 			outDto.put("dateOff", null);
 			outDto.put("adc_id", "0201");
 			outDto.put("shift_id", null);
+			outDto.put("symbol", "休");
 		} else {
 			Dto pDto = new BaseDto();
 			pDto.put("shift_id", shiftId);
@@ -210,6 +212,7 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 			outDto.put("dateOff", dateOff);
 			outDto.put("adc_id", shiftDto.getAsString("adc_id"));
 			outDto.put("shift_id", shiftId);
+			outDto.put("symbol", shiftDto.getAsString("symbol"));
 		}
 		return outDto;
 	}
@@ -283,12 +286,14 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 						empDto.put("priority", recDto.getAsString("priority"));
 						if (d.getAsBigDecimal("aff_days").doubleValue() == 0.5){
 							empDto.put("shift_id", dateDto.getAsString("shift_id"));
-							empDto.put("work_time", dateDto.getAsTimestamp("dateWork"));					
+							empDto.put("work_time", dateDto.getAsTimestamp("dateWork"));
+							empDto.put("shift_symbol", "/" + d.getAsString("symbol"));
 						}else if (d.getAsBigDecimal("aff_days").doubleValue() == -0.5){
 							empDto.put("shift_id", dateDto.getAsString("shift_id"));
-							empDto.put("off_time", dateDto.getAsTimestamp("dateOff"));							
+							empDto.put("off_time", dateDto.getAsTimestamp("dateOff"));
+							empDto.put("shift_symbol", d.getAsString("symbol") + "/" );
 						}else if (d.getAsBigDecimal("aff_days").doubleValue() == 1){
-							
+							empDto.put("shift_symbol", d.getAsString("symbol"));
 						}
 					}else{					
 						empDto.put("pattern_detail_id", recDto.getAsInteger("pattern_detail_id"));
@@ -298,6 +303,7 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 						empDto.put("work_time", dateDto.getAsTimestamp("dateWork"));
 						empDto.put("off_time", dateDto.getAsTimestamp("dateOff"));
 						empDto.put("adc_id", dateDto.getAsString("adc_id"));
+						empDto.put("shift_symbol", dateDto.getAsString("symbol"));
 						empDto.put("count", 1);
 					}
 					executor.insert("AdcShiftScheduling.saveAdcShiftSchedulingItem", empDto);
@@ -355,6 +361,8 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 		return null;
 	}
 	
+
+	
 	/**
 	 * 批量导入打卡数据（异步方法）
 	 */
@@ -373,14 +381,20 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 
 		public void run() {
 			Dto paramDto = new BaseDto();
-			List emplList = g4Dao.queryForList("DKJL.queryDkjlForManage", pDto);
-			for (int i = 0; i < emplList.size(); i++) {
-				Dto dto2 = (BaseDto) emplList.get(i);
-				paramDto.put("empid", dto2.getAsString("empid"));
-				Date dksjDate = G4Utils.stringToDate(dto2.getAsString("dksj"), "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm:ss");
-				paramDto.put("dksj", dksjDate);
-				g4Dao.callPrc("AdcShiftScheduling.f_proc_dkjl", paramDto);
-			}	
+			Date tmpDate = pDto.getAsDate("start_date");
+			Date endDate = pDto.getAsDate("end_date");
+			
+			paramDto.put("prm_cascadeid", pDto.getAsString("cascadeid"));
+			while (tmpDate.getTime() <= endDate.getTime()) {
+				String dateStr = G4Utils.Date2String(tmpDate, "yyyyMMdd") + "000000";
+				paramDto.put("p_rq", dateStr);
+				g4Dao.callPrc("AdcShiftScheduling.hr_make_kq_report", paramDto);
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(tmpDate);
+				calendar.add(Calendar.DAY_OF_MONTH, 1);
+				tmpDate = calendar.getTime();
+			}
 		}
 		
 	}
@@ -485,6 +499,19 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 		dto.put("ids", ids);
 		dto.put("adc_id", adc_id);
 		g4Dao.update("AdcShiftScheduling.updateAdcShiftSchedulingForWeekEnd", dto);
+		return null;
+	}
+
+	/**
+	 * 考勤计画
+	 */
+	public Dto updateAdcShiftSchedulingFromPaint(Dto pDto) {
+		String strChecked = pDto.getAsString("strChecked");
+		String[] idStr = strChecked.split(",");
+		for (String id : idStr){
+			pDto.put("id", id);
+			g4Dao.update("AdcShiftScheduling.updateAdcShiftSchedulingItem", pDto);			
+		}
 		return null;
 	}
 }

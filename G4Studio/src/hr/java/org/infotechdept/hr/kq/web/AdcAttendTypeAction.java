@@ -32,4 +32,17 @@ public class AdcAttendTypeAction extends BaseAction {
 		write(jsonString, response);
 		return mapping.findForward(null);
 	}
+	
+	/**
+	 * 查询考勤符号
+	 */
+	public ActionForward queryAdcAttendTypeSymbolForPaint(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		BaseActionForm aForm = (BaseActionForm) form;
+		Dto dto = aForm.getParamAsDto(request);
+		List<Dto> areaList = g4Reader.queryForList("AdcAttendType.queryAdcAttendTypeItemForManage", dto);		
+		String jsonString = JsonHelper.encodeObject2Json(areaList);
+		write(jsonString, response);
+		return mapping.findForward(null);
+	}	
 }

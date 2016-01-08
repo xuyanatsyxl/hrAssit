@@ -2,8 +2,8 @@
 <%@ include file="/common/include/taglib.jsp"%>
 <G4Studio:html title="排班明细表" >
 <G4Studio:import src="/hr/adc/js/manageAdcShiftScheduling.js" />
-<G4Studio:ext.codeRender fields="ENABLED,SHIFT_TYPE"/>
-<G4Studio:ext.codeStore fields="ENABLED,SHIFT_TYPE"/>
+<G4Studio:ext.codeRender fields="ENABLED,SHIFT_TYPE,COUNT"/>
+<G4Studio:ext.codeStore fields="ENABLED,SHIFT_TYPE,COUNT"/>
 <G4Studio:body>
 <G4Studio:div key="deptTreeDiv"></G4Studio:div>
 </G4Studio:body>

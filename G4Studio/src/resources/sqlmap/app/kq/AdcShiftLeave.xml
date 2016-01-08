@@ -14,7 +14,8 @@
 		eauser where userid=operator)
 		operator_name,
 		operate_time, a.remark,
-		(select TYPE_TYPE from adc_attend_type where TYPE_ID=a.adc_id) as adc_type
+		(select TYPE_TYPE from adc_attend_type where TYPE_ID=a.adc_id) as adc_type,
+		(select SYMBOL from adc_attend_type where TYPE_ID=a.adc_id) as symbol
 		from adc_shift_leave a, employee b, eadept c
 		where a.empid=b.EMPID and a.deptid=c.deptid
 		<dynamic>

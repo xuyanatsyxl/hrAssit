@@ -32,6 +32,7 @@ Ext.onReady(function() {
 							allowBlank : false,
 							anchor : '100%'
 						}, new Ext.form.Checkbox({
+								id : 'musted',
 								name : 'musted',
 								checked: false,
 								boxLabel: '覆盖已存在排班'
@@ -75,7 +76,7 @@ Ext.onReady(function() {
 			});
 
 			var qWindow = new Ext.Window({
-				title : '<span class="commoncss">查询条件</span>', // 窗口标题
+				title : '<span class="commoncss">选择条件</span>', // 窗口标题
 				layout : 'fit', // 设置窗口布局模式
 				width : 400, // 窗口宽度
 				height : 200, // 窗口高度
@@ -360,6 +361,12 @@ Ext.onReady(function() {
 								});
 								
 								Ext.getCmp('dirtydata').setValue(Ext.encode(jsonArray));
+								/**
+								 * 只有developer用户可以强制更新班次
+								 */
+								if (login_account != parent.DEFAULT_DEVELOP_ACCOUNT){
+									Ext.getCmp('musted').setVisible(false);
+								}
 								qWindow.show();
 							}
 						} ],

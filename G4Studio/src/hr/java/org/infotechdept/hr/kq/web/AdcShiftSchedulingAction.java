@@ -135,7 +135,6 @@ public class AdcShiftSchedulingAction extends BaseAction {
 		BaseActionForm aForm = (BaseActionForm) form;
 		Dto inDto = aForm.getParamAsDto(request);
 		List list = aForm.getGridDirtyData(request);
-		System.out.println(inDto.getAsString("musted"));
 		inDto.setDefaultAList(list);
 		adcShiftSchedulingService.makeSchedulingByStartAndEndDateAsync(inDto);
 		return mapping.findForward(null);

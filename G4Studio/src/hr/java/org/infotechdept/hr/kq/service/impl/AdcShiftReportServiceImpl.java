@@ -18,7 +18,7 @@ public class AdcShiftReportServiceImpl extends BaseServiceImpl implements AdcShi
 		}
 		// 调用存储过程生成报表
 		Dto paramDto = new BaseDto();
-		paramDto.put("p_deptid", pDto.getAsString("deptid"));
+		paramDto.put("p_deptid", pDto.getAsString("cascadeid"));
 		paramDto.put("p_yearmonth", pDto.getAsString("yearmonth"));
 		g4Dao.getSqlMapClientTpl().update("AdcReportPersonMonth.f_make_report", paramDto);
 

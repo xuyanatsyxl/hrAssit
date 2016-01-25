@@ -37,6 +37,15 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		return resultStr.trim();
 	}
 
+	/**
+	 * 报表查询初始化
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	public ActionForward adcReportPersonMonthInit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		super.removeSessionAttribute(request, "deptid");
@@ -51,6 +60,15 @@ public class AdcReportPersonMonthAction extends BaseAction {
 		return mapping.findForward("queryAdcPersonMonthView");
 	}
 
+	/**
+	 * 查询报表
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	public ActionForward queryAdcReportPersonMonthForManage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 

@@ -32,5 +32,10 @@ public interface AdcShiftSchedulingService {
 	 */
 	public Dto updateAdcShiftSchedulingFromPaint(Dto pDto);
 	
+	/**
+	 * 给定时任务用的，生成当天的考勤记录
+	 */
+	public Dto makeSchedulingForTask();
+	
 }
 

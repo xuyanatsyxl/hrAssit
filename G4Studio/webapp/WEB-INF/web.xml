@@ -5,7 +5,7 @@
 	<display-name>G4Studio</display-name>
 	<description>G4Studio行业应用二次快速开发平台</description>
 
-	<!-- 配置RPC.Webservice -->
+	<!-- 配置RPC.Webservice 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:rpc/webservice/server/server.xml</param-value>
@@ -22,7 +22,7 @@
 		<servlet-name>CXFServlet</servlet-name>
 		<url-pattern>/rpc/webservice/*</url-pattern>
 	</servlet-mapping>
-
+	-->
 	<!-- 配置RPC.Httpinvoker 
 	<servlet>
 		<servlet-name>httpinvokerServlet</servlet-name>
@@ -38,7 +38,7 @@
 		<url-pattern>/rpc/httpinvoker/*</url-pattern>
 	</servlet-mapping>
 	-->
-	<!-- 演示使用客户端Applet[RunAsApplet.java]调用服务器端Servlet -->
+	<!-- 演示使用客户端Applet[RunAsApplet.java]调用服务器端Servlet--> 
 	<servlet>
 		<servlet-name>myServlet</servlet-name>
 		<servlet-class>org.g4studio.demo.local.appet.MyServlet</servlet-class>
@@ -81,7 +81,7 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 
-	<!-- 静态资源过滤器:提供压缩和缓存的功能 生产环境下取消注释 -->
+	<!-- 静态资源过滤器:提供压缩和缓存的功能 生产环境下取消注释 
 	<filter>
 		<filter-name>resourceFilter</filter-name>
 		<filter-class>org.g4studio.core.resource.impl.ResourceFilter</filter-class>
@@ -98,7 +98,7 @@
 		<filter-name>resourceFilter</filter-name>
 		<url-pattern>*.css</url-pattern>
 	</filter-mapping>
-
+	-->
 
 	<!-- 系统启动监听器 -->
 	<listener>

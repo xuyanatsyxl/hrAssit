@@ -16,6 +16,4 @@
 		
 	<!-- 发布WebService -->
 	<jaxws:endpoint id="helloWorldService" implementor="org.g4studio.demo.local.rpc.webservice.server.HelloWorldServiceImpl" address="/HelloWorldService" />
-	<!-- 生成排班表相关服务 -->
-	<jaxws:endpoint id="adcShiftSchedulingService" implementor="org.infotechdept.hr.kq.rpc.webservice.server.AdcShiftSchedulingServiceImpl" address="/adcShiftSchedulingService" />
 </beans>

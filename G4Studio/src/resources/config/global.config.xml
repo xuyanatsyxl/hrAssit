@@ -19,11 +19,14 @@
 	<!-- 导入SpringBean切面监控 -->
 	<import resource="classpath:config/global.monitor.xml" />
 	
-	<!-- 导入RPC客户端配置 不需要演示RPC功能则可以取消注释  Server端通过web.xml加载-->
+	<!-- 导入RPC客户端配置 不需要演示RPC功能则可以取消注释  Server端通过web.xml加载
 	<import resource="classpath:rpc/webservice/client/client.xml" />
 	<import resource="classpath:rpc/httpinvoker/client/client.xml" />
-
+	-->
 	<!-- 导入HR系统访问所需的配置文件 -->
 	<import resource="classpath:config/global.dao.hr.xml" />
+	
+	<!-- 导入全局的TASK文件 -->
+	<import resource="classpath:config/global.task.xml" />
 	
 </beans>

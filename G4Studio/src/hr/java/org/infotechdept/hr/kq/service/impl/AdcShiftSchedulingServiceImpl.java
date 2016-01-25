@@ -514,4 +514,20 @@ public class AdcShiftSchedulingServiceImpl extends BaseServiceImpl implements Ad
 		}
 		return null;
 	}
+
+	/**
+	 * 定时任务代码还是回到了主代码中，没办法....
+	 * 定时调度定义在了global.task.xml
+	 */
+	public Dto makeSchedulingForTask() {
+		List<Dto> recDto = g4Dao.queryForList("AdcShiftRecord.queryAdcShiftRecordItemForManage");
+		Dto pDto = new BaseDto();
+		pDto.put("start_date", G4Utils.getCurDate("yyyy-MM-dd"));
+		pDto.put("end_date", G4Utils.getCurDate("yyyy-MM-dd"));
+		pDto.put("musted", "on");
+		pDto.setDefaultAList(recDto);
+		
+		makeSchedulingByStartAndEndDateAsync(pDto);
+		return null;
+	}
 }
